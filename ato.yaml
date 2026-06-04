@@ -1,0 +1,7 @@
+ato-version: ^0.2.0
+name: ICIO500
+version: 0.0.1
+description: Transformer-less line in and line out prototyping platform for API 500 series
+entry: elec/src/that1200_stage.ato
+dependencies:
+  - generics
