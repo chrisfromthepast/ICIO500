@@ -2,52 +2,52 @@ import Capacitor from "generics/capacitors.ato"
 import Resistor from "generics/resistors.ato"
 
 component Tl072:
-signal Out_1 ~ pin 1
-signal In_Minus_1 ~ pin 2
-signal In_Plus_1 ~ pin 3
-signal V_Minus ~ pin 4
-signal In_Plus_2 ~ pin 5
-signal In_Minus_2 ~ pin 6
-signal Out_2 ~ pin 7
-signal V_Plus ~ pin 8
+    signal Out_1 ~ pin 1
+    signal In_Minus_1 ~ pin 2
+    signal In_Plus_1 ~ pin 3
+    signal V_Minus ~ pin 4
+    signal In_Plus_2 ~ pin 5
+    signal In_Minus_2 ~ pin 6
+    signal Out_2 ~ pin 7
+    signal V_Plus ~ pin 8
 
 module DaisyActiveScaling:
-ic = new Tl072
+    ic = new Tl072
 
-signal Audio_In_From_1200
-signal Audio_Out_To_Daisy
-signal Audio_In_From_Daisy
-signal Audio_Out_To_1646
-signal V_Plus
-signal V_Minus
-signal GND
-signal V_Bias
+    signal Audio_In_From_1200
+    signal Audio_Out_To_Daisy
+    signal Audio_In_From_Daisy
+    signal Audio_Out_To_1646
+    signal V_Plus
+    signal V_Minus
+    signal GND
+    signal V_Bias
 
-c_bypass_p = new Capacitor; c_bypass_p.value = 100nF
-c_bypass_m = new Capacitor; c_bypass_m.value = 100nF
-V_Plus -> c_bypass_p.p1; c_bypass_p.p2 -> GND
-V_Minus -> c_bypass_m.p1; c_bypass_m.p2 -> GND
-V_Plus -> ic.V_Plus
-V_Minus -> ic.V_Minus
+    c_bypass_p = new Capacitor; c_bypass_p.value = 100nF
+    c_bypass_m = new Capacitor; c_bypass_m.value = 100nF
+    V_Plus -> c_bypass_p.p1; c_bypass_p.p2 -> GND
+    V_Minus -> c_bypass_m.p1; c_bypass_m.p2 -> GND
+    V_Plus -> ic.V_Plus
+    V_Minus -> ic.V_Minus
 
-# Half A: Active Input Attenuation (Inverting)
-r_in_series = new Resistor; r_in_series.value = 22kohm
-r_in_feedback = new Resistor; r_in_feedback.value = 10kohm
-c_in_filter = new Capacitor; c_in_filter.value = 47pF
+    # Half A: Active Input Attenuation (Inverting)
+    r_in_series = new Resistor; r_in_series.value = 22kohm
+    r_in_feedback = new Resistor; r_in_feedback.value = 10kohm
+    c_in_filter = new Capacitor; c_in_filter.value = 47pF
 
-Audio_In_From_1200 -> r_in_series.p1; r_in_series.p2 -> ic.In_Minus_1
-ic.Out_1 -> r_in_feedback.p1; r_in_feedback.p2 -> ic.In_Minus_1
-ic.Out_1 -> c_in_filter.p1; c_in_filter.p2 -> ic.In_Minus_1
-V_Bias -> ic.In_Plus_1
-ic.Out_1 -> Audio_Out_To_Daisy
+    Audio_In_From_1200 -> r_in_series.p1; r_in_series.p2 -> ic.In_Minus_1
+    ic.Out_1 -> r_in_feedback.p1; r_in_feedback.p2 -> ic.In_Minus_1
+    ic.Out_1 -> c_in_filter.p1; c_in_filter.p2 -> ic.In_Minus_1
+    V_Bias -> ic.In_Plus_1
+    ic.Out_1 -> Audio_Out_To_Daisy
 
-# Half B: Output Gain Stage (Inverting)
-r_out_series = new Resistor; r_out_series.value = 10kohm
-r_out_feedback = new Resistor; r_out_feedback.value = 22kohm
-c_out_filter = new Capacitor; c_out_filter.value = 47pF
+    # Half B: Output Gain Stage (Inverting)
+    r_out_series = new Resistor; r_out_series.value = 10kohm
+    r_out_feedback = new Resistor; r_out_feedback.value = 22kohm
+    c_out_filter = new Capacitor; c_out_filter.value = 47pF
 
-Audio_In_From_Daisy -> r_out_series.p1; r_out_series.p2 -> ic.In_Minus_2
-ic.Out_2 -> r_out_feedback.p1; r_out_feedback.p2 -> ic.In_Minus_2
-ic.Out_2 -> c_out_filter.p1; c_out_filter.p2 -> ic.In_Minus_2
-V_Bias -> ic.In_Plus_2
-ic.Out_2 -> Audio_Out_To_1646
+    Audio_In_From_Daisy -> r_out_series.p1; r_out_series.p2 -> ic.In_Minus_2
+    ic.Out_2 -> r_out_feedback.p1; r_out_feedback.p2 -> ic.In_Minus_2
+    ic.Out_2 -> c_out_filter.p1; c_out_filter.p2 -> ic.In_Minus_2
+    V_Bias -> ic.In_Plus_2
+    ic.Out_2 -> Audio_Out_To_1646

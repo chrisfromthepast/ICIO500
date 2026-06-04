@@ -1,19 +1,19 @@
 component VprEdgeConnector:
-# Standard 15-pin 0.156" pitch card edge (EDAC type 306-015-520-102)
-# Pinout strictly follows the API VPR Alliance specification.
+    # Standard 15-pin 0.156" pitch card edge (EDAC type 306-015-520-102)
+    # Pinout strictly follows the API VPR Alliance specification.
 
-signal CHASSIS_GND ~ pin 1
-signal OUT_PLUS_4dBu ~ pin 2
-signal OUT_PLUS_MINUS2dBu ~ pin 3
-signal OUT_MINUS ~ pin 4
-signal AUDIO_GND ~ pin 5
-signal STEREO_LINK ~ pin 6
-signal IN_MINUS_MINUS2dBu ~ pin 7
-signal IN_MINUS_4dBu ~ pin 8
-signal IN_PLUS_MINUS2dBu ~ pin 9
-signal IN_PLUS_4dBu ~ pin 10
-signal GAIN_TRIM ~ pin 11
-signal V_PLUS_16V ~ pin 12
-signal POWER_GND ~ pin 13
-signal V_MINUS_16V ~ pin 14
-signal V_PLUS_48V ~ pin 15
+    signal CHASSIS_GND ~ pin 1
+    signal OUT_PLUS_4dBu ~ pin 2
+    signal OUT_PLUS_MINUS2dBu ~ pin 3
+    signal OUT_MINUS ~ pin 4
+    signal AUDIO_GND ~ pin 5
+    signal STEREO_LINK ~ pin 6
+    signal IN_MINUS_MINUS2dBu ~ pin 7
+    signal IN_MINUS_4dBu ~ pin 8
+    signal IN_PLUS_MINUS2dBu ~ pin 9
+    signal IN_PLUS_4dBu ~ pin 10
+    signal GAIN_TRIM ~ pin 11
+    signal V_PLUS_16V ~ pin 12
+    signal POWER_GND ~ pin 13
+    signal V_MINUS_16V ~ pin 14
+    signal V_PLUS_48V ~ pin 15

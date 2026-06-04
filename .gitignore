@@ -28,3 +28,8 @@ fp-info-cache
 # Atopile build artifacts
 build/
 .ato/
+
+# Python virtual environment
+.venv/
+venv/
+env/
