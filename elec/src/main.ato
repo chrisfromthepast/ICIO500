@@ -4,6 +4,11 @@ import That1200Stage from "input.ato"
 import DaisyActiveScaling from "scaling.ato"
 import That1646Stage from "output.ato"
 
+# Simple SPST switch component for GPIO toggles
+component SPST_Switch:
+    signal pin1 ~ pin 1
+    signal pin2 ~ pin 2
+
 module VprCarrier500:
 # 1. Instantiate all hardware sub-modules
 edge = new VprEdgeConnector
@@ -64,3 +69,19 @@ signal Daisy_5V_Power
 signal Daisy_Digital_GND
 power.V_Plus_5V_Iso -> Daisy_5V_Power
 power.GND_Iso -> Daisy_Digital_GND
+
+# 6. Define Daisy GPIO signal nets for the physical switches
+signal Daisy_D13  # Pink Noise Toggle (Active Low)
+signal Daisy_D14  # Hard Bypass Toggle (Active Low)
+
+# 7. Instantiate physical SPST switches for GPIO diagnostics
+switch_noise = new SPST_Switch
+switch_bypass = new SPST_Switch
+
+# Connect Pink Noise switch to Daisy_D13 and GND
+switch_noise.pin1 -> Daisy_D13
+switch_noise.pin2 -> Daisy_Digital_GND
+
+# Connect Hard Bypass switch to Daisy_D14 and GND
+switch_bypass.pin1 -> Daisy_D14
+switch_bypass.pin2 -> Daisy_Digital_GND
