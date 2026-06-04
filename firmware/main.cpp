@@ -8,6 +8,11 @@ using namespace daisysp;
 DaisySeed hw;
 RoomoveDspState roomoveState;
 
+// Audio Configuration
+const int AUDIO_BLOCK_SIZE = 48;  // DSP processing block size
+const float PULSE_DURATION_SECONDS = 0.100f;  // 100ms pulse duration
+const float PULSE_REPETITION_RATE_HZ = 1.0f;  // 1Hz pulse repetition
+
 // Pink noise and pulse generator variables
 PinkNoise pink;
 Metro tick;
@@ -72,13 +77,13 @@ void AudioCallback(AudioHandle::InputBuffer in, AudioHandle::OutputBuffer out, s
 int main(void)
 {
     hw.Init();
-    hw.SetAudioBlockSize(48); 
+    hw.SetAudioBlockSize(AUDIO_BLOCK_SIZE); 
     float sampleRate = hw.AudioSampleRate();
 
     roomoveDspInit(&roomoveState, sampleRate);
     pink.Init();
-    tick.Init(1.0f, sampleRate);
-    pulseDurationSamples = (int)(sampleRate * 0.100f);
+    tick.Init(PULSE_REPETITION_RATE_HZ, sampleRate);
+    pulseDurationSamples = (int)(sampleRate * PULSE_DURATION_SECONDS);
 
     AdcChannelConfig adcConfig;
     adcConfig.InitSingle(hw.GetPin(FADER_PIN));
