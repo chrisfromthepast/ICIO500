@@ -3,6 +3,8 @@ import Resistor from "generics/resistors.ato"
 import Diode from "generics/diodes.ato"
 
 component That1200:
+    footprint = "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm"
+    mpn = "THAT1200S08-U"
     signal Ref ~ pin 1
     signal In_Minus ~ pin 2
     signal In_Plus ~ pin 3
@@ -61,9 +63,17 @@ module That1200Stage:
 
     # Clamping diodes
     d_clamp_p_vplus = new Diode
+    d_clamp_p_vplus.footprint = "Diode_SMD:D_SOD-123"
+    d_clamp_p_vplus.mpn = "C57759"
     d_clamp_p_vminus = new Diode
+    d_clamp_p_vminus.footprint = "Diode_SMD:D_SOD-123"
+    d_clamp_p_vminus.mpn = "C57759"
     d_clamp_n_vplus = new Diode
+    d_clamp_n_vplus.footprint = "Diode_SMD:D_SOD-123"
+    d_clamp_n_vplus.mpn = "C57759"
     d_clamp_n_vminus = new Diode
+    d_clamp_n_vminus.footprint = "Diode_SMD:D_SOD-123"
+    d_clamp_n_vminus.mpn = "C57759"
 
     ic.In_Plus ~ d_clamp_p_vplus.anode; d_clamp_p_vplus.cathode ~ V_Plus
     V_Minus ~ d_clamp_p_vminus.anode; d_clamp_p_vminus.cathode ~ ic.In_Plus

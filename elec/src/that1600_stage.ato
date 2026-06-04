@@ -2,6 +2,8 @@ import Capacitor from "generics/capacitors.ato"
 import Resistor from "generics/resistors.ato"
 
 component That1646:
+    footprint = "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm"
+    mpn = "THAT1646S08-U"
     signal Out_Plus ~ pin 1
     signal V_Minus ~ pin 2
     signal Out_Minus ~ pin 3
@@ -23,32 +25,32 @@ module That1646Stage:
 
     c_bypass_p_bulk = new Capacitor; c_bypass_p_bulk.value = 10uF
     c_bypass_p_cer = new Capacitor; c_bypass_p_cer.value = 100nF
-    V_Plus -> c_bypass_p_bulk.p1; c_bypass_p_bulk.p2 -> GND
-    V_Plus -> c_bypass_p_cer.p1; c_bypass_p_cer.p2 -> GND
-    V_Plus -> ic.V_Plus
+    V_Plus ~ c_bypass_p_bulk.p1; c_bypass_p_bulk.p2 ~ GND
+    V_Plus ~ c_bypass_p_cer.p1; c_bypass_p_cer.p2 ~ GND
+    V_Plus ~ ic.V_Plus
 
     c_bypass_m_bulk = new Capacitor; c_bypass_m_bulk.value = 10uF
     c_bypass_m_cer = new Capacitor; c_bypass_m_cer.value = 100nF
-    V_Minus -> c_bypass_m_bulk.p1; c_bypass_m_bulk.p2 -> GND
-    V_Minus -> c_bypass_m_cer.p1; c_bypass_m_cer.p2 -> GND
-    V_Minus -> ic.V_Minus
+    V_Minus ~ c_bypass_m_bulk.p1; c_bypass_m_bulk.p2 ~ GND
+    V_Minus ~ c_bypass_m_cer.p1; c_bypass_m_cer.p2 ~ GND
+    V_Minus ~ ic.V_Minus
 
-    GND -> ic.GND
+    GND ~ ic.GND
 
     c_ext_plus = new Capacitor; c_ext_plus.value = 10uF
-    ic.Out_Plus -> c_ext_plus.p1; c_ext_plus.p2 -> ic.Sense_Plus
+    ic.Out_Plus ~ c_ext_plus.p1; c_ext_plus.p2 ~ ic.Sense_Plus
 
     c_ext_minus = new Capacitor; c_ext_minus.value = 10uF
-    ic.Out_Minus -> c_ext_minus.p1; c_ext_minus.p2 -> ic.Sense_Minus
+    ic.Out_Minus ~ c_ext_minus.p1; c_ext_minus.p2 ~ ic.Sense_Minus
 
     r_zobel_plus = new Resistor; r_zobel_plus.value = 10ohm
     c_zobel_plus = new Capacitor; c_zobel_plus.value = 100nF
-    ic.Out_Plus -> r_zobel_plus.p1; r_zobel_plus.p2 -> c_zobel_plus.p1; c_zobel_plus.p2 -> GND
+    ic.Out_Plus ~ r_zobel_plus.p1; r_zobel_plus.p2 ~ c_zobel_plus.p1; c_zobel_plus.p2 ~ GND
 
     r_zobel_minus = new Resistor; r_zobel_minus.value = 10ohm
     c_zobel_minus = new Capacitor; c_zobel_minus.value = 100nF
-    ic.Out_Minus -> r_zobel_minus.p1; r_zobel_minus.p2 -> c_zobel_minus.p1; c_zobel_minus.p2 -> GND
+    ic.Out_Minus ~ r_zobel_minus.p1; r_zobel_minus.p2 ~ c_zobel_minus.p1; c_zobel_minus.p2 ~ GND
 
-    ic.In -> Audio_In
-    ic.Out_Plus -> Line_Out_Plus
-    ic.Out_Minus -> Line_Out_Minus
+    ic.In ~ Audio_In
+    ic.Out_Plus ~ Line_Out_Plus
+    ic.Out_Minus ~ Line_Out_Minus

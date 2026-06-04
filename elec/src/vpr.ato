@@ -1,4 +1,7 @@
 component VprEdgeConnector:
+    footprint = "Cards:EDA_306"
+    designator_prefix = "J"
+    mpn = "EDAC-306-015-520-102"
     # Standard 15-pin 0.156" pitch card edge (EDAC type 306-015-520-102)
     # Pinout strictly follows the API VPR Alliance specification.
 
