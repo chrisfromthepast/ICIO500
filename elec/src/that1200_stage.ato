@@ -1,0 +1,75 @@
+import Capacitor from "generics/capacitors.ato"
+import Resistor from "generics/resistors.ato"
+import Diode from "generics/diodes.ato"
+
+component That1200:
+    signal Ref ~ pin 1
+    signal In_Minus ~ pin 2
+    signal In_Plus ~ pin 3
+    signal V_Minus ~ pin 4
+    signal Sm ~ pin 5
+    signal Cm ~ pin 6
+    signal Out ~ pin 7
+    signal V_Plus ~ pin 8
+
+module That1200Stage:
+    ic = new That1200
+
+    # Input nets matched to main.ato routing
+    signal Audio_In_Plus
+    signal Audio_In_Minus
+    signal Audio_Out
+    signal V_Plus
+    signal V_Minus
+    signal GND
+
+    # Power decoupling
+    c_bypass_plus = new Capacitor
+    c_bypass_plus.value = 100nF
+    c_bypass_minus = new Capacitor
+    c_bypass_minus.value = 100nF
+    V_Plus ~ c_bypass_plus.p1; c_bypass_plus.p2 ~ GND
+    V_Minus ~ c_bypass_minus.p1; c_bypass_minus.p2 ~ GND
+    V_Plus ~ ic.V_Plus
+    V_Minus ~ ic.V_Minus
+    GND ~ ic.Ref
+
+    # RF Filtering
+    r_rf_plus = new Resistor
+    r_rf_plus.value = 100ohm
+    r_rf_minus = new Resistor
+    r_rf_minus.value = 100ohm
+    c_rf = new Capacitor
+    c_rf.value = 220pF
+
+    Audio_In_Plus ~ r_rf_plus.p1; r_rf_plus.p2 ~ c_rf.p1
+    Audio_In_Minus ~ r_rf_minus.p1; r_rf_minus.p2 ~ c_rf.p2
+
+    # AC Coupling
+    c_ac_plus = new Capacitor
+    c_ac_plus.value = 10uF
+    c_ac_minus = new Capacitor
+    c_ac_minus.value = 10uF
+    r_rf_plus.p2 ~ c_ac_plus.p1; c_ac_plus.p2 ~ ic.In_Plus
+    r_rf_minus.p2 ~ c_ac_minus.p1; c_ac_minus.p2 ~ ic.In_Minus
+
+    # Common-mode bootstrap
+    c_cm = new Capacitor
+    c_cm.value = 10uF
+    ic.Cm ~ c_cm.p1
+    ic.Sm ~ c_cm.p2
+
+    # Clamping diodes
+    d_clamp_p_vplus = new Diode
+    d_clamp_p_vminus = new Diode
+    d_clamp_n_vplus = new Diode
+    d_clamp_n_vminus = new Diode
+
+    ic.In_Plus ~ d_clamp_p_vplus.anode; d_clamp_p_vplus.cathode ~ V_Plus
+    V_Minus ~ d_clamp_p_vminus.anode; d_clamp_p_vminus.cathode ~ ic.In_Plus
+
+    ic.In_Minus ~ d_clamp_n_vplus.anode; d_clamp_n_vplus.cathode ~ V_Plus
+    V_Minus ~ d_clamp_n_vminus.anode; d_clamp_n_vminus.cathode ~ ic.In_Minus
+
+    # Output
+    ic.Out ~ Audio_Out

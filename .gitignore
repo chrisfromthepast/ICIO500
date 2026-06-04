@@ -24,3 +24,7 @@ fp-info-cache
 # Exported BOM files
 *.xml
 *.csv
+
+# Atopile build artifacts
+build/
+.ato/
