@@ -1,0 +1,7 @@
+(fp_lib_table
+  (lib (name "lib")(type "KiCad")(uri "${KIPRJMOD}/../footprints/footprints.pretty")(options "")(descr "Atopile local footprints"))
+  (lib (name "Connector_CardEdge")(type "KiCad")(uri "${KISYSMOD}/Connector_CardEdge.pretty")(options "")(descr "KiCad card edge connector footprints"))
+  (lib (name "Converter_DCDC")(type "KiCad")(uri "${KISYSMOD}/Converter_DCDC.pretty")(options "")(descr "KiCad DC-DC converter footprints"))
+  (lib (name "Package_SO")(type "KiCad")(uri "${KISYSMOD}/Package_SO.pretty")(options "")(descr "KiCad SO footprints"))
+  (lib (name "Diode_SMD")(type "KiCad")(uri "${KISYSMOD}/Diode_SMD.pretty")(options "")(descr "KiCad SMD diode footprints"))
+)
