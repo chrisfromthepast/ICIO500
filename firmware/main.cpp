@@ -56,7 +56,8 @@ void AudioCallback(AudioHandle::InputBuffer in, AudioHandle::OutputBuffer out, s
                 if(pulseSamplesRemaining <= 0) pulseActive = false;
             }
             // Output to the mono THAT 1646 driver
-            out[0][i] = noiseSample; 
+            out[0][i] = noiseSample;
+            out[1][i] = noiseSample;
         }
     }
     // 2. DSP Hard Bypass (AD to DA only)
@@ -65,12 +66,17 @@ void AudioCallback(AudioHandle::InputBuffer in, AudioHandle::OutputBuffer out, s
         for(size_t i = 0; i < size; i++)
         {
             out[0][i] = in[0][i];
+            out[1][i] = in[0][i];
         }
     }
     // 3. Normal DSP Mode
     else
     {
         processRoomoveAudio(&roomoveState, in[0], out[0], size);
+        for(size_t i = 0; i < size; i++)
+        {
+            out[1][i] = out[0][i];
+        }
     }
 }
 
