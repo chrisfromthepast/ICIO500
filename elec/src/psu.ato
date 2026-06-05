@@ -3,54 +3,64 @@ import Resistor from "generics/resistors.ato"
 import Diode from "generics/diodes.ato"
 
 component IsolatedDcDc5V:
-# Generic isolated DC-DC converter (e.g., 9-18V to 5V)
-signal Vin_Plus ~ pin 1
-signal Vin_Minus ~ pin 2
-signal Vout_Plus ~ pin 3
-signal Vout_Minus ~ pin 4
+    # Generic isolated DC-DC converter (e.g., 9-18V to 5V)
+    footprint = "Converter_DCDC:Converter_DCDC_muRata_NMAxxxxSC_THT"
+    mpn = "MGJ2D091505SC"
+    signal Vin_Plus ~ pin 1
+    signal Vin_Minus ~ pin 2
+    signal Vout_Plus ~ pin 3
+    signal Vout_Minus ~ pin 4
 
 module PowerSupply:
-# VPR 500-Series Edge Connector inputs
-signal V_Plus_16V_In
-signal V_Minus_16V_In
-signal GND_Audio # Analog ground
+    # VPR 500-Series Edge Connector inputs
+    signal V_Plus_16V_In
+    signal V_Minus_16V_In
+    signal GND_Audio # Analog ground
 
-# Steadies rails for analog silicon
-signal V_Plus_Analog
-signal V_Minus_Analog
+    # Steadies rails for analog silicon
+    signal V_Plus_Analog
+    signal V_Minus_Analog
 
-# Isolated 5V and Ground for Daisy
-signal V_Plus_5V_Iso
-signal GND_Iso
+    # Isolated 5V and Ground for Daisy
+    signal V_Plus_5V_Iso
+    signal GND_Iso
 
-# Reverse Polarity Protection
-d_protect_p = new Diode
-d_protect_m = new Diode
+    # Reverse Polarity Protection
+    d_protect_p = new Diode
+    d_protect_p.footprint = "Diode_SMD:D_SMA"
+    d_protect_p.mpn = "C2480"
+    d_protect_m = new Diode
+    d_protect_m.footprint = "Diode_SMD:D_SMA"
+    d_protect_m.mpn = "C2480"
 
-V_Plus_16V_In -> d_protect_p.anode; d_protect_p.cathode -> V_Plus_Analog
-V_Minus_16V_In -> d_protect_m.cathode; d_protect_m.anode -> V_Minus_Analog
+    V_Plus_16V_In ~ d_protect_p.anode; d_protect_p.cathode ~ V_Plus_Analog
+    V_Minus_16V_In ~ d_protect_m.cathode; d_protect_m.anode ~ V_Minus_Analog
 
-# Bulk Decoupling / Filtering for +/- 16V Analog Rails
-c_bulk_p_elec = new Capacitor; c_bulk_p_elec.value = 220uF
-c_bulk_p_cer = new Capacitor; c_bulk_p_cer.value = 100nF
-V_Plus_Analog -> c_bulk_p_elec.p1; c_bulk_p_elec.p2 -> GND_Audio
-V_Plus_Analog -> c_bulk_p_cer.p1; c_bulk_p_cer.p2 -> GND_Audio
+    # Bulk Decoupling / Filtering for +/- 16V Analog Rails
+    c_bulk_p_elec = new Capacitor; c_bulk_p_elec.value = 220uF
+    c_bulk_p_elec.footprint = "Capacitor_SMD:CP_Elec_6.3x5.4"
+    c_bulk_p_elec.mpn = "C72494"
+    c_bulk_p_cer = new Capacitor; c_bulk_p_cer.value = 100nF
+    V_Plus_Analog ~ c_bulk_p_elec.p1; c_bulk_p_elec.p2 ~ GND_Audio
+    V_Plus_Analog ~ c_bulk_p_cer.p1; c_bulk_p_cer.p2 ~ GND_Audio
 
-c_bulk_m_elec = new Capacitor; c_bulk_m_elec.value = 220uF
-c_bulk_m_cer = new Capacitor; c_bulk_m_cer.value = 100nF
-V_Minus_Analog -> c_bulk_m_elec.p1; c_bulk_m_elec.p2 -> GND_Audio
-V_Minus_Analog -> c_bulk_m_cer.p1; c_bulk_m_cer.p2 -> GND_Audio
+    c_bulk_m_elec = new Capacitor; c_bulk_m_elec.value = 220uF
+    c_bulk_m_elec.footprint = "Capacitor_SMD:CP_Elec_6.3x5.4"
+    c_bulk_m_elec.mpn = "C72494"
+    c_bulk_m_cer = new Capacitor; c_bulk_m_cer.value = 100nF
+    V_Minus_Analog ~ c_bulk_m_elec.p1; c_bulk_m_elec.p2 ~ GND_Audio
+    V_Minus_Analog ~ c_bulk_m_cer.p1; c_bulk_m_cer.p2 ~ GND_Audio
 
-# Isolated 5V DC-DC Converter for Daisy (Powered from +16V rail)
-dcdc = new IsolatedDcDc5V
-V_Plus_Analog -> dcdc.Vin_Plus
-GND_Audio -> dcdc.Vin_Minus
+    # Isolated 5V DC-DC Converter for Daisy (Powered from +16V rail)
+    dcdc = new IsolatedDcDc5V
+    V_Plus_Analog ~ dcdc.Vin_Plus
+    GND_Audio ~ dcdc.Vin_Minus
 
-dcdc.Vout_Plus -> V_Plus_5V_Iso
-dcdc.Vout_Minus -> GND_Iso
+    dcdc.Vout_Plus ~ V_Plus_5V_Iso
+    dcdc.Vout_Minus ~ GND_Iso
 
-# Bulk output filtering for the isolated 5V rail
-c_iso_bulk = new Capacitor; c_iso_bulk.value = 10uF
-c_iso_cer = new Capacitor; c_iso_cer.value = 100nF
-V_Plus_5V_Iso -> c_iso_bulk.p1; c_iso_bulk.p2 -> GND_Iso
-V_Plus_5V_Iso -> c_iso_cer.p1; c_iso_cer.p2 -> GND_Iso
+    # Bulk output filtering for the isolated 5V rail
+    c_iso_bulk = new Capacitor; c_iso_bulk.value = 10uF
+    c_iso_cer = new Capacitor; c_iso_cer.value = 100nF
+    V_Plus_5V_Iso ~ c_iso_bulk.p1; c_iso_bulk.p2 ~ GND_Iso
+    V_Plus_5V_Iso ~ c_iso_cer.p1; c_iso_cer.p2 ~ GND_Iso
