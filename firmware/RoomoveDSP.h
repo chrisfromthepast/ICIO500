@@ -1,1 +1,1 @@
-inheret from roomove
+inherit from roomove
