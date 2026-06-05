@@ -13,18 +13,18 @@ inline void roomoveDspInit(RoomoveDspState *state, float sampleRate)
     state->armorStrength = 0.0f;
 }
 
-inline void roomoveDspSetArmorStrength(RoomoveDspState *state, float armorStrength)
+inline void roomoveDspSetArmorStrength(RoomoveDspState *state, float strength)
 {
-    if(armorStrength < 0.0f)
+    if(strength < 0.0f)
     {
-        armorStrength = 0.0f;
+        strength = 0.0f;
     }
-    else if(armorStrength > 1.0f)
+    else if(strength > 1.0f)
     {
-        armorStrength = 1.0f;
+        strength = 1.0f;
     }
 
-    state->armorStrength = armorStrength;
+    state->armorStrength = strength;
 }
 
 inline void processRoomoveAudio(RoomoveDspState *state, float *in, float *out, size_t size)
