@@ -24,7 +24,8 @@ module That1200Stage:
     signal V_Plus
     signal V_Minus
     signal GND
-
+    signal Chassis
+    
     # Power decoupling
     c_bypass_plus = new Capacitor
     c_bypass_plus.value = 100nF
@@ -43,9 +44,17 @@ module That1200Stage:
     r_rf_minus.value = 100ohm
     c_rf = new Capacitor
     c_rf.value = 220pF
+    c_rf_plus_chas = new Capacitor
+    c_rf_plus_chas.value = 220pF
+    c_rf_minus_chas = new Capacitor
+    c_rf_minus_chas.value = 220pF
 
     Audio_In_Plus ~ r_rf_plus.p1; r_rf_plus.p2 ~ c_rf.p1
     Audio_In_Minus ~ r_rf_minus.p1; r_rf_minus.p2 ~ c_rf.p2
+    
+    # Chassis referenced RF shunts
+    r_rf_plus.p2 ~ c_rf_plus_chas.p1; c_rf_plus_chas.p2 ~ Chassis
+    r_rf_minus.p2 ~ c_rf_minus_chas.p1; c_rf_minus_chas.p2 ~ Chassis
 
     # AC Coupling
     c_ac_plus = new Capacitor
