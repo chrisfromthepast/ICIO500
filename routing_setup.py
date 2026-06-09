@@ -59,54 +59,113 @@ def make_zone(board, lyr, net_name):
     board.Add(z)
     return z
 
-def net_pads(board, net_name):
-    n = board.FindNet(net_name)
-    if not n: return []
-    pts = []
-    for fp in board.GetFootprints():
-        for p in fp.Pads():
-            if p.GetNetCode() == n.GetNetCode():
-                pos = p.GetPosition()
-                pts.append((frm(pos.x), frm(pos.y)))
-    pts.sort()
-    return pts
+def make_zone_bounded(board, lyr, net_name, x0, y0, x1, y1):
+    net = board.FindNet(net_name)
+    if not net:
+        return None
+    zones_to_remove = []
+    for z in board.Zones():
+        if z.GetLayer() == lyr and z.GetNetCode() == net.GetNetCode():
+            zones_to_remove.append(z)
+    for z in zones_to_remove:
+        board.Remove(z)
+            
+    z = pcbnew.ZONE(board)
+    z.SetLayer(lyr)
+    z.SetNet(net)
+    z.SetPadConnection(pcbnew.ZONE_CONNECTION_THERMAL)
+    ch = pcbnew.SHAPE_LINE_CHAIN()
+    ch.Append(mm(x0), mm(y0))
+    ch.Append(mm(x1), mm(y0))
+    ch.Append(mm(x1), mm(y1))
+    ch.Append(mm(x0), mm(y1))
+    ch.SetClosed(True)
+    z.AddPolygon(ch)
+    board.Add(z)
+    return z
 
 def route_chain(board, net_name, w=0.5, lyr=None):
     n = board.FindNet(net_name)
     if not n: return
     if lyr is None: lyr = pcbnew.F_Cu
-    pts = net_pads(board, net_name)
-    if len(pts) < 2: return
     
-    for i in range(len(pts) - 1):
-        x0, y0 = pts[i]
-        x1, y1 = pts[i + 1]
+    # Extract pads belonging to this net
+    pads = []
+    for fp in board.GetFootprints():
+        for p in fp.Pads():
+            if p.GetNetCode() == n.GetNetCode():
+                pads.append(p)
+                
+    if len(pads) < 2: return
+    
+    # Sort them by X coordinate (left-to-right)
+    pads.sort(key=lambda p: p.GetPosition().x)
+    
+    for i in range(len(pads) - 1):
+        p0 = pads[i]
+        p1 = pads[i+1]
+        
+        x0, y0 = frm(p0.GetPosition().x), frm(p0.GetPosition().y)
+        x1, y1 = frm(p1.GetPosition().x), frm(p1.GetPosition().y)
+        
+        # Calculate clean fan-out via placement for SMD pads
+        def get_connect_pt(p, offset_val):
+            px, py = frm(p.GetPosition().x), frm(p.GetPosition().y)
+            if p.GetAttribute() == pcbnew.PAD_ATTRIB_PTH:
+                # PTH pad connects directly on B_Cu
+                return px, py, False
+            else:
+                # SMD pad: drop a via offsetted horizontally to avoid via-in-pad
+                vx = px + offset_val
+                vy = py
+                return vx, vy, True
+                
+        # Offset vias slightly to avoid overlap
+        dist_x = abs(x1 - x0)
+        offset0 = 1.5 if dist_x > 3.0 else (dist_x / 2.0)
+        offset1 = -1.5 if dist_x > 3.0 else -(dist_x / 2.0)
+        
+        vx0, vy0, need_via0 = get_connect_pt(p0, offset0)
+        vx1, vy1, need_via1 = get_connect_pt(p1, offset1)
         
         if lyr == pcbnew.B_Cu:
-            add_via(board, x0, y0, n)
-            add_via(board, x1, y1, n)
-            
-        LH(board, n, x0, y0, x1, y1, w, lyr)
+            if need_via0:
+                add_via(board, vx0, vy0, n)
+                # trace from pad to via on Front
+                seg(board, n, x0, y0, vx0, vy0, w=0.5, lyr=pcbnew.F_Cu)
+            if need_via1:
+                add_via(board, vx1, vy1, n)
+                # trace from pad to via on Front
+                seg(board, n, x1, y1, vx1, vy1, w=0.5, lyr=pcbnew.F_Cu)
+                
+            # Route on Bottom between the connection points
+            LH(board, n, vx0, vy0, vx1, vy1, w, pcbnew.B_Cu)
+        else:
+            LH(board, n, x0, y0, x1, y1, w, lyr)
 
 def route_j1_connections(board):
+    # Output stage is at Y = 75. Route out_plus_4dbu to Pin 2, out_minus to Pin 4.
     n_out_p = board.FindNet('out_plus_4dbu')
     if n_out_p:
-        seg(board, n_out_p, 180, 85, 180, 79.1, w=0.8, lyr=pcbnew.F_Cu)
+        seg(board, n_out_p, 180, 71.0, 180, 79.1, w=0.8, lyr=pcbnew.F_Cu)
         seg(board, n_out_p, 180, 79.1, 195, 79.1, w=0.8, lyr=pcbnew.F_Cu)
 
     n_out_m = board.FindNet('out_minus')
     if n_out_m:
-        seg(board, n_out_m, 180, 89, 180, 87.0, w=0.8, lyr=pcbnew.B_Cu)
+        seg(board, n_out_m, 180, 77.0, 180, 87.0, w=0.8, lyr=pcbnew.B_Cu)
         seg(board, n_out_m, 180, 87.0, 195, 87.0, w=0.8, lyr=pcbnew.B_Cu)
+        add_via(board, 180, 77.0, n_out_m, sz=1.0, dr=0.4)
 
+    # Input stage is at Y = 135. Route in_minus_4dbu to Pin 8 (B_Cu), in_plus_4dbu to Pin 10 (F_Cu).
     n_in_m = board.FindNet('in_minus_4dbu')
     if n_in_m:
-        seg(board, n_in_m, 180, 100, 180, 102.9, w=0.8, lyr=pcbnew.F_Cu)
-        seg(board, n_in_m, 180, 102.9, 195, 102.9, w=0.8, lyr=pcbnew.F_Cu)
+        seg(board, n_in_m, 180, 138.0, 180, 102.9, w=0.8, lyr=pcbnew.B_Cu)
+        seg(board, n_in_m, 180, 102.9, 195, 102.9, w=0.8, lyr=pcbnew.B_Cu)
+        add_via(board, 180, 138.0, n_in_m, sz=1.0, dr=0.4)
 
     n_in_p = board.FindNet('in_plus_4dbu')
     if n_in_p:
-        seg(board, n_in_p, 180, 104, 180, 110.8, w=0.8, lyr=pcbnew.F_Cu)
+        seg(board, n_in_p, 180, 132.0, 180, 110.8, w=0.8, lyr=pcbnew.F_Cu)
         seg(board, n_in_p, 180, 110.8, 195, 110.8, w=0.8, lyr=pcbnew.F_Cu)
 
     n_p16 = board.FindNet('+16V')
@@ -145,56 +204,39 @@ def apply_routing():
     for t in old_tracks:
         board.Remove(t)
 
-    # Power planes
-    make_zone(board, pcbnew.In1_Cu, 'gnd')
-    make_zone(board, pcbnew.In2_Cu, 'v_plus')
-    make_zone(board, pcbnew.B_Cu,   'v_minus')
-    make_zone(board, pcbnew.In1_Cu, 'daisy_digital_gnd') # Will fill remaining space or require boundary
-    
-    # Drop vias for power pads
-    power_nets = ['gnd', 'v_plus', 'v_minus', 'daisy_digital_gnd', 'chassis']
-    for net_name in power_nets:
-        n = board.FindNet(net_name)
-        if not n: continue
-        for fp in board.GetFootprints():
-            for p in fp.Pads():
-                if p.GetNetCode() == n.GetNetCode():
-                    pos = p.GetPosition()
-                    add_via(board, frm(pos.x), frm(pos.y), n, sz=1.0, dr=0.4)
+    # Clear old zones
+    zones_to_remove = [z for z in board.Zones()]
+    for z in zones_to_remove:
+        board.Remove(z)
 
-    # Route Signal Nets inside the IO block
-    W = 0.5
-    route_chain(board, 'in_plus',  W, pcbnew.F_Cu)
-    route_chain(board, 'in_minus', W, pcbnew.F_Cu)
-    route_chain(board, 'in_plus_4dbu',  W, pcbnew.F_Cu)
-    route_chain(board, 'in_minus_4dbu', W, pcbnew.F_Cu)
-    route_chain(board, 'cm', W, pcbnew.F_Cu)
-    route_chain(board, 'sm', W, pcbnew.F_Cu)
-    route_chain(board, 'audio_out', W, pcbnew.F_Cu)
-    route_chain(board, 'in_minus_1', W, pcbnew.F_Cu)
-    
-    route_chain(board, 'receiver.r_rf_plus-vcc', W, pcbnew.F_Cu)
-    route_chain(board, 'receiver.r_rf_minus-vcc', W, pcbnew.F_Cu)
-    route_chain(board, 'v_bias_2v5', W, pcbnew.F_Cu)
-    route_chain(board, 'driver.r_zobel_plus-vcc', W, pcbnew.F_Cu)
-    route_chain(board, 'driver.r_zobel_minus-vcc', W, pcbnew.F_Cu)
-    
-    route_chain(board, 'receiver.c_rf_plus_chas-vcc', W, pcbnew.F_Cu)
-    route_chain(board, 'receiver.c_rf_minus_chas-vcc', W, pcbnew.F_Cu)
+    # Split ground planes on Inner Layer 1 (In1_Cu)
+    # Digital Ground on the left (X: 35 to 125, Y: 10 to 185)
+    make_zone_bounded(board, pcbnew.In1_Cu, 'daisy_digital_gnd', 35, 10, 125, 185)
+    # Analog Ground on the right (X: 125 to 240, Y: 10 to 185)
+    make_zone_bounded(board, pcbnew.In1_Cu, 'gnd', 125, 10, 240, 185)
 
-    route_chain(board, 'audio_out_to_1646', W, pcbnew.B_Cu)
-    route_chain(board, 'in_minus_2', W, pcbnew.B_Cu)
-    route_chain(board, 'out_plus_4dbu', W, pcbnew.B_Cu)
-    route_chain(board, 'out_minus', W, pcbnew.B_Cu)
-    route_chain(board, 'sense_plus', W, pcbnew.B_Cu)
-    route_chain(board, 'sense_minus', W, pcbnew.B_Cu)
-    
-    route_chain(board, 'daisy_audio_in', W, pcbnew.F_Cu)
-    route_chain(board, 'daisy_audio_out', W, pcbnew.B_Cu)
-    route_chain(board, 'daisy_5v_power', 1.0, pcbnew.B_Cu)
+    # Default net class (Signals)
+    default_class = board.GetNetClasses()['Default']
+    default_class.SetTrackWidth(mm(0.25))
+    default_class.SetClearance(mm(0.2))
+
+    # Assign power and ground nets to Power net class for thicker traces
+    power_net_names = ['gnd', 'v_plus', 'v_minus', 'daisy_digital_gnd', 'daisy_5v_power', 'v_plus_16v', 'v_minus_16v']
+    power_class = board.GetNetClasses()['Power']
+    power_class.SetTrackWidth(mm(0.8))
+    power_class.SetClearance(mm(0.25))
+    for name in power_net_names:
+        net = board.FindNet(name)
+        if net:
+            net.SetNetClass(power_class)
+            print(f"Assigned net {name} to class Power")
+
+    # Power inputs from J1 to U1 (DCDC) - these don't collide
+    # route_chain(board, 'v_plus_16v', 1.0, pcbnew.B_Cu)
+    # route_chain(board, 'v_minus_16v', 1.0, pcbnew.B_Cu)
 
     # Bridge the mismatched nets to J1
-    route_j1_connections(board)
+    # route_j1_connections(board)
 
     filler = pcbnew.ZONE_FILLER(board)
     filler.Fill(board.Zones())

@@ -12,7 +12,7 @@ component SPST_Switch:
 
 # Daisy Seed footprint (assuming 2x20 header or specific module footprint)
 component DaisySeed:
-    footprint = "Connector_PinSocket_2.54mm:PinSocket_2x20_P2.54mm_Vertical"
+    footprint = "Package_DIP:DIP-40_W15.24mm_Socket"
     # Mapping typical Daisy Seed pins. Assuming standard zig-zag numbering for a 2x20:
     # We only explicitly map the pins we need for this project.
     signal Audio_Out_L ~ pin 35
@@ -36,6 +36,14 @@ component DaisySeed:
     signal Audio_Out
     signal GPIO_Noise
     signal GPIO_Bypass
+    
+    # Connect generic signals to the pins we're using
+    VIN_5V ~ pin 39
+    GND_Digital ~ DGND
+    Audio_In ~ Audio_In_L
+    Audio_Out ~ Audio_Out_L
+    GPIO_Noise ~ D13
+    GPIO_Bypass ~ D14
 
 module VprCarrier500:
     # 1. Instantiate all hardware sub-modules
