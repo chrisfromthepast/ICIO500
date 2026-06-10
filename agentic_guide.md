@@ -1,0 +1,7 @@
+always check my work and only make vaild claims
+1. **Never claim success without verification.** If an autorouter fails, or DRC reports unconnected items, do not tell the user the board is "perfectly re-routed."
+2. **Understand the physical constraints.** Do not blindly place components on coordinates without understanding the actual `Edge.Cuts` geometry. A PCB is rarely a perfect rectangle.
+3. **Verify visually and programmatically.** Use scripts to verify component bounding boxes against the board edges before declaring a layout structurally sound.
+4. **Use Atopile as the Single Source of Truth.** We are building a hardware project programmatically. The `.ato` files are the schematic source of truth. DO NOT use python scripts to "hot-wire" or hack the PCB netlist. Always fix netlist and schematic issues in the `.ato` files and run `ato build` (using `.venv/Scripts/ato.exe build` with `PYTHONUTF8=1` if needed).
+5. **Use Source Control.** We are trying to make hardware programmatically. Code changes should be respected and tracked as programmatic infrastructure rather than manual KiCad hacks.
+6. **Automate End-to-End.** Use Python scripts and the `kicad-cli` to perform all board operations (e.g., clearing routing, updating netlists, generating SVGs). Do NOT stop and ask the user to manually perform actions in the KiCad GUI (like deleting traces or importing netlists) if they can be easily scripted without interruption.

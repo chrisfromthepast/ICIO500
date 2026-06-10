@@ -14,6 +14,7 @@ _autosave-*
 *-save.kicad_pcb
 fp-info-cache
 
+*.openjds21
 # Netlist files (exported from Eeschema)
 *.net
 
@@ -33,3 +34,14 @@ build/
 .venv/
 venv/
 env/
+
+# Large files and archives
+*.jar
+*.zip
+
+# Logs and text output
+*.log
+logs/
+drc*.txt
+error.txt
+
