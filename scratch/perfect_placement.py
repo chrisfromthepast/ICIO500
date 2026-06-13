@@ -1,100 +1,95 @@
 import pcbnew
-import math
 
 board = pcbnew.LoadBoard('build/icio500/icio500.kicad_pcb')
 
+# Collect all footprints first to avoid SWIG iterator crashes
+fps = {fp.GetReference(): fp for fp in board.GetFootprints()}
+
 def place(ref, x, y, rot=0):
-    fp = board.FindFootprintByReference(ref)
-    if fp:
+    if ref in fps:
+        fp = fps[ref]
         fp.SetPosition(pcbnew.VECTOR2I(int(x * 1e6), int(y * 1e6)))
         fp.SetOrientationDegrees(rot)
 
-# Remove old text to avoid duplicates first to avoid Kicad 10 SWIG bug
-bad_labels = ["BALANCED INPUT STAGE", "LINE DRIVER STAGE", 
-              "SCALING & SHIFTING", "POWER CONDITIONING",
-              "POWER / REGS", "GAIN TRIM RESISTOR",
-              "POWER", "INPUT", "SCALING", "DRIVER", "DAISY SEED"]
-try:
-    for dwg in list(board.Drawings()):
-        if isinstance(dwg, pcbnew.PCB_TEXT) and dwg.GetText() in bad_labels:
-            board.Remove(dwg)
-except Exception as e:
-    print(f"Warning: could not delete drawings: {e}")
-
-# Track deletion moved to end
-
-# ==========================================================
-# 1. POWER SUPPLY (Centrally located per user request)
-# ==========================================================
-# Placed around Y=65 to Y=85, center of the board
-place("U1", 145, 75, 0)      # DC-DC Converter in the center
-place("C1", 135, 70, 0)      # Bulk + near U1 input
-place("C3", 135, 80, 0)      # Bulk - near U1 input
-place("C2", 140, 70, 0)      # Cer + near U1 input
-place("C4", 140, 80, 0)      # Cer - near U1 input
-place("C5", 155, 70, 0)      # Iso + near U1 output
-place("C6", 155, 80, 0)      # Iso cer near U1 output
-# Protection Diodes right near the edge connector J1 (Y=98)
-place("D1", 185, 85, 0)
-place("D2", 185, 110, 0)
+to_delete = []
+for dwg in list(board.Drawings()):
+    if dwg.GetLayer() == pcbnew.F_SilkS:
+        if isinstance(dwg, pcbnew.PCB_TEXT) or isinstance(dwg, pcbnew.PCB_SHAPE):
+            to_delete.append(dwg)
+for t in list(board.GetTracks()):
+    to_delete.append(t)
+for z in list(board.Zones()):
+    to_delete.append(z)
+for item in to_delete:
+    try: board.Remove(item)
+    except: pass
 
 # ==========================================================
-# 2. BALANCED INPUT (Right side, near Edge connector)
+# 1. POWER SUPPLY (Middle Right Column: X=140-168, Y=58-155)
 # ==========================================================
-place("U2", 175, 95, 0)      # Input receiver
-place("R1", 185, 90, 0)      # Input resistors
-place("R2", 185, 100, 0)
-place("C12", 180, 90, 0)     # AC coupling
-place("C13", 180, 100, 0)
-place("C14", 170, 95, 90)    # Bootstrap
-place("C9",  183, 95, 90)    # RF cap
-place("C10", 188, 88, 0)     # Chassis shunt
-place("C11", 188, 102, 0)
-# Diodes spaced neatly
-place("D3", 170, 85, 0)
-place("D4", 175, 85, 0)
-place("D5", 170, 105, 0)
-place("D6", 175, 105, 0)
-# Bypasses
-place("C7", 175, 89, 90)
-place("C15", 172, 89, 90)
-place("C8", 175, 101, 90)
-place("C16", 172, 101, 90)
+place("U1", 154, 105, 0)     # DC-DC Converter
+place("C1", 145, 100, 0)     # Bulk +
+place("C3", 145, 110, 0)     # Bulk -
+place("C2", 149, 100, 0)     # Cer +
+place("C4", 149, 110, 0)     # Cer -
+place("C5", 163, 100, 0)     # Iso +
+place("C6", 163, 110, 0)     # Iso cer
+place("D1", 163, 130, 0)     # Protection Diode
+place("D2", 163, 140, 0)     # Protection Diode
 
 # ==========================================================
-# 3. SCALING & SHIFTING (Center-left)
+# 2. BALANCED INPUT (Far Right Column: X=168-192, Y=58-155)
 # ==========================================================
-place("U3", 145, 115, 0)
-place("R3", 153, 110, 0)
-place("R4", 153, 113, 0)
-place("R5", 153, 117, 0)
-place("R6", 153, 120, 0)
-place("C17", 140, 110, 90)
-place("C18", 140, 120, 90)
+place("U2", 180, 105, 0)     # Input receiver
+place("R1", 187, 100, 0)     
+place("R2", 187, 110, 0)
+place("C12", 183, 100, 0)    
+place("C13", 183, 110, 0)
+place("C14", 175, 105, 90)   
+place("C9",  183, 105, 90)   
+place("C10", 187, 92, 0)     
+place("C11", 187, 118, 0)
+place("D3", 175, 95, 0)
+place("D4", 180, 95, 0)
+place("D5", 175, 115, 0)
+place("D6", 180, 115, 0)
+place("C7", 180, 99, 90)
+place("C15", 177, 99, 90)
+place("C8", 180, 111, 90)
+place("C16", 177, 111, 90)
 
 # ==========================================================
-# 4. LINE DRIVER (Top, above power)
+# 3. SCALING & SHIFTING (Bottom Left Row: X=55-140, Y=125-155)
 # ==========================================================
-place("U4", 145, 45, 0)
-place("C19", 153, 42, 90)
-place("C20", 156, 42, 90)
-place("C21", 153, 48, 90)
-place("C22", 156, 48, 90)
-place("C23", 138, 38, 0)
-place("C24", 138, 52, 0)
-place("R7", 130, 38, 0)
-place("C25", 123, 38, 0)
-place("R8", 130, 52, 0)
-place("C26", 123, 52, 0)
+place("U3", 100, 140, 0)
+place("R3", 108, 135, 0)
+place("R4", 108, 138, 0)
+place("R5", 108, 142, 0)
+place("R6", 108, 145, 0)
+place("C17", 95, 135, 90)
+place("C18", 95, 145, 90)
 
 # ==========================================================
-# 5. DIGITAL PROCESSING (Far left)
+# 4. LINE DRIVER (Top Left Row: X=55-140, Y=58-82)
 # ==========================================================
-# U5 Daisy Seed is very large. Place it clear of other components.
-place("U5", 80, 80, 90)      # Daisy Seed
-# U6 and U7 placed neatly next to Daisy, not overlapping!
-place("U6", 100, 75, 0)
-place("U7", 100, 85, 0)
+place("U4", 100, 70, 0)
+place("C19", 108, 67, 90)
+place("C20", 111, 67, 90)
+place("C21", 108, 73, 90)
+place("C22", 111, 73, 90)
+place("C23", 93, 63, 0)
+place("C24", 93, 77, 0)
+place("R7", 85, 63, 0)
+place("C25", 78, 63, 0)
+place("R8", 85, 77, 0)
+place("C26", 78, 77, 0)
+
+# ==========================================================
+# 5. DIGITAL PROCESSING (Middle Left Row: X=55-140, Y=82-125)
+# ==========================================================
+place("U5", 65, 105, 90)     # Daisy Seed
+place("U6", 130, 95, 0)
+place("U7", 130, 115, 0)
 
 # ==========================================================
 # Add Silkscreen Labels and Boxes
@@ -118,30 +113,24 @@ def add_box(x1, y1, x2, y2):
     board.Add(line)
 
 # Power section
-add_label("POWER", 135, 63)
-add_box(130, 65, 160, 85)
+add_label("POWER", 154, 63)
+add_box(140, 58, 168, 155)
 
 # Input section
-add_label("BALANCED INPUT", 175, 80)
-add_box(165, 82, 192, 115)
+add_label("BALANCED INPUT", 180, 63)
+add_box(168, 58, 196, 155)
 
 # Scaling section
-add_label("SCALING", 145, 103)
-add_box(135, 105, 160, 125)
+add_label("SCALING", 100, 150)
+add_box(55, 125, 140, 155)
 
 # Output section
-add_label("LINE DRIVER", 145, 30)
-add_box(115, 32, 165, 58)
+add_label("LINE DRIVER", 100, 62)
+add_box(55, 58, 140, 82)
 
 # Digital section
-add_label("DIGITAL PROCESSING", 80, 60)
-add_box(65, 62, 110, 105)
-
-# Clear old tracks so we don't have spaghetti
-for t in list(board.GetTracks()):
-    board.Remove(t)
-for z in list(board.Zones()):
-    board.Remove(z)
+add_label("DIGITAL PROCESSING", 100, 86)
+add_box(55, 82, 140, 125)
 
 pcbnew.SaveBoard('build/icio500/icio500.kicad_pcb', board)
 print("Perfect placement saved.")
