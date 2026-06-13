@@ -1,0 +1,327 @@
+** Drc report for icio500.kicad_pcb **
+** Created on 2026-06-13T09:42:20 **
+** Report includes: Errors, Warnings **
+
+** Found 85 DRC violations **
+[shorting_items]: Items shorting two nets (nets gnd and driver.r_zobel_minus-vcc)
+    Local override; error
+    @(153.0000 mm, 86.2250 mm): Via [gnd] on F.Cu - B.Cu
+    @(153.0000 mm, 87.7750 mm): Track [driver.r_zobel_minus-vcc] on F.Cu, length 3.2750 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.0524 mm)
+    Local override; error
+    @(197.2059 mm, 108.8876 mm): Track [in_plus_4dbu] on In2.Cu, length 43.7044 mm
+    @(168.6750 mm, 109.3650 mm): Via [audio_out] on F.Cu - B.Cu
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1484 mm)
+    Local override; error
+    @(175.0000 mm, 109.9384 mm): Track [v_plus] on In2.Cu, length 17.4738 mm
+    @(168.6750 mm, 109.3650 mm): Via [audio_out] on F.Cu - B.Cu
+[tracks_crossing]: Tracks crossing
+    Local override; error
+    @(169.0097 mm, 85.1847 mm): Track [driver.r_zobel_minus-vcc] on F.Cu, length 12.7984 mm
+    @(156.6750 mm, 86.0000 mm): Track [audio_out] on F.Cu, length 2.0000 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.0500 mm)
+    Local override; error
+    @(171.6750 mm, 86.2420 mm): Track [daisy_audio_out] on F.Cu, length 0.2420 mm
+    @(171.2000 mm, 86.1750 mm): Via [driver.r_zobel_minus-vcc] on F.Cu - B.Cu
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1333 mm)
+    Local override; error
+    @(170.9732 mm, 86.9438 mm): Track [daisy_audio_out] on F.Cu, length 0.9925 mm
+    @(170.0000 mm, 86.1750 mm): Track [driver.r_zobel_minus-vcc] on F.Cu, length 1.2000 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1016 mm)
+    Local override; error
+    @(170.9732 mm, 86.9438 mm): Via [daisy_audio_out] on F.Cu - B.Cu
+    @(171.2000 mm, 86.1750 mm): Via [driver.r_zobel_minus-vcc] on F.Cu - B.Cu
+[shorting_items]: Items shorting two nets (nets gnd and driver.r_zobel_minus-vcc)
+    Local override; error
+    @(153.0000 mm, 86.2250 mm): Pad 2 [gnd] of C26 on F.Cu
+    @(153.0000 mm, 87.7750 mm): Track [driver.r_zobel_minus-vcc] on F.Cu, length 3.2750 mm
+[shorting_items]: Items shorting two nets (nets daisy_audio_out and driver.r_zobel_minus-vcc)
+    Local override; error
+    @(171.6750 mm, 86.0000 mm): Pad 1 [daisy_audio_out] of R5 on F.Cu
+    @(170.0000 mm, 86.1750 mm): Track [driver.r_zobel_minus-vcc] on F.Cu, length 1.2000 mm
+[shorting_items]: Items shorting two nets (nets daisy_audio_out and driver.r_zobel_minus-vcc)
+    Local override; error
+    @(170.9732 mm, 86.9438 mm): Track [daisy_audio_out] on F.Cu, length 0.9925 mm
+    @(171.2000 mm, 86.1750 mm): Via [driver.r_zobel_minus-vcc] on F.Cu - B.Cu
+[tracks_crossing]: Tracks crossing
+    Local override; error
+    @(153.0000 mm, 84.5000 mm): Track [driver.r_zobel_minus-vcc] on B.Cu, length 15.0000 mm
+    @(164.5000 mm, 84.0000 mm): Track [audio_out] on B.Cu, length 25.3650 mm
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.0750 mm)
+    Local override; error
+    @(153.0000 mm, 84.5000 mm): Track [driver.r_zobel_minus-vcc] on B.Cu, length 15.0000 mm
+    @(156.6750 mm, 84.0000 mm): Via [audio_out] on F.Cu - B.Cu
+[hole_clearance]: Hole clearance violation (board setup constraints hole clearance 0.2500 mm; actual 0.0000 mm)
+    Rule: board setup constraints hole; error
+    @(171.6750 mm, 86.0000 mm): Pad 1 [daisy_audio_out] of R5 on F.Cu
+    @(171.2000 mm, 86.1750 mm): Via [driver.r_zobel_minus-vcc] on F.Cu - B.Cu
+[clearance]: Clearance violation ( clearance 0.2000 mm; actual 0.1800 mm)
+    Local override; error
+    @(139.5200 mm, 105.0000 mm): Pad 1 [receiver.r_rf_minus-vcc] of C11 on F.Cu
+    @(138.2600 mm, 105.0000 mm): PTH pad 20 [<no net>] of U5
+[courtyards_overlap]: Courtyards overlap
+    Rule: board setup constraints courtyard; error
+    @(90.0000 mm, 105.0000 mm): Footprint U5
+    @(140.0000 mm, 105.0000 mm): Footprint C11
+[courtyards_overlap]: Courtyards overlap
+    Rule: board setup constraints courtyard; error
+    @(115.0000 mm, 63.0000 mm): Footprint C5
+    @(120.0000 mm, 65.0000 mm): Footprint U1
+[courtyards_overlap]: Courtyards overlap
+    Rule: board setup constraints courtyard; error
+    @(173.0000 mm, 87.0000 mm): Footprint C18
+    @(172.5000 mm, 86.0000 mm): Footprint R5
+[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(153.0000 mm, 87.7750 mm): Track [driver.r_zobel_minus-vcc] on F.Cu, length 3.2750 mm
+    @(153.0000 mm, 86.2250 mm): Pad 2 [gnd] of C26 on F.Cu
+[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(170.0000 mm, 86.1750 mm): Track [driver.r_zobel_minus-vcc] on F.Cu, length 1.2000 mm
+    @(171.6750 mm, 86.0000 mm): Pad 1 [daisy_audio_out] of R5 on F.Cu
+[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(171.2000 mm, 86.1750 mm): Via [driver.r_zobel_minus-vcc] on F.Cu - B.Cu
+    @(171.6750 mm, 86.0000 mm): Pad 1 [daisy_audio_out] of R5 on F.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(153.0000 mm, 86.2250 mm): Via [gnd] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(174.3026 mm, 92.2250 mm): Via [gnd] on F.Cu - B.Cu
+[track_dangling]: Track has unconnected end
+    Local override; warning
+    @(155.8933 mm, 86.6683 mm): Track [driver.r_zobel_minus-vcc] on F.Cu, length 1.5651 mm
+[silk_edge_clearance]: Silkscreen clipped by board edge
+    Rule: board setup constraints silk; warning
+    @(195.0000 mm, 55.0000 mm): Segment on Edge.Cuts
+    @(52.0000 mm, 55.0000 mm): Segment on F.Silkscreen
+[silk_edge_clearance]: Silkscreen clipped by board edge
+    Rule: board setup constraints silk; warning
+    @(195.0000 mm, 55.0000 mm): Segment on Edge.Cuts
+    @(58.0000 mm, 170.0000 mm): Segment on F.Silkscreen
+[silk_edge_clearance]: Silkscreen clipped by board edge
+    Rule: board setup constraints silk; warning
+    @(195.0000 mm, 160.0000 mm): Segment on Edge.Cuts
+    @(70.0000 mm, 160.0000 mm): PCB text 'ICIO500' on F.Silkscreen
+[padstack]: Padstack is questionable (SMD pad has copper and mask layers on different sides of the board)
+    Local override; warning
+    @(198.5000 mm, 75.1390 mm): Pad 1 [chassis_gnd] of J1 on F.Cu
+[padstack]: Padstack is questionable (SMD pad has copper and mask layers on different sides of the board)
+    Local override; warning
+    @(198.5000 mm, 75.1390 mm): Pad 1 [chassis_gnd] of J1 on B.Cu
+[padstack]: Padstack is questionable (SMD pad has copper and mask layers on different sides of the board)
+    Local override; warning
+    @(198.5000 mm, 79.0990 mm): Pad 2 [out_plus_4dbu] of J1 on F.Cu
+[padstack]: Padstack is questionable (SMD pad has copper and mask layers on different sides of the board)
+    Local override; warning
+    @(198.5000 mm, 79.0990 mm): Pad 2 [out_plus_4dbu] of J1 on B.Cu
+[padstack]: Padstack is questionable (SMD pad has copper and mask layers on different sides of the board)
+    Local override; warning
+    @(198.5000 mm, 83.0590 mm): Pad 3 [out_plus_minus2dbu] of J1 on F.Cu
+[padstack]: Padstack is questionable (SMD pad has copper and mask layers on different sides of the board)
+    Local override; warning
+    @(198.5000 mm, 83.0590 mm): Pad 3 [out_plus_minus2dbu] of J1 on B.Cu
+[padstack]: Padstack is questionable (SMD pad has copper and mask layers on different sides of the board)
+    Local override; warning
+    @(198.5000 mm, 87.0190 mm): Pad 4 [out_minus] of J1 on F.Cu
+[padstack]: Padstack is questionable (SMD pad has copper and mask layers on different sides of the board)
+    Local override; warning
+    @(198.5000 mm, 87.0190 mm): Pad 4 [out_minus] of J1 on B.Cu
+[padstack]: Padstack is questionable (SMD pad has copper and mask layers on different sides of the board)
+    Local override; warning
+    @(198.5000 mm, 90.9790 mm): Pad 5 [gnd] of J1 on F.Cu
+[padstack]: Padstack is questionable (SMD pad has copper and mask layers on different sides of the board)
+    Local override; warning
+    @(198.5000 mm, 90.9790 mm): Pad 5 [gnd] of J1 on B.Cu
+[padstack]: Padstack is questionable (SMD pad has copper and mask layers on different sides of the board)
+    Local override; warning
+    @(198.5000 mm, 94.9390 mm): Pad 6 [stereo_link] of J1 on F.Cu
+[padstack]: Padstack is questionable (SMD pad has copper and mask layers on different sides of the board)
+    Local override; warning
+    @(198.5000 mm, 94.9390 mm): Pad 6 [stereo_link] of J1 on B.Cu
+[padstack]: Padstack is questionable (SMD pad has copper and mask layers on different sides of the board)
+    Local override; warning
+    @(198.5000 mm, 98.8990 mm): Pad 7 [in_minus_minus2dbu] of J1 on F.Cu
+[padstack]: Padstack is questionable (SMD pad has copper and mask layers on different sides of the board)
+    Local override; warning
+    @(198.5000 mm, 98.8990 mm): Pad 7 [in_minus_minus2dbu] of J1 on B.Cu
+[padstack]: Padstack is questionable (SMD pad has copper and mask layers on different sides of the board)
+    Local override; warning
+    @(198.5000 mm, 102.8590 mm): Pad 8 [in_minus_4dbu] of J1 on F.Cu
+[padstack]: Padstack is questionable (SMD pad has copper and mask layers on different sides of the board)
+    Local override; warning
+    @(198.5000 mm, 102.8590 mm): Pad 8 [in_minus_4dbu] of J1 on B.Cu
+[padstack]: Padstack is questionable (SMD pad has copper and mask layers on different sides of the board)
+    Local override; warning
+    @(198.5000 mm, 106.8190 mm): Pad 9 [in_plus_minus2dbu] of J1 on F.Cu
+[padstack]: Padstack is questionable (SMD pad has copper and mask layers on different sides of the board)
+    Local override; warning
+    @(198.5000 mm, 106.8190 mm): Pad 9 [in_plus_minus2dbu] of J1 on B.Cu
+[padstack]: Padstack is questionable (SMD pad has copper and mask layers on different sides of the board)
+    Local override; warning
+    @(198.5000 mm, 110.7790 mm): Pad 10 [in_plus_4dbu] of J1 on F.Cu
+[padstack]: Padstack is questionable (SMD pad has copper and mask layers on different sides of the board)
+    Local override; warning
+    @(198.5000 mm, 110.7790 mm): Pad 10 [in_plus_4dbu] of J1 on B.Cu
+[padstack]: Padstack is questionable (SMD pad has copper and mask layers on different sides of the board)
+    Local override; warning
+    @(198.5000 mm, 114.7390 mm): Pad 11 [gain_trim] of J1 on F.Cu
+[padstack]: Padstack is questionable (SMD pad has copper and mask layers on different sides of the board)
+    Local override; warning
+    @(198.5000 mm, 114.7390 mm): Pad 11 [gain_trim] of J1 on B.Cu
+[padstack]: Padstack is questionable (SMD pad has copper and mask layers on different sides of the board)
+    Local override; warning
+    @(198.5000 mm, 118.6990 mm): Pad 12 [v_plus_16v] of J1 on F.Cu
+[padstack]: Padstack is questionable (SMD pad has copper and mask layers on different sides of the board)
+    Local override; warning
+    @(198.5000 mm, 118.6990 mm): Pad 12 [v_plus_16v] of J1 on B.Cu
+[padstack]: Padstack is questionable (SMD pad has copper and mask layers on different sides of the board)
+    Local override; warning
+    @(198.5000 mm, 122.6590 mm): Pad 13 [gnd] of J1 on F.Cu
+[padstack]: Padstack is questionable (SMD pad has copper and mask layers on different sides of the board)
+    Local override; warning
+    @(198.5000 mm, 122.6590 mm): Pad 13 [gnd] of J1 on B.Cu
+[padstack]: Padstack is questionable (SMD pad has copper and mask layers on different sides of the board)
+    Local override; warning
+    @(198.5000 mm, 126.6190 mm): Pad 14 [v_minus_16v] of J1 on F.Cu
+[padstack]: Padstack is questionable (SMD pad has copper and mask layers on different sides of the board)
+    Local override; warning
+    @(198.5000 mm, 126.6190 mm): Pad 14 [v_minus_16v] of J1 on B.Cu
+[padstack]: Padstack is questionable (SMD pad has copper and mask layers on different sides of the board)
+    Local override; warning
+    @(198.5000 mm, 130.5790 mm): Pad 15 [v_plus_48v] of J1 on F.Cu
+[padstack]: Padstack is questionable (SMD pad has copper and mask layers on different sides of the board)
+    Local override; warning
+    @(198.5000 mm, 130.5790 mm): Pad 15 [v_plus_48v] of J1 on B.Cu
+[lib_footprint_issues]: The current configuration does not include the footprint library 'Cards'
+    Local override; warning
+    @(198.5000 mm, 98.8990 mm): Footprint J1
+[text_height]: Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.6000 mm)
+    Rule: board setup constraints silk text height; warning
+    @(146.0000 mm, 105.0000 mm): Value field of U5 (Daisy Seed)
+[text_height]: Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.6000 mm)
+    Rule: board setup constraints silk text height; warning
+    @(178.0000 mm, 70.0000 mm): Value field of U4 (THAT1646)
+[text_height]: Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.6000 mm)
+    Rule: board setup constraints silk text height; warning
+    @(178.0000 mm, 90.0000 mm): Value field of U3 (TL072)
+[text_height]: Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.6000 mm)
+    Rule: board setup constraints silk text height; warning
+    @(120.2500 mm, 82.5000 mm): Value field of U1 (DC-DC ISO)
+[text_height]: Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.6000 mm)
+    Rule: board setup constraints silk text height; warning
+    @(178.0000 mm, 110.0000 mm): Value field of U2 (THAT1200)
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(146.0000 mm, 105.0000 mm): Value field of U5 (Daisy Seed)
+    @(145.7627 mm, 105.5225 mm): Segment of R2 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(145.7627 mm, 104.4775 mm): Segment of R2 on F.Silkscreen
+    @(146.0000 mm, 105.0000 mm): Value field of U5 (Daisy Seed)
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(146.0000 mm, 103.5700 mm): Reference field of R2
+    @(146.0000 mm, 105.0000 mm): Value field of U5 (Daisy Seed)
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(140.0000 mm, 103.8400 mm): Reference field of C11
+    @(139.5900 mm, 103.8400 mm): Segment of U5 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(140.0000 mm, 103.8400 mm): Reference field of C11
+    @(88.6700 mm, 103.8400 mm): Segment of U5 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(120.2500 mm, 82.5000 mm): Value field of U1 (DC-DC ISO)
+    @(115.1100 mm, 82.5900 mm): Segment of U1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(121.3500 mm, 82.5900 mm): Segment of U1 on F.Silkscreen
+    @(120.2500 mm, 82.5000 mm): Value field of U1 (DC-DC ISO)
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(115.5100 mm, 63.1406 mm): Segment of C5 on F.Silkscreen
+    @(121.3500 mm, 62.8500 mm): Segment of U1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(157.5000 mm, 87.5700 mm): Reference field of R4
+    @(158.5700 mm, 87.0000 mm): Reference field of R6
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(142.6544 mm, 129.4100 mm): Segment of C1 on F.Silkscreen
+    @(145.0000 mm, 129.6500 mm): Reference field of C3
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(146.0000 mm, 105.0000 mm): Value field of U5 (Daisy Seed)
+    @(146.8250 mm, 105.0000 mm): Pad 2 [receiver.r_rf_minus-vcc] of R2 on F.Cu
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(88.6100 mm, 106.3300 mm): Rectangle of U5 on F.Silkscreen
+    @(139.5200 mm, 105.0000 mm): Pad 1 [receiver.r_rf_minus-vcc] of C11 on F.Cu
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(115.1100 mm, 62.8500 mm): Segment of U1 on F.Silkscreen
+    @(115.0000 mm, 63.7750 mm): Pad 1 [daisy_5v_power] of C5 on F.Cu
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(158.5700 mm, 87.0000 mm): Reference field of R6
+    @(158.3250 mm, 86.0000 mm): Pad 2 [in_minus_1] of R3 on F.Cu
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(168.5700 mm, 93.0000 mm): Reference field of C25
+    @(167.4750 mm, 91.9050 mm): Pad 5 [v_bias_2v5] of U3 on F.Cu
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(183.5700 mm, 150.0000 mm): Reference field of C4
+    @(182.0000 mm, 150.0000 mm): Pad 2 [<no net>] of D2 on F.Cu
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(183.5700 mm, 145.0000 mm): Reference field of C2
+    @(182.0000 mm, 145.0000 mm): Pad 2 [<no net>] of D1 on F.Cu
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(172.2627 mm, 86.5225 mm): Segment of R5 on F.Silkscreen
+    @(173.0000 mm, 86.2250 mm): Pad 2 [in_minus_2] of C18 on F.Cu
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(171.5700 mm, 87.0000 mm): Reference field of C18
+    @(171.6750 mm, 86.0000 mm): Pad 1 [daisy_audio_out] of R5 on F.Cu
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(168.5700 mm, 108.1000 mm): Reference field of C15
+    @(167.4750 mm, 108.0950 mm): Pad 8 [v_plus] of U2 on F.Cu
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(168.5700 mm, 108.1000 mm): Reference field of C15
+    @(167.4750 mm, 109.3650 mm): Pad 7 [audio_out] of U2 on F.Cu
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(168.5700 mm, 111.2700 mm): Reference field of C14
+    @(167.4750 mm, 110.6350 mm): Pad 6 [cm] of U2 on F.Cu
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(168.5700 mm, 111.2700 mm): Reference field of C14
+    @(167.4750 mm, 111.9050 mm): Pad 5 [sm] of U2 on F.Cu
+
+** Found 2 unconnected pads **
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(153.0000 mm, 86.2250 mm): Via [gnd] on F.Cu - B.Cu
+    @(154.7122 mm, 71.9050 mm): Track [gnd] on F.Cu, length 7.8128 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(174.3026 mm, 92.2250 mm): Track [gnd] on F.Cu, length 22.3462 mm
+    @(170.0000 mm, 92.2250 mm): Pad 2 [gnd] of C25 on F.Cu
+
+** Found 0 Footprint errors **
+
+** Ignored checks **
+    - Footprint has no courtyard defined
+    - Track endpoint not centered on via
+    - Tuning profile track geometries
+    - Footprint doesn't match symbol's footprint filters
+    - Footprint component type doesn't match footprint pads
+
+** End of Report **
