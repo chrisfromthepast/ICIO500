@@ -10,6 +10,7 @@ print("Loading board...")
 board = pcbnew.LoadBoard(board_path)
 
 print("Exporting DSN...")
+board.BuildConnectivity()
 pcbnew.ExportSpecctraDSN(board, dsn_path)
 
 print("Running FreeRouting...")
