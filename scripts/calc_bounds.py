@@ -25,7 +25,7 @@ def get_bounds(board, refs):
 
 def main():
     pcb_path = os.path.join(
-        os.path.dirname(os.path.abspath(__file__)),
+        os.getcwd(),
         "build", "icio500", "icio500.kicad_pcb"
     )
     board = pcbnew.LoadBoard(pcb_path)
