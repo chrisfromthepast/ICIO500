@@ -4,6 +4,9 @@ import That1200Stage from "that1200_stage.ato"
 import DaisyActiveScaling from "level_shifter.ato"
 import That1646Stage from "that1600_stage.ato"
 import Capacitor from "generics/capacitors.ato"
+import Resistor from "generics/resistors.ato"
+import Seed2DFM from "seed2dfm.ato"
+import RibbonHeader20 from "faceplate.ato"
 
 # Simple SPST switch component for GPIO toggles
 component SPST_Switch:
@@ -31,20 +34,29 @@ component DaisySeed:
     # Pin 31 = Audio Out L, Pin 32 = Audio Out R, Pin 33 = Audio In L, Pin 34 = Audio In R
     # Pin 38 = 3v3 analog, Pin 39 = VIN, Pin 40 = DGND.
     # We will just map the nets to the component signals.
-    signal VIN_5V
-    signal GND_Digital
-    signal Audio_In
-    signal Audio_Out
-    signal GPIO_Noise
-    signal GPIO_Bypass
+    signal VIN_5V ~ pin 39
+    signal GND_Digital ~ DGND
+    signal Audio_In ~ Audio_In_L
+    signal Audio_Out ~ Audio_Out_L
     
-    # Connect generic signals to the pins we're using
-    VIN_5V ~ pin 39
-    GND_Digital ~ DGND
-    Audio_In ~ Audio_In_L
-    Audio_Out ~ Audio_Out_L
-    GPIO_Noise ~ D13
-    GPIO_Bypass ~ D14
+    # 3.3V Digital Output (to power faceplate logic)
+    signal VOUT_3V3 ~ pin 38
+    
+    # Faceplate Digital Interconnect
+    signal I2C1_SCL ~ pin 11
+    signal I2C1_SDA ~ pin 12
+    signal GPIO_CAP_INT ~ pin 15
+    signal GPIO_ENC_A ~ pin 16
+    signal GPIO_ENC_B ~ pin 17
+    signal GPIO_ENC_SW ~ pin 18
+    
+    # SPI Expansion (For future OLED screens)
+    signal SPI1_SCK ~ pin 8
+    signal SPI1_MISO ~ pin 9
+    signal SPI1_MOSI ~ pin 10
+    signal SPI1_CS ~ pin 7
+    signal GPIO_DISP_DC ~ pin 6
+    signal GPIO_DISP_RES ~ pin 5
 
 module VprCarrier500:
     # 1. Instantiate all hardware sub-modules
@@ -53,7 +65,10 @@ module VprCarrier500:
     receiver = new That1200Stage
     scaling = new DaisyActiveScaling
     driver = new That1646Stage
+    
+    # The Dual-Footprint Architecture
     daisy = new DaisySeed
+    dfm = new Seed2DFM
 
     # 2. Route VPR Power from Edge to PowerSupply
     edge.V_PLUS_16V ~ power.V_Plus_16V_In
@@ -88,15 +103,38 @@ module VprCarrier500:
     # THAT 1200 Output -> Op-Amp Attenuator (Half A)
     receiver.Audio_Out ~ scaling.Audio_In_From_1200
 
-    # Op-Amp Attenuator (Half A) -> Daisy Seed Header
+    # Op-Amp Attenuator (Half A) -> Dual Footprint Inputs
     signal Daisy_Audio_In
     scaling.Audio_Out_To_Daisy ~ Daisy_Audio_In
     Daisy_Audio_In ~ daisy.Audio_In
+    Daisy_Audio_In ~ dfm.Audio_In_L
+    
+    # Dual-Footprint Analog Output Routing (0-Ohm Jumper Matrix)
+    # Populate either the Daisy jumpers OR the DFM jumpers during assembly!
+    
+    jumper_daisy_plus = new Resistor
+    jumper_daisy_plus.value = 0ohm
+    
+    jumper_daisy_minus = new Resistor
+    jumper_daisy_minus.value = 0ohm
+    
+    jumper_dfm_plus = new Resistor
+    jumper_dfm_plus.value = 0ohm
+    
+    jumper_dfm_minus = new Resistor
+    jumper_dfm_minus.value = 0ohm
 
-    # Daisy Seed Header -> Op-Amp Boost (Half B)
-    signal Daisy_Audio_Out
-    Daisy_Audio_Out ~ scaling.Audio_In_From_Daisy
-    Daisy_Audio_Out ~ daisy.Audio_Out
+    # Path A: Standard Daisy Seed (Single Ended)
+    daisy.Audio_Out ~ jumper_daisy_plus.p1
+    jumper_daisy_plus.p2 ~ scaling.Audio_In_From_Daisy_Plus
+    power.GND_Audio ~ jumper_daisy_minus.p1
+    jumper_daisy_minus.p2 ~ scaling.Audio_In_From_Daisy_Minus
+
+    # Path B: Seed2 DFM (Differential)
+    dfm.Audio_Out_L_Plus ~ jumper_dfm_plus.p1
+    jumper_dfm_plus.p2 ~ scaling.Audio_In_From_Daisy_Plus
+    dfm.Audio_Out_L_Minus ~ jumper_dfm_minus.p1
+    jumper_dfm_minus.p2 ~ scaling.Audio_In_From_Daisy_Minus
 
     # Op-Amp Boost (Half B) -> THAT 1646 Input
     scaling.Audio_Out_To_1646 ~ driver.Audio_In
@@ -105,30 +143,60 @@ module VprCarrier500:
     driver.Line_Out_Plus ~ edge.OUT_PLUS_4dBu
     driver.Line_Out_Minus ~ edge.OUT_MINUS
 
-    # 5. Expose Power for the Daisy Seed Header
+    # 5. Expose Power for the Dual-Footprint logic
     signal Daisy_5V_Power
     power.V_Plus_5V ~ Daisy_5V_Power
     
     Daisy_5V_Power ~ daisy.VIN_5V
+    Daisy_5V_Power ~ dfm.VIN_5V
+    
     power.GND_Audio ~ daisy.GND_Digital
+    power.GND_Audio ~ dfm.GND_Digital
+    power.GND_Audio ~ dfm.GND_Analog
 
-    # 6. Define Daisy GPIO signal nets for the physical switches
-    signal Daisy_D13  # Pink Noise Toggle (Active Low)
-    signal Daisy_D14  # Hard Bypass Toggle (Active Low)
-
-    # 7. Instantiate physical SPST switches for GPIO diagnostics
-    switch_noise = new SPST_Switch
-    switch_bypass = new SPST_Switch
-
-    # Connect Pink Noise switch to Daisy_D13 and GND
-    switch_noise.pin1 ~ Daisy_D13
-    switch_noise.pin2 ~ power.GND_Audio
-    Daisy_D13 ~ daisy.GPIO_Noise
-
-    # Connect Hard Bypass switch to Daisy_D14 and GND
-    switch_bypass.pin1 ~ Daisy_D14
-    switch_bypass.pin2 ~ power.GND_Audio
-    Daisy_D14 ~ daisy.GPIO_Bypass
+    # -----------------------------------
+    # Interconnect to Faceplate Daughterboard
+    # -----------------------------------
+    faceplate_conn = new RibbonHeader20
+    
+    # Noise Mitigated Interleaved Pinout
+    power.V_Plus_5V ~ faceplate_conn.P1
+    daisy.VOUT_3V3 ~ faceplate_conn.P2
+    
+    power.GND_Audio ~ faceplate_conn.P3  # GND Barrier
+    daisy.I2C1_SDA ~ faceplate_conn.P4
+    power.GND_Audio ~ faceplate_conn.P5  # GND Barrier
+    daisy.I2C1_SCL ~ faceplate_conn.P6
+    power.GND_Audio ~ faceplate_conn.P7  # GND Barrier
+    daisy.GPIO_CAP_INT ~ faceplate_conn.P8
+    
+    daisy.GPIO_ENC_A ~ faceplate_conn.P9
+    daisy.GPIO_ENC_B ~ faceplate_conn.P10
+    daisy.GPIO_ENC_SW ~ faceplate_conn.P11
+    
+    # Future Expansion / SPI Bus
+    daisy.SPI1_MOSI ~ faceplate_conn.P12
+    daisy.SPI1_MISO ~ faceplate_conn.P13
+    daisy.SPI1_SCK ~ faceplate_conn.P14
+    daisy.SPI1_CS ~ faceplate_conn.P15
+    daisy.GPIO_DISP_DC ~ faceplate_conn.P16
+    daisy.GPIO_DISP_RES ~ faceplate_conn.P17
+    
+    # Parallel map all DFM digital pins to the Daisy pins
+    # Since only one module is populated, they can safely share the bus!
+    dfm.VOUT_3V3 ~ daisy.VOUT_3V3
+    dfm.I2C1_SDA ~ daisy.I2C1_SDA
+    dfm.I2C1_SCL ~ daisy.I2C1_SCL
+    dfm.GPIO_CAP_INT ~ daisy.GPIO_CAP_INT
+    dfm.GPIO_ENC_A ~ daisy.GPIO_ENC_A
+    dfm.GPIO_ENC_B ~ daisy.GPIO_ENC_B
+    dfm.GPIO_ENC_SW ~ daisy.GPIO_ENC_SW
+    dfm.SPI1_MOSI ~ daisy.SPI1_MOSI
+    dfm.SPI1_MISO ~ daisy.SPI1_MISO
+    dfm.SPI1_SCK ~ daisy.SPI1_SCK
+    dfm.SPI1_CS ~ daisy.SPI1_CS
+    dfm.GPIO_DISP_DC ~ daisy.GPIO_DISP_DC
+    dfm.GPIO_DISP_RES ~ daisy.GPIO_DISP_RES
 
     # 8. Bulk Capacitance for Digital and Analog Rails
     # c27: 220uF Bulk for Daisy Seed VIN

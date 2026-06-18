@@ -1,0 +1,35 @@
+component Seed2DFM:
+    # High-Density Design-For-Manufacture (DFM) Daisy Module
+    footprint = "Module:Daisy_Seed2_DFM"
+    
+    # Power
+    signal VIN_5V ~ pin 1
+    signal VOUT_3V3 ~ pin 2
+    signal GND_Digital ~ pin 3
+    signal GND_Analog ~ pin 4
+    
+    # Differential Audio Outputs (Improved DAC)
+    signal Audio_Out_L_Plus ~ pin 10
+    signal Audio_Out_L_Minus ~ pin 11
+    signal Audio_Out_R_Plus ~ pin 12
+    signal Audio_Out_R_Minus ~ pin 13
+    
+    # Single-Ended Audio Inputs
+    signal Audio_In_L ~ pin 20
+    signal Audio_In_R ~ pin 21
+    
+    # Digital Logic Bus
+    signal I2C1_SCL ~ pin 30
+    signal I2C1_SDA ~ pin 31
+    signal GPIO_CAP_INT ~ pin 32
+    signal GPIO_ENC_A ~ pin 33
+    signal GPIO_ENC_B ~ pin 34
+    signal GPIO_ENC_SW ~ pin 35
+    
+    # SPI Expansion
+    signal SPI1_SCK ~ pin 40
+    signal SPI1_MISO ~ pin 41
+    signal SPI1_MOSI ~ pin 42
+    signal SPI1_CS ~ pin 43
+    signal GPIO_DISP_DC ~ pin 44
+    signal GPIO_DISP_RES ~ pin 45
