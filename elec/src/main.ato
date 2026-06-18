@@ -3,6 +3,7 @@ import PowerSupply from "psu.ato"
 import That1200Stage from "that1200_stage.ato"
 import DaisyActiveScaling from "level_shifter.ato"
 import That1646Stage from "that1600_stage.ato"
+import Capacitor from "generics/capacitors.ato"
 
 # Simple SPST switch component for GPIO toggles
 component SPST_Switch:
@@ -128,3 +129,22 @@ module VprCarrier500:
     switch_bypass.pin1 ~ Daisy_D14
     switch_bypass.pin2 ~ power.GND_Audio
     Daisy_D14 ~ daisy.GPIO_Bypass
+
+    # 8. Bulk Capacitance for Digital and Analog Rails
+    # c27: 220uF Bulk for Daisy Seed VIN
+    c27 = new Capacitor; c27.value = 220uF
+    c27.footprint = "Capacitor_SMD:CP_Elec_6.3x5.4"
+    c27.mpn = "C72494"
+    Daisy_5V_Power ~ c27.p1; c27.p2 ~ power.GND_Audio
+
+    # c28: 220uF Bulk for +16V Analog
+    c28 = new Capacitor; c28.value = 220uF
+    c28.footprint = "Capacitor_SMD:CP_Elec_6.3x5.4"
+    c28.mpn = "C72494"
+    power.V_Plus_Analog ~ c28.p1; c28.p2 ~ power.GND_Audio
+
+    # c29: 220uF Bulk for -16V Analog
+    c29 = new Capacitor; c29.value = 220uF
+    c29.footprint = "Capacitor_SMD:CP_Elec_6.3x5.4"
+    c29.mpn = "C72494"
+    power.V_Minus_Analog ~ c29.p1; c29.p2 ~ power.GND_Audio
