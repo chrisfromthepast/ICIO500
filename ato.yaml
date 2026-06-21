@@ -5,5 +5,7 @@ description: Transformer-less line in and line out prototyping platform for API 
 builds:
   default:
     entry: elec/src/main.ato:VprCarrier500
+  faceplate:
+    entry: elec/src/faceplate.ato:Faceplate
 dependencies:
   - generics

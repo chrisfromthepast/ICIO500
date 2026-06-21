@@ -37,10 +37,15 @@ module That1646Stage:
 
     GND ~ ic.GND
 
+    # THAT1646 datasheet: 10uF bipolar (non-polarized) electrolytic, servo feedback caps
     c_ext_plus = new Capacitor; c_ext_plus.value = 10uF
+    c_ext_plus.footprint = "Capacitor_SMD:CP_Elec_5x5.4"
+    c_ext_plus.mpn = "UWT1C100MCL1GS"
     ic.Out_Plus ~ c_ext_plus.p1; c_ext_plus.p2 ~ ic.Sense_Plus
 
     c_ext_minus = new Capacitor; c_ext_minus.value = 10uF
+    c_ext_minus.footprint = "Capacitor_SMD:CP_Elec_5x5.4"
+    c_ext_minus.mpn = "UWT1C100MCL1GS"
     ic.Out_Minus ~ c_ext_minus.p1; c_ext_minus.p2 ~ ic.Sense_Minus
 
     r_zobel_plus = new Resistor; r_zobel_plus.value = 10ohm

@@ -59,6 +59,11 @@ component LED:
     signal anode ~ pin 1
     signal cathode ~ pin 2
 
+component DSeriesConnector:
+    footprint = "ICIO500:Neutrik_D_Series_PanelCutout"
+    signal chassis1 ~ pin 1
+    signal chassis2 ~ pin 2
+
 module Faceplate:
     # -----------------------------------
     # Interconnect: 20-Pin Ribbon Header
@@ -150,10 +155,20 @@ module Faceplate:
     # -----------------------------------
     # Local bulk capacitance for LED transient switching
     c_bulk_5v = new Capacitor; c_bulk_5v.value = 100uF; c_bulk_5v.footprint = "Capacitor_SMD:CP_Elec_6.3x5.4"
+    c_bulk_5v.mpn = "C72494"
     V_5V ~ c_bulk_5v.p1; c_bulk_5v.p2 ~ GND
     
     # Local filtering for Logic/CapTouch
     c_bulk_3v3 = new Capacitor; c_bulk_3v3.value = 100uF; c_bulk_3v3.footprint = "Capacitor_SMD:CP_Elec_6.3x5.4"
+    c_bulk_3v3.mpn = "C72494"
     c_dec_3v3 = new Capacitor; c_dec_3v3.value = 100nF; c_dec_3v3.footprint = "Capacitor_SMD:C_0603_1608Metric"
+    c_dec_3v3.mpn = "C14663"
     V_3V3 ~ c_bulk_3v3.p1; c_bulk_3v3.p2 ~ GND
     V_3V3 ~ c_dec_3v3.p1; c_dec_3v3.p2 ~ GND
+
+    # -----------------------------------
+    # D-Series Connector Cutout (Bottom)
+    # -----------------------------------
+    d_series = new DSeriesConnector
+    GND ~ d_series.chassis1
+    GND ~ d_series.chassis2
