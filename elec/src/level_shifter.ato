@@ -24,7 +24,6 @@ module DaisyActiveScaling:
     signal V_Plus
     signal V_Minus
     signal GND
-    signal V_Bias
 
     c_bypass_p = new Capacitor; c_bypass_p.value = 100nF
     c_bypass_m = new Capacitor; c_bypass_m.value = 100nF
@@ -34,23 +33,23 @@ module DaisyActiveScaling:
     V_Minus ~ ic.V_Minus
 
     # Half A: Active Input Attenuation (Inverting)
-    r_in_series = new Resistor; r_in_series.value = 22kohm
-    r_in_feedback = new Resistor; r_in_feedback.value = 10kohm
+    r_in_series = new Resistor; r_in_series.value = 22kohm; r_in_series.package = "0603"; r_in_series.designator = "R3"
+    r_in_feedback = new Resistor; r_in_feedback.value = 10kohm; r_in_feedback.package = "0603"; r_in_feedback.designator = "R4"
     c_in_filter = new Capacitor; c_in_filter.value = 47pF
 
     Audio_In_From_1200 ~ r_in_series.p1; r_in_series.p2 ~ ic.In_Minus_1
     ic.Out_1 ~ r_in_feedback.p1; r_in_feedback.p2 ~ ic.In_Minus_1
     ic.Out_1 ~ c_in_filter.p1; c_in_filter.p2 ~ ic.In_Minus_1
-    V_Bias ~ ic.In_Plus_1
+    GND ~ ic.In_Plus_1
     ic.Out_1 ~ Audio_Out_To_Daisy
 
     # Half B: Output Gain Stage (True Differential Receiver)
-    r_out_series_m = new Resistor; r_out_series_m.value = 10kohm
-    r_out_feedback = new Resistor; r_out_feedback.value = 22kohm
+    r_out_series_m = new Resistor; r_out_series_m.value = 10kohm; r_out_series_m.package = "0603"; r_out_series_m.designator = "R5"
+    r_out_feedback = new Resistor; r_out_feedback.value = 22kohm; r_out_feedback.package = "0603"; r_out_feedback.designator = "R6"
     c_out_filter = new Capacitor; c_out_filter.value = 47pF
     
-    r_out_series_p = new Resistor; r_out_series_p.value = 10kohm
-    r_out_bias = new Resistor; r_out_bias.value = 22kohm
+    r_out_series_p = new Resistor; r_out_series_p.value = 10kohm; r_out_series_p.package = "0603"; r_out_series_p.designator = "R7"
+    r_out_bias = new Resistor; r_out_bias.value = 22kohm; r_out_bias.package = "0603"; r_out_bias.designator = "R8"
 
     # Inverting path
     Audio_In_From_Daisy_Minus ~ r_out_series_m.p1; r_out_series_m.p2 ~ ic.In_Minus_2
@@ -59,5 +58,5 @@ module DaisyActiveScaling:
     
     # Non-inverting path (Difference Amp)
     Audio_In_From_Daisy_Plus ~ r_out_series_p.p1; r_out_series_p.p2 ~ ic.In_Plus_2
-    V_Bias ~ r_out_bias.p1; r_out_bias.p2 ~ ic.In_Plus_2
+    GND ~ r_out_bias.p1; r_out_bias.p2 ~ ic.In_Plus_2
     ic.Out_2 ~ Audio_Out_To_1646

@@ -1,5 +1,6 @@
 import Capacitor from "generics/capacitors.ato"
 import Resistor from "generics/resistors.ato"
+import Diode from "generics/diodes.ato"
 
 component That1646:
     footprint = "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm"
@@ -55,6 +56,29 @@ module That1646Stage:
     r_zobel_minus = new Resistor; r_zobel_minus.value = 10ohm
     c_zobel_minus = new Capacitor; c_zobel_minus.value = 100nF
     ic.Out_Minus ~ r_zobel_minus.p1; r_zobel_minus.p2 ~ c_zobel_minus.p1; c_zobel_minus.p2 ~ GND
+
+    # Phantom Power Output Protection
+    d_clamp_out_p_vplus = new Diode
+    d_clamp_out_p_vplus.footprint = "Diode_SMD:D_SOD-123"
+    d_clamp_out_p_vplus.mpn = "C57759"
+    d_clamp_out_p_vplus.designator = "D7"
+    d_clamp_out_p_vminus = new Diode
+    d_clamp_out_p_vminus.footprint = "Diode_SMD:D_SOD-123"
+    d_clamp_out_p_vminus.mpn = "C57759"
+    d_clamp_out_p_vminus.designator = "D8"
+    d_clamp_out_m_vplus = new Diode
+    d_clamp_out_m_vplus.footprint = "Diode_SMD:D_SOD-123"
+    d_clamp_out_m_vplus.mpn = "C57759"
+    d_clamp_out_m_vplus.designator = "D9"
+    d_clamp_out_m_vminus = new Diode
+    d_clamp_out_m_vminus.footprint = "Diode_SMD:D_SOD-123"
+    d_clamp_out_m_vminus.mpn = "C57759"
+    d_clamp_out_m_vminus.designator = "D10"
+
+    Line_Out_Plus ~ d_clamp_out_p_vplus.anode; d_clamp_out_p_vplus.cathode ~ V_Plus
+    V_Minus ~ d_clamp_out_p_vminus.anode; d_clamp_out_p_vminus.cathode ~ Line_Out_Plus
+    Line_Out_Minus ~ d_clamp_out_m_vplus.anode; d_clamp_out_m_vplus.cathode ~ V_Plus
+    V_Minus ~ d_clamp_out_m_vminus.anode; d_clamp_out_m_vminus.cathode ~ Line_Out_Minus
 
     ic.In ~ Audio_In
     ic.Out_Plus ~ Line_Out_Plus

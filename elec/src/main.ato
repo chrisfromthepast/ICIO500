@@ -90,11 +90,6 @@ module VprCarrier500:
     power.V_Minus_Analog ~ driver.V_Minus
     power.GND_Audio ~ driver.GND
 
-    # Define a generic 2.5V bias net for the Daisy scaling op-amps
-    # (You would tie this to a simple voltage divider off the 5V rail)
-    signal V_Bias_2v5
-    V_Bias_2v5 ~ scaling.V_Bias
-
     # 4. Route the Full Audio Signal Path
     # Rack Edge -> THAT 1200 Input
     edge.IN_PLUS_4dBu ~ receiver.Audio_In_Plus
