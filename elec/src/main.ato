@@ -5,7 +5,6 @@ import DaisyActiveScaling from "level_shifter.ato"
 import That1646Stage from "that1600_stage.ato"
 import Capacitor from "generics/capacitors.ato"
 import Resistor from "generics/resistors.ato"
-import Seed2DFM from "seed2dfm.ato"
 import RibbonHeader20 from "faceplate.ato"
 
 # Simple SPST switch component for GPIO toggles
@@ -66,9 +65,8 @@ module VprCarrier500:
     scaling = new DaisyActiveScaling
     driver = new That1646Stage
     
-    # The Dual-Footprint Architecture
+    # The Dual-Footprint Architecture (Now just Daisy Seed)
     daisy = new DaisySeed
-    dfm = new Seed2DFM
 
     # 2. Route VPR Power from Edge to PowerSupply
     edge.V_PLUS_16V ~ power.V_Plus_16V_In
@@ -102,34 +100,10 @@ module VprCarrier500:
     signal Daisy_Audio_In
     scaling.Audio_Out_To_Daisy ~ Daisy_Audio_In
     Daisy_Audio_In ~ daisy.Audio_In
-    Daisy_Audio_In ~ dfm.Audio_In_L
     
-    # Dual-Footprint Analog Output Routing (0-Ohm Jumper Matrix)
-    # Populate either the Daisy jumpers OR the DFM jumpers during assembly!
-    
-    jumper_daisy_plus = new Resistor
-    jumper_daisy_plus.value = 0ohm
-    
-    jumper_daisy_minus = new Resistor
-    jumper_daisy_minus.value = 0ohm
-    
-    jumper_dfm_plus = new Resistor
-    jumper_dfm_plus.value = 0ohm
-    
-    jumper_dfm_minus = new Resistor
-    jumper_dfm_minus.value = 0ohm
-
-    # Path A: Standard Daisy Seed (Single Ended)
-    daisy.Audio_Out ~ jumper_daisy_plus.p1
-    jumper_daisy_plus.p2 ~ scaling.Audio_In_From_Daisy_Plus
-    power.GND_Audio ~ jumper_daisy_minus.p1
-    jumper_daisy_minus.p2 ~ scaling.Audio_In_From_Daisy_Minus
-
-    # Path B: Seed2 DFM (Differential)
-    dfm.Audio_Out_L_Plus ~ jumper_dfm_plus.p1
-    jumper_dfm_plus.p2 ~ scaling.Audio_In_From_Daisy_Plus
-    dfm.Audio_Out_L_Minus ~ jumper_dfm_minus.p1
-    jumper_dfm_minus.p2 ~ scaling.Audio_In_From_Daisy_Minus
+    # Daisy Seed Analog Output Routing (Direct)
+    daisy.Audio_Out ~ scaling.Audio_In_From_Daisy_Plus
+    power.GND_Audio ~ scaling.Audio_In_From_Daisy_Minus
 
     # Op-Amp Boost (Half B) -> THAT 1646 Input
     scaling.Audio_Out_To_1646 ~ driver.Audio_In
@@ -143,11 +117,8 @@ module VprCarrier500:
     power.V_Plus_5V ~ Daisy_5V_Power
     
     Daisy_5V_Power ~ daisy.VIN_5V
-    Daisy_5V_Power ~ dfm.VIN_5V
     
     power.GND_Audio ~ daisy.GND_Digital
-    power.GND_Audio ~ dfm.GND_Digital
-    power.GND_Audio ~ dfm.GND_Analog
 
     # -----------------------------------
     # Interconnect to Faceplate Daughterboard
@@ -176,22 +147,6 @@ module VprCarrier500:
     daisy.SPI1_CS ~ faceplate_conn.P15
     daisy.GPIO_DISP_DC ~ faceplate_conn.P16
     daisy.GPIO_DISP_RES ~ faceplate_conn.P17
-    
-    # Parallel map all DFM digital pins to the Daisy pins
-    # Since only one module is populated, they can safely share the bus!
-    dfm.VOUT_3V3 ~ daisy.VOUT_3V3
-    dfm.I2C1_SDA ~ daisy.I2C1_SDA
-    dfm.I2C1_SCL ~ daisy.I2C1_SCL
-    dfm.GPIO_CAP_INT ~ daisy.GPIO_CAP_INT
-    dfm.GPIO_ENC_A ~ daisy.GPIO_ENC_A
-    dfm.GPIO_ENC_B ~ daisy.GPIO_ENC_B
-    dfm.GPIO_ENC_SW ~ daisy.GPIO_ENC_SW
-    dfm.SPI1_MOSI ~ daisy.SPI1_MOSI
-    dfm.SPI1_MISO ~ daisy.SPI1_MISO
-    dfm.SPI1_SCK ~ daisy.SPI1_SCK
-    dfm.SPI1_CS ~ daisy.SPI1_CS
-    dfm.GPIO_DISP_DC ~ daisy.GPIO_DISP_DC
-    dfm.GPIO_DISP_RES ~ daisy.GPIO_DISP_RES
 
     # 8. Bulk Capacitance for Digital and Analog Rails
     # c27: 220uF Bulk for Daisy Seed VIN
