@@ -24,16 +24,12 @@ module That1646Stage:
     signal V_Minus
     signal GND
 
-    c_bypass_p_bulk = new Capacitor; c_bypass_p_bulk.value = 10uF
-    c_bypass_p_cer = new Capacitor; c_bypass_p_cer.value = 100nF
-    V_Plus ~ c_bypass_p_bulk.p1; c_bypass_p_bulk.p2 ~ GND
-    V_Plus ~ c_bypass_p_cer.p1; c_bypass_p_cer.p2 ~ GND
+    c_bypass_p = new Capacitor; c_bypass_p.value = 1uF
+    V_Plus ~ c_bypass_p.p1; c_bypass_p.p2 ~ GND
     V_Plus ~ ic.V_Plus
 
-    c_bypass_m_bulk = new Capacitor; c_bypass_m_bulk.value = 10uF
-    c_bypass_m_cer = new Capacitor; c_bypass_m_cer.value = 100nF
-    V_Minus ~ c_bypass_m_bulk.p1; c_bypass_m_bulk.p2 ~ GND
-    V_Minus ~ c_bypass_m_cer.p1; c_bypass_m_cer.p2 ~ GND
+    c_bypass_m = new Capacitor; c_bypass_m.value = 1uF
+    V_Minus ~ c_bypass_m.p1; c_bypass_m.p2 ~ GND
     V_Minus ~ ic.V_Minus
 
     GND ~ ic.GND
