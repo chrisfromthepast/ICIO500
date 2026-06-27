@@ -23,6 +23,11 @@ component CAP1188:
     signal CS1 ~ pin 1
     signal CS2 ~ pin 2
     signal CS3 ~ pin 3
+    signal CS4 ~ pin 4
+    signal CS5 ~ pin 5
+    signal CS6 ~ pin 6
+    signal CS7 ~ pin 7
+    signal CS8 ~ pin 8
 
 component IlluminatedEncoder:
     # Rotary Encoder with Pushbutton and internal RGB LED (Clear Shaft)
@@ -55,14 +60,32 @@ component RibbonHeader20:
     signal P19 ~ pin 19; signal P20 ~ pin 20
 
 component LED:
-    footprint = "LED_SMD:LED_0603_1608Metric"
+    footprint = "lib:LED_0603_1608Metric"
     signal anode ~ pin 1
     signal cathode ~ pin 2
 
 component DSeriesConnector:
-    footprint = "ICIO500:Neutrik_D_Series_PanelCutout"
+    footprint = "lib:Neutrik_D_Series_PanelCutout"
     signal chassis1 ~ pin 1
     signal chassis2 ~ pin 2
+
+component InterconnectHeader:
+    # Board-to-board 2x7 header bridging Panel to Logic
+    footprint = "Connector_PinHeader_2.54mm:PinHeader_2x07_P2.54mm_Vertical"
+    signal V_3V3 ~ pin 1
+    signal GND ~ pin 2
+    signal I2C_SDA ~ pin 3
+    signal I2C_SCL ~ pin 4
+    signal CAP_INT ~ pin 5
+    signal V_5V ~ pin 6
+    signal LED1 ~ pin 7
+    signal LED2 ~ pin 8
+    signal LED3 ~ pin 9
+    signal LED4 ~ pin 10
+    signal LED5 ~ pin 11
+    signal LED6 ~ pin 12
+    signal LED7 ~ pin 13
+    signal GND2 ~ pin 14
 
 module Faceplate:
     # -----------------------------------
@@ -95,6 +118,28 @@ module Faceplate:
     # P18, P19, P20 remaining empty/reserved
     
     # -----------------------------------
+    # Board-to-Board Interconnects
+    # -----------------------------------
+    header_panel = new InterconnectHeader
+    header_logic = new InterconnectHeader
+    
+    V_3V3 ~ header_panel.V_3V3; V_3V3 ~ header_logic.V_3V3
+    GND ~ header_panel.GND; GND ~ header_logic.GND
+    I2C_SDA ~ header_panel.I2C_SDA; I2C_SDA ~ header_logic.I2C_SDA
+    I2C_SCL ~ header_panel.I2C_SCL; I2C_SCL ~ header_logic.I2C_SCL
+    CAP_INT ~ header_panel.CAP_INT; CAP_INT ~ header_logic.CAP_INT
+    V_5V ~ header_panel.V_5V; V_5V ~ header_logic.V_5V
+    GND ~ header_panel.GND2; GND ~ header_logic.GND2
+    
+    cap_ic.LED1 ~ header_panel.LED1; cap_ic.LED1 ~ header_logic.LED1
+    cap_ic.LED2 ~ header_panel.LED2; cap_ic.LED2 ~ header_logic.LED2
+    cap_ic.LED3 ~ header_panel.LED3; cap_ic.LED3 ~ header_logic.LED3
+    cap_ic.LED4 ~ header_panel.LED4; cap_ic.LED4 ~ header_logic.LED4
+    cap_ic.LED5 ~ header_panel.LED5; cap_ic.LED5 ~ header_logic.LED5
+    cap_ic.LED6 ~ header_panel.LED6; cap_ic.LED6 ~ header_logic.LED6
+    cap_ic.LED7 ~ header_panel.LED7; cap_ic.LED7 ~ header_logic.LED7
+    
+    # -----------------------------------
     # Cap Touch & LED Controller (CAP1188)
     # -----------------------------------
     cap_ic = new CAP1188
@@ -103,6 +148,12 @@ module Faceplate:
     I2C_SDA ~ cap_ic.SDA
     I2C_SCL ~ cap_ic.SCL
     CAP_INT ~ cap_ic.INT
+    
+    signal TOUCH_MODE ~ cap_ic.CS1
+    signal TOUCH_SYNC ~ cap_ic.CS2
+    signal TOUCH_SEQ ~ cap_ic.CS3
+    signal TOUCH_SHIFT ~ cap_ic.CS4
+    signal TOUCH_TAP ~ cap_ic.CS5
     
     # I2C Pull-ups for robust ribbon transmission
     r_pu_sda = new Resistor; r_pu_sda.value = 2.2kohm

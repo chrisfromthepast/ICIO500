@@ -142,7 +142,7 @@
 		)
 		(path "/03219e30-fcd5-51bd-18ce-04d33dc15545/03219e30-fcd5-51bd-18ce-04d33dc15545")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::receiver.d_clamp_n_vminus")
-		(attr smd)
+		(attr smd dnp)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -2.25 -1)
@@ -857,7 +857,7 @@
 		)
 		(path "/081d2ec3-eb2a-d75d-fb4f-b0d5938e7f3a/081d2ec3-eb2a-d75d-fb4f-b0d5938e7f3a")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::receiver.c_ac_minus")
-		(attr smd)
+		(attr smd dnp)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.14058 -0.51)
@@ -1054,7 +1054,7 @@
 		)
 		(path "/7f3a2583-aba6-089a-3049-35d4022fcd65/7f3a2583-aba6-089a-3049-35d4022fcd65")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::receiver.r_rf_plus")
-		(attr smd)
+		(attr smd dnp)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.237258 0.5225)
@@ -1262,7 +1262,7 @@
 		)
 		(path "/26d7883c-e5c8-2ec2-3d77-7d30f6841664/26d7883c-e5c8-2ec2-3d77-7d30f6841664")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::daisy")
-		(attr through_hole)
+		(attr through_hole dnp)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start 1.16 49.59)
@@ -1848,7 +1848,7 @@
 		)
 		(path "/05697a8a-739f-02bb-1798-84fa6109c55b/05697a8a-739f-02bb-1798-84fa6109c55b")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::scaling.r_out_series_p")
-		(attr smd)
+		(attr smd dnp)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.237258 -0.5225)
@@ -2044,7 +2044,7 @@
 		)
 		(path "/5dc9d11d-ed60-c2ce-a3f4-991ec6adb956/5dc9d11d-ed60-c2ce-a3f4-991ec6adb956")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::driver.d_clamp_out_m_vplus")
-		(attr smd)
+		(attr smd dnp)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -2.25 -1)
@@ -2319,7 +2319,7 @@
 		)
 		(path "/598bad69-c166-81a8-9433-f18324d7c0cc/598bad69-c166-81a8-9433-f18324d7c0cc")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::receiver.c_ac_plus")
-		(attr smd)
+		(attr smd dnp)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.14058 0.51)
@@ -2519,7 +2519,7 @@
 		)
 		(path "/552c62de-8a73-4c68-65df-8504f6c92241/552c62de-8a73-4c68-65df-8504f6c92241")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::edge")
-		(attr through_hole)
+		(attr through_hole dnp)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_text user "CHASSIS"
 			(at -8.316 -23.76 0)
@@ -3226,7 +3226,7 @@
 		)
 		(path "/d900b4cf-e076-dc62-4942-df9aa90861d4/d900b4cf-e076-dc62-4942-df9aa90861d4")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::receiver.d_clamp_p_vminus")
-		(attr smd)
+		(attr smd dnp)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -2.25 1)
@@ -3500,7 +3500,7 @@
 		)
 		(path "/c2c07803-fe49-7615-301d-da83f3bba14d/c2c07803-fe49-7615-301d-da83f3bba14d")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::driver.d_clamp_out_p_vminus")
-		(attr smd)
+		(attr smd dnp)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -2.25 -1)
@@ -3775,7 +3775,7 @@
 		)
 		(path "/35593536-8f95-0b54-624c-6be4e0adf3e7/35593536-8f95-0b54-624c-6be4e0adf3e7")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::driver.c_zobel_minus")
-		(attr smd)
+		(attr smd dnp)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.14058 -0.51)
@@ -3971,7 +3971,7 @@
 		)
 		(path "/73e075f1-4dbd-5831-7a76-39a101344ea0/73e075f1-4dbd-5831-7a76-39a101344ea0")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::driver.c_bypass_p")
-		(attr smd)
+		(attr smd dnp)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.107836 0.36)
@@ -4167,7 +4167,7 @@
 		)
 		(path "/d291dd84-d414-7774-f8c6-7671e69fb7ad/d291dd84-d414-7774-f8c6-7671e69fb7ad")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::driver.r_zobel_plus")
-		(attr smd)
+		(attr smd dnp)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.237258 -0.5225)
@@ -4364,7 +4364,7 @@
 		)
 		(path "/c363bfa7-b176-1e74-cff7-057c3e6df8c4/c363bfa7-b176-1e74-cff7-057c3e6df8c4")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::receiver.c_rf_plus_chas")
-		(attr smd)
+		(attr smd dnp)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.107836 -0.36)
@@ -4573,7 +4573,7 @@
 		)
 		(path "/8a6374e6-52b6-a6db-f3fe-3da47e381bf9/8a6374e6-52b6-a6db-f3fe-3da47e381bf9")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::power.c_bulk_m_elec")
-		(attr smd)
+		(attr smd dnp)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -4.4375 -1.8475)
@@ -5001,7 +5001,7 @@
 		)
 		(path "/ff843693-1f53-e6d7-a64b-d1765225becb/ff843693-1f53-e6d7-a64b-d1765225becb")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::receiver.c_rf")
-		(attr smd)
+		(attr smd dnp)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.107836 -0.36)
@@ -5394,7 +5394,7 @@
 		)
 		(path "/7119f726-687a-ea8f-fa63-1492b36c5c01/7119f726-687a-ea8f-fa63-1492b36c5c01")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::power.c_bulk_m_cer")
-		(attr smd)
+		(attr smd dnp)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.14058 -0.51)
@@ -5590,7 +5590,7 @@
 		)
 		(path "/37854af2-5161-c1a4-f407-7126660ec524/37854af2-5161-c1a4-f407-7126660ec524")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::driver.d_clamp_out_p_vplus")
-		(attr smd)
+		(attr smd dnp)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -2.25 -1)
@@ -5876,7 +5876,7 @@
 		)
 		(path "/46f60a2a-3c3c-de7f-bfee-2627c2b4c4fd/46f60a2a-3c3c-de7f-bfee-2627c2b4c4fd")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::driver.c_ext_minus")
-		(attr smd)
+		(attr smd dnp)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -3.625 -1.685)
@@ -6304,7 +6304,7 @@
 		)
 		(path "/b8b24f57-88d0-7d0b-f38e-5c1b94332e91/b8b24f57-88d0-7d0b-f38e-5c1b94332e91")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::scaling.c_out_filter")
-		(attr smd)
+		(attr smd dnp)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.14058 -0.51)
@@ -6513,7 +6513,7 @@
 		)
 		(path "/bfef5be8-284a-09d0-b053-50f4ea86b5bb/bfef5be8-284a-09d0-b053-50f4ea86b5bb")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::c29")
-		(attr smd)
+		(attr smd dnp)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -4.4375 -1.8475)
@@ -6940,7 +6940,7 @@
 		)
 		(path "/235b8f24-9880-19e8-af23-bbd6fd9efb61/235b8f24-9880-19e8-af23-bbd6fd9efb61")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::driver.r_zobel_minus")
-		(attr smd)
+		(attr smd dnp)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.237258 0.5225)
@@ -7137,7 +7137,7 @@
 		)
 		(path "/9812d643-1a88-6d4e-5a63-b42a802772c1/9812d643-1a88-6d4e-5a63-b42a802772c1")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::receiver.d_clamp_p_vplus")
-		(attr smd)
+		(attr smd dnp)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -2.25 -1)
@@ -7411,7 +7411,7 @@
 		)
 		(path "/de99a298-571e-ec33-5a74-c2f9969d39bb/de99a298-571e-ec33-5a74-c2f9969d39bb")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::driver.ic")
-		(attr smd)
+		(attr smd dnp)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start 0 -2.56)
@@ -7692,7 +7692,7 @@
 		)
 		(path "/55bd8659-597a-0c8b-1a2a-2e3b0186fd62/55bd8659-597a-0c8b-1a2a-2e3b0186fd62")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::scaling.r_out_series_m")
-		(attr smd)
+		(attr smd dnp)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.237258 -0.5225)
@@ -7889,7 +7889,7 @@
 		)
 		(path "/cb6c72b7-36a6-68b7-e6cd-d677e43ac8c3/cb6c72b7-36a6-68b7-e6cd-d677e43ac8c3")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::power.d_protect_p")
-		(attr smd)
+		(attr smd dnp)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -3.4 -1.65)
@@ -8154,7 +8154,7 @@
 		)
 		(path "/1e0912d2-fef6-2847-0298-ee4bdc2d933e/1e0912d2-fef6-2847-0298-ee4bdc2d933e")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::scaling.c_in_filter")
-		(attr smd)
+		(attr smd dnp)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.14058 -0.51)
@@ -8351,7 +8351,7 @@
 		)
 		(path "/1d27bb3c-da64-2dcf-942d-c6b1d19471c9/1d27bb3c-da64-2dcf-942d-c6b1d19471c9")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::receiver.c_bypass_plus")
-		(attr smd)
+		(attr smd dnp)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.14058 -0.51)
@@ -8979,7 +8979,7 @@
 		)
 		(path "/c1edc84a-5968-35ca-f67d-67db42645a41/c1edc84a-5968-35ca-f67d-67db42645a41")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::scaling.r_out_bias")
-		(attr smd)
+		(attr smd dnp)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.237258 -0.5225)
@@ -9176,7 +9176,7 @@
 		)
 		(path "/51e72d32-992f-fe4c-4222-59789e8434d9/51e72d32-992f-fe4c-4222-59789e8434d9")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::receiver.r_rf_minus")
-		(attr smd)
+		(attr smd dnp)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.237258 0.5225)
@@ -9373,7 +9373,7 @@
 		)
 		(path "/4709c7e3-33d5-4994-2639-32c2a399343f/4709c7e3-33d5-4994-2639-32c2a399343f")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::scaling.r_in_series")
-		(attr smd)
+		(attr smd dnp)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.237258 -0.5225)
@@ -9570,7 +9570,7 @@
 		)
 		(path "/7596725b-73e2-fff6-7d61-17563dd95997/7596725b-73e2-fff6-7d61-17563dd95997")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::scaling.c_bypass_p")
-		(attr smd)
+		(attr smd dnp)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.14058 0.51)
@@ -9767,7 +9767,7 @@
 		)
 		(path "/afa75cf9-ea68-d39b-72be-6a9d1afefdfe/afa75cf9-ea68-d39b-72be-6a9d1afefdfe")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::scaling.c_bypass_m")
-		(attr smd)
+		(attr smd dnp)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.14058 -0.51)
@@ -9975,7 +9975,7 @@
 		)
 		(path "/f3c8b3b3-bc95-a12c-1004-09840090f242/f3c8b3b3-bc95-a12c-1004-09840090f242")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::power.regulator")
-		(attr through_hole)
+		(attr through_hole dnp)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start 7.65 1.36)
@@ -10205,7 +10205,7 @@
 		)
 		(path "/81959d2e-c74d-f234-daab-6acbaf270dd6/81959d2e-c74d-f234-daab-6acbaf270dd6")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::scaling.ic")
-		(attr smd)
+		(attr smd dnp)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start 0 -2.56)
@@ -10485,7 +10485,7 @@
 		)
 		(path "/a434f012-e79b-d0fe-044d-a254d291f5d5/a434f012-e79b-d0fe-044d-a254d291f5d5")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::driver.d_clamp_out_m_vminus")
-		(attr smd)
+		(attr smd dnp)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -2.25 -1)
@@ -10759,7 +10759,7 @@
 		)
 		(path "/7e08bf57-ccb6-6c94-4868-21155d47c349/7e08bf57-ccb6-6c94-4868-21155d47c349")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::power.c_5v_cer")
-		(attr smd)
+		(attr smd dnp)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.14058 -0.51)
@@ -10955,7 +10955,7 @@
 		)
 		(path "/dd22f48c-b695-84c6-77a5-4a78c9791aea/dd22f48c-b695-84c6-77a5-4a78c9791aea")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::receiver.ic")
-		(attr smd)
+		(attr smd dnp)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start 0 2.56)
@@ -11236,7 +11236,7 @@
 		)
 		(path "/d190b693-cc33-8f39-b5d6-cedf9486c262/d190b693-cc33-8f39-b5d6-cedf9486c262")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::receiver.d_clamp_n_vplus")
-		(attr smd)
+		(attr smd dnp)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -2.25 1)
@@ -11511,7 +11511,7 @@
 		)
 		(path "/94d72781-1fa6-f350-0da0-951cf227153c/94d72781-1fa6-f350-0da0-951cf227153c")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::receiver.c_rf_minus_chas")
-		(attr smd)
+		(attr smd dnp)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.107836 -0.36)
@@ -11707,7 +11707,7 @@
 		)
 		(path "/4f1c7719-e0c8-5ce7-8592-1f195ce9c0ba/4f1c7719-e0c8-5ce7-8592-1f195ce9c0ba")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::driver.c_bypass_m")
-		(attr smd)
+		(attr smd dnp)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.107836 0.36)
@@ -11904,7 +11904,7 @@
 		)
 		(path "/b23c234c-65ac-9d65-8c2c-33288da07b5e/b23c234c-65ac-9d65-8c2c-33288da07b5e")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::scaling.r_out_feedback")
-		(attr smd)
+		(attr smd dnp)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.237258 -0.5225)
@@ -12101,7 +12101,7 @@
 		)
 		(path "/eea5ff45-fbbe-d24f-951d-27e435df9973/eea5ff45-fbbe-d24f-951d-27e435df9973")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::receiver.c_cm")
-		(attr smd)
+		(attr smd dnp)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.14058 -0.51)
@@ -12298,7 +12298,7 @@
 		)
 		(path "/b03fed53-e933-208c-4afe-35388f8bc054/b03fed53-e933-208c-4afe-35388f8bc054")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::receiver.c_bypass_minus")
-		(attr smd)
+		(attr smd dnp)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.14058 0.51)
@@ -12506,7 +12506,7 @@
 		)
 		(path "/22535129-0f61-a2bc-a57b-08f9333528ac/22535129-0f61-a2bc-a57b-08f9333528ac")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::driver.c_ext_plus")
-		(attr smd)
+		(attr smd dnp)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -3.625 -1.685)
@@ -12881,6 +12881,77 @@
 			)
 		)
 	)
+	(footprint ""
+		(layer "F.Cu")
+		(uuid "e341b0a6-69c2-4388-8e6c-e7e7390e1588")
+		(at 100 55)
+		(property "Reference" "DUMMY"
+			(at 0 0 0)
+			(layer "F.SilkS")
+			(uuid "192f30fb-75ec-419c-b16c-ae9a8319a6a9")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" ""
+			(at 0 0 0)
+			(layer "F.Fab")
+			(uuid "d99c0683-0d2b-420d-8857-d4e07b57160a")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "501f85bc-66fc-4941-b66b-e259a6fac53c")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "2ec50f3f-210b-4667-94aa-5f23062a15cd")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(duplicate_pad_numbers_are_jumpers no)
+		(embedded_fonts no)
+		(model "faceplate_logic.step"
+			(offset
+				(xyz 0 0 133.45)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz -90 0 90)
+			)
+		)
+		(model "faceplate_front.step"
+			(offset
+				(xyz -11 0 133.45)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz -90 0 90)
+			)
+		)
+	)
 	(footprint "Capacitor_SMD:CP_Elec_6.3x5.4"
 		(layer "F.Cu")
 		(uuid "ef55158c-cb17-4ed4-93b2-25e6be7b50eb")
@@ -12946,7 +13017,7 @@
 		)
 		(path "/bc041208-4194-8387-be1b-eec7588d6010/bc041208-4194-8387-be1b-eec7588d6010")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::c28")
-		(attr smd)
+		(attr smd dnp)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -4.4375 -1.8475)
@@ -13374,7 +13445,7 @@
 		)
 		(path "/fa883332-31f1-de32-7a01-8a29d2ef9608/fa883332-31f1-de32-7a01-8a29d2ef9608")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::driver.c_zobel_plus")
-		(attr smd)
+		(attr smd dnp)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.14058 0.51)
@@ -13571,7 +13642,7 @@
 		)
 		(path "/58facd1e-23ff-0ed3-da7b-220ca0767622/58facd1e-23ff-0ed3-da7b-220ca0767622")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::power.d_protect_m")
-		(attr smd)
+		(attr smd dnp)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -3.4 1.65)
@@ -13848,7 +13919,7 @@
 		)
 		(path "/5af800ea-9ddd-9818-6aa9-cdc631942ce7/5af800ea-9ddd-9818-6aa9-cdc631942ce7")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::power.c_bulk_p_elec")
-		(attr smd)
+		(attr smd dnp)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start 3.41 3.41)
@@ -14276,7 +14347,7 @@
 		)
 		(path "/2a42c3c9-3683-1ca2-f630-b1d1f8ae5b04/2a42c3c9-3683-1ca2-f630-b1d1f8ae5b04")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::scaling.r_in_feedback")
-		(attr smd)
+		(attr smd dnp)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.237258 -0.5225)
@@ -14473,7 +14544,7 @@
 		)
 		(path "/13e674ad-9b96-764e-2077-886eff95b37a/13e674ad-9b96-764e-2077-886eff95b37a")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::power.c_bulk_p_cer")
-		(attr smd)
+		(attr smd dnp)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.14058 0.51)

@@ -32,8 +32,6 @@ build/*
 build/icio500/*
 !build/icio500/*.kicad_pcb
 !build/icio500/*.kicad_sch
-!build/icio500/*.kicad_pro
-!build/icio500/*.kicad_prl
 .ato/
 
 # Python virtual environment
