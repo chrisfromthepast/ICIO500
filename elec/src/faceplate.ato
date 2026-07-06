@@ -1,53 +1,21 @@
 import Resistor from "generics/resistors.ato"
 import Capacitor from "generics/capacitors.ato"
 
-component CAP1188:
-    # 8-Channel Capacitive Touch Sensor with SPI and I2C
-    footprint = "Package_SO:TSSOP-24_4.4x7.8mm_P0.65mm"
-    mpn = "CAP1188-1-CP-TR"
-    signal VDD ~ pin 14
-    signal GND ~ pin 24
-    signal SDA ~ pin 11
-    signal SCL ~ pin 10
-    signal INT ~ pin 9
-    signal RESET ~ pin 13
-    
-    # LED Outputs
-    signal LED1 ~ pin 15
-    signal LED2 ~ pin 16
-    signal LED3 ~ pin 17
-    signal LED4 ~ pin 18
-    signal LED5 ~ pin 19
-    signal LED6 ~ pin 20
-    signal LED7 ~ pin 21
-    signal CS1 ~ pin 1
-    signal CS2 ~ pin 2
-    signal CS3 ~ pin 3
-    signal CS4 ~ pin 4
-    signal CS5 ~ pin 5
-    signal CS6 ~ pin 6
-    signal CS7 ~ pin 7
-    signal CS8 ~ pin 8
-
 component IlluminatedEncoder:
-    # Rotary Encoder with Pushbutton and internal RGB LED (Clear Shaft)
-    footprint = "Rotary_Encoder:RotaryEncoder_Alps_EC11E-Switch_Vertical_H20mm" # Placeholder footprint
+    footprint = "Rotary_Encoder:RotaryEncoder_Alps_EC11E-Switch_Vertical_H20mm"
     signal A ~ pin 1
     signal B ~ pin 3
-    signal C ~ pin 2 # Common / GND
+    signal C ~ pin 2
     signal SW1 ~ pin 4
     signal SW2 ~ pin 5
-    
-    # Internal RGB LED
     signal LED_R ~ pin 6
     signal LED_G ~ pin 7
     signal LED_B ~ pin 8
     signal LED_COM_ANODE ~ pin 9
 
 component RibbonHeader20:
-    # 2x10 2.54mm IDC Header
     footprint = "Connector_PinHeader_2.54mm:PinHeader_2x10_P2.54mm_Vertical"
-    mpn = "61202021621" # Wurth Elektronik 20-pin
+    mpn = "61202021621"
     signal P1 ~ pin 1; signal P2 ~ pin 2
     signal P3 ~ pin 3; signal P4 ~ pin 4
     signal P5 ~ pin 5; signal P6 ~ pin 6
@@ -70,146 +38,128 @@ component DSeriesConnector:
     signal chassis2 ~ pin 2
 
 component InterconnectHeader:
-    # Board-to-board 2x7 header bridging Panel to Logic
-    footprint = "Connector_PinHeader_2.54mm:PinHeader_2x07_P2.54mm_Vertical"
-    signal V_3V3 ~ pin 1
-    signal GND ~ pin 2
-    signal I2C_SDA ~ pin 3
-    signal I2C_SCL ~ pin 4
-    signal CAP_INT ~ pin 5
-    signal V_5V ~ pin 6
-    signal LED1 ~ pin 7
-    signal LED2 ~ pin 8
-    signal LED3 ~ pin 9
-    signal LED4 ~ pin 10
-    signal LED5 ~ pin 11
-    signal LED6 ~ pin 12
-    signal LED7 ~ pin 13
-    signal GND2 ~ pin 14
+    footprint = "Connector_PinHeader_2.54mm:PinHeader_2x07_P2.54mm_Vertical_SMD"
+    signal P1 ~ pin 1; signal P2 ~ pin 2
+    signal P3 ~ pin 3; signal P4 ~ pin 4
+    signal P5 ~ pin 5; signal P6 ~ pin 6
+    signal P7 ~ pin 7; signal P8 ~ pin 8
+    signal P9 ~ pin 9; signal P10 ~ pin 10
+    signal P11 ~ pin 11; signal P12 ~ pin 12
+    signal P13 ~ pin 13; signal P14 ~ pin 14
+
+component PCA9555:
+    footprint = "Package_SO:TSSOP-24_4.4x7.8mm_P0.65mm"
+    mpn = "PCA9555PWR"
+    signal VCC ~ pin 24
+    signal GND ~ pin 12
+    signal SDA ~ pin 23
+    signal SCL ~ pin 22
+    signal P0_0 ~ pin 4; signal P0_1 ~ pin 5; signal P0_2 ~ pin 6; signal P0_3 ~ pin 7
+    signal P0_4 ~ pin 8; signal P0_5 ~ pin 9; signal P0_6 ~ pin 10; signal P0_7 ~ pin 11
+    signal P1_0 ~ pin 13; signal P1_1 ~ pin 14; signal P1_2 ~ pin 15; signal P1_3 ~ pin 16
+    signal P1_4 ~ pin 17; signal P1_5 ~ pin 18; signal P1_6 ~ pin 19; signal P1_7 ~ pin 20
 
 module Faceplate:
-    # -----------------------------------
-    # Interconnect: 20-Pin Ribbon Header
-    # -----------------------------------
     header = new RibbonHeader20
-    
-    # Noise Mitigated Interleaved Pinout
     signal V_5V ~ header.P1
     signal V_3V3 ~ header.P2
-    
-    signal GND ~ header.P3  # GND Barrier
+    signal GND ~ header.P3
     signal I2C_SDA ~ header.P4
-    signal GND ~ header.P5  # GND Barrier
+    signal GND ~ header.P5
     signal I2C_SCL ~ header.P6
-    signal GND ~ header.P7  # GND Barrier
+    signal GND ~ header.P7
     signal CAP_INT ~ header.P8
-    
     signal ENC_A ~ header.P9
     signal ENC_B ~ header.P10
     signal ENC_SW ~ header.P11
-    
-    # Future Expansion / SPI Bus (Unused on faceplate, but wired through)
-    signal EXP_MOSI ~ header.P12
-    signal EXP_MISO ~ header.P13
-    signal EXP_SCK ~ header.P14
-    signal EXP_CS ~ header.P15
-    signal EXP_DC ~ header.P16
-    signal EXP_RES ~ header.P17
-    # P18, P19, P20 remaining empty/reserved
-    
-    # -----------------------------------
-    # Board-to-Board Interconnects
-    # -----------------------------------
+
+    # Interconnects (SMD mechanical bond)
     header_panel = new InterconnectHeader
     header_logic = new InterconnectHeader
-    
-    V_3V3 ~ header_panel.V_3V3; V_3V3 ~ header_logic.V_3V3
-    GND ~ header_panel.GND; GND ~ header_logic.GND
-    I2C_SDA ~ header_panel.I2C_SDA; I2C_SDA ~ header_logic.I2C_SDA
-    I2C_SCL ~ header_panel.I2C_SCL; I2C_SCL ~ header_logic.I2C_SCL
-    CAP_INT ~ header_panel.CAP_INT; CAP_INT ~ header_logic.CAP_INT
-    V_5V ~ header_panel.V_5V; V_5V ~ header_logic.V_5V
-    GND ~ header_panel.GND2; GND ~ header_logic.GND2
-    
-    cap_ic.LED1 ~ header_panel.LED1; cap_ic.LED1 ~ header_logic.LED1
-    cap_ic.LED2 ~ header_panel.LED2; cap_ic.LED2 ~ header_logic.LED2
-    cap_ic.LED3 ~ header_panel.LED3; cap_ic.LED3 ~ header_logic.LED3
-    cap_ic.LED4 ~ header_panel.LED4; cap_ic.LED4 ~ header_logic.LED4
-    cap_ic.LED5 ~ header_panel.LED5; cap_ic.LED5 ~ header_logic.LED5
-    cap_ic.LED6 ~ header_panel.LED6; cap_ic.LED6 ~ header_logic.LED6
-    cap_ic.LED7 ~ header_panel.LED7; cap_ic.LED7 ~ header_logic.LED7
-    
-    # -----------------------------------
-    # Cap Touch & LED Controller (CAP1188)
-    # -----------------------------------
-    cap_ic = new CAP1188
-    V_3V3 ~ cap_ic.VDD
-    GND ~ cap_ic.GND
-    I2C_SDA ~ cap_ic.SDA
-    I2C_SCL ~ cap_ic.SCL
-    CAP_INT ~ cap_ic.INT
-    
-    signal TOUCH_MODE ~ cap_ic.CS1
-    signal TOUCH_SYNC ~ cap_ic.CS2
-    signal TOUCH_SEQ ~ cap_ic.CS3
-    signal TOUCH_SHIFT ~ cap_ic.CS4
-    signal TOUCH_TAP ~ cap_ic.CS5
-    
-    # I2C Pull-ups for robust ribbon transmission
-    r_pu_sda = new Resistor; r_pu_sda.value = 2.2kohm
-    r_pu_scl = new Resistor; r_pu_scl.value = 2.2kohm
-    V_3V3 ~ r_pu_sda.p1; r_pu_sda.p2 ~ I2C_SDA
-    V_3V3 ~ r_pu_scl.p1; r_pu_scl.p2 ~ I2C_SCL
-    
-    # -----------------------------------
-    # Illuminated Rotary Encoder
-    # -----------------------------------
+    V_3V3 ~ header_panel.P1; V_3V3 ~ header_logic.P1
+    GND ~ header_panel.P2; GND ~ header_logic.P2
+
+    # Encoder
     encoder = new IlluminatedEncoder
     GND ~ encoder.C
     GND ~ encoder.SW2
     ENC_A ~ encoder.A
     ENC_B ~ encoder.B
     ENC_SW ~ encoder.SW1
-    
-    # Hook up the Encoder's internal RGB LED to CAP1188
+
+    # LED Driver (I2C)
+    led_drv = new PCA9555
+    V_3V3 ~ led_drv.VCC
+    GND ~ led_drv.GND
+    I2C_SDA ~ led_drv.SDA
+    I2C_SCL ~ led_drv.SCL
+
+    # I2C Pullups
+    r_pu_sda = new Resistor; r_pu_sda.value = 2.2kohm
+    r_pu_scl = new Resistor; r_pu_scl.value = 2.2kohm
+    V_3V3 ~ r_pu_sda.p1; r_pu_sda.p2 ~ I2C_SDA
+    V_3V3 ~ r_pu_scl.p1; r_pu_scl.p2 ~ I2C_SCL
+
+    # Under-encoder LED
+    led_under = new LED; led_under.mpn = "BLUE-LED"
+    r_under = new Resistor; r_under.value = 330ohm
+    V_5V ~ led_under.anode; led_under.cathode ~ r_under.p1; r_under.p2 ~ led_drv.P0_0
+
+    # Encoder internal RGB (Optional, tie to driver)
     r_enc_r = new Resistor; r_enc_r.value = 330ohm
     r_enc_g = new Resistor; r_enc_g.value = 330ohm
     r_enc_b = new Resistor; r_enc_b.value = 330ohm
-    
     V_5V ~ encoder.LED_COM_ANODE
-    encoder.LED_R ~ r_enc_r.p1; r_enc_r.p2 ~ cap_ic.LED5
-    encoder.LED_G ~ r_enc_g.p1; r_enc_g.p2 ~ cap_ic.LED6
-    encoder.LED_B ~ r_enc_b.p1; r_enc_b.p2 ~ cap_ic.LED7
-    
-    # -----------------------------------
-    # LEDs and Current Limiting
-    # -----------------------------------
-    led_clip = new LED; led_clip.mpn = "RED-LED"
-    led_amber = new LED; led_amber.mpn = "AMBER-LED"
-    led_green = new LED; led_green.mpn = "GREEN-LED"
-    led_blue = new LED; led_blue.mpn = "BLUE-LED"
-    
-    r_clip = new Resistor; r_clip.value = 330ohm
-    r_amber = new Resistor; r_amber.value = 330ohm
-    r_green = new Resistor; r_green.value = 330ohm
-    r_blue = new Resistor; r_blue.value = 330ohm
-    
-    # CAP1188 LED pins are open-drain (sink current)
-    # V_5V -> LED Anode -> Resistor -> CAP1188 LED Pin -> GND internally
-    V_5V ~ led_clip.anode; led_clip.cathode ~ r_clip.p1; r_clip.p2 ~ cap_ic.LED1
-    V_5V ~ led_amber.anode; led_amber.cathode ~ r_amber.p1; r_amber.p2 ~ cap_ic.LED2
-    V_5V ~ led_green.anode; led_green.cathode ~ r_green.p1; r_green.p2 ~ cap_ic.LED3
-    V_5V ~ led_blue.anode; led_blue.cathode ~ r_blue.p1; r_blue.p2 ~ cap_ic.LED4
-    
-    # -----------------------------------
-    # Noise Decoupling & Bulk Capacitance
-    # -----------------------------------
-    # Local bulk capacitance for LED transient switching
+    encoder.LED_R ~ r_enc_r.p1; r_enc_r.p2 ~ led_drv.P0_1
+    encoder.LED_G ~ r_enc_g.p1; r_enc_g.p2 ~ led_drv.P0_2
+    encoder.LED_B ~ r_enc_b.p1; r_enc_b.p2 ~ led_drv.P0_3
+
+    # 10-LED Bar Graph
+    led_bar_1 = new LED; led_bar_1.mpn = "WHITE-LED"
+    r_bar_1 = new Resistor; r_bar_1.value = 330ohm
+    V_5V ~ led_bar_1.anode; led_bar_1.cathode ~ r_bar_1.p1; r_bar_1.p2 ~ led_drv.P1_0
+
+    led_bar_2 = new LED; led_bar_2.mpn = "WHITE-LED"
+    r_bar_2 = new Resistor; r_bar_2.value = 330ohm
+    V_5V ~ led_bar_2.anode; led_bar_2.cathode ~ r_bar_2.p1; r_bar_2.p2 ~ led_drv.P1_1
+
+    led_bar_3 = new LED; led_bar_3.mpn = "WHITE-LED"
+    r_bar_3 = new Resistor; r_bar_3.value = 330ohm
+    V_5V ~ led_bar_3.anode; led_bar_3.cathode ~ r_bar_3.p1; r_bar_3.p2 ~ led_drv.P1_2
+
+    led_bar_4 = new LED; led_bar_4.mpn = "WHITE-LED"
+    r_bar_4 = new Resistor; r_bar_4.value = 330ohm
+    V_5V ~ led_bar_4.anode; led_bar_4.cathode ~ r_bar_4.p1; r_bar_4.p2 ~ led_drv.P1_3
+
+    led_bar_5 = new LED; led_bar_5.mpn = "WHITE-LED"
+    r_bar_5 = new Resistor; r_bar_5.value = 330ohm
+    V_5V ~ led_bar_5.anode; led_bar_5.cathode ~ r_bar_5.p1; r_bar_5.p2 ~ led_drv.P1_4
+
+    led_bar_6 = new LED; led_bar_6.mpn = "WHITE-LED"
+    r_bar_6 = new Resistor; r_bar_6.value = 330ohm
+    V_5V ~ led_bar_6.anode; led_bar_6.cathode ~ r_bar_6.p1; r_bar_6.p2 ~ led_drv.P1_5
+
+    led_bar_7 = new LED; led_bar_7.mpn = "WHITE-LED"
+    r_bar_7 = new Resistor; r_bar_7.value = 330ohm
+    V_5V ~ led_bar_7.anode; led_bar_7.cathode ~ r_bar_7.p1; r_bar_7.p2 ~ led_drv.P1_6
+
+    led_bar_8 = new LED; led_bar_8.mpn = "WHITE-LED"
+    r_bar_8 = new Resistor; r_bar_8.value = 330ohm
+    V_5V ~ led_bar_8.anode; led_bar_8.cathode ~ r_bar_8.p1; r_bar_8.p2 ~ led_drv.P1_7
+
+    led_bar_9 = new LED; led_bar_9.mpn = "WHITE-LED"
+    r_bar_9 = new Resistor; r_bar_9.value = 330ohm
+    V_5V ~ led_bar_9.anode; led_bar_9.cathode ~ r_bar_9.p1; r_bar_9.p2 ~ led_drv.P0_4
+
+    led_bar_10 = new LED; led_bar_10.mpn = "WHITE-LED"
+    r_bar_10 = new Resistor; r_bar_10.value = 330ohm
+    V_5V ~ led_bar_10.anode; led_bar_10.cathode ~ r_bar_10.p1; r_bar_10.p2 ~ led_drv.P0_5
+
+
+    # Power filtering
     c_bulk_5v = new Capacitor; c_bulk_5v.value = 100uF; c_bulk_5v.footprint = "Capacitor_SMD:CP_Elec_6.3x5.4"
     c_bulk_5v.mpn = "C72494"
     V_5V ~ c_bulk_5v.p1; c_bulk_5v.p2 ~ GND
-    
-    # Local filtering for Logic/CapTouch
     c_bulk_3v3 = new Capacitor; c_bulk_3v3.value = 100uF; c_bulk_3v3.footprint = "Capacitor_SMD:CP_Elec_6.3x5.4"
     c_bulk_3v3.mpn = "C72494"
     c_dec_3v3 = new Capacitor; c_dec_3v3.value = 100nF; c_dec_3v3.footprint = "Capacitor_SMD:C_0603_1608Metric"
@@ -217,9 +167,6 @@ module Faceplate:
     V_3V3 ~ c_bulk_3v3.p1; c_bulk_3v3.p2 ~ GND
     V_3V3 ~ c_dec_3v3.p1; c_dec_3v3.p2 ~ GND
 
-    # -----------------------------------
-    # D-Series Connector Cutout (Bottom)
-    # -----------------------------------
     d_series = new DSeriesConnector
     GND ~ d_series.chassis1
     GND ~ d_series.chassis2
