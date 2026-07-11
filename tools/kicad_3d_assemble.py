@@ -37,7 +37,7 @@ def main():
     # m_Offset is applied in absolute coordinates AFTER rotation.
     # The models are attached to DUMMY, so (0,0,0) offset means the origin is at DUMMY.
     m_logic = models[0]
-    m_logic.m_Filename = 'faceplate_logic.step'
+    m_logic.m_Filename = 'panel_satellite.step'
     m_logic.m_Rotation.x = -90
     m_logic.m_Rotation.y = 0
     m_logic.m_Rotation.z = 90

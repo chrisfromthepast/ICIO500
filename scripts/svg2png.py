@@ -7,5 +7,5 @@ if len(sys.argv) != 3:
     sys.exit(1)
 
 drawing = svg2rlg(sys.argv[1])
-renderPM.drawToFile(drawing, sys.argv[2], fmt='PNG')
+renderPM.drawToFile(drawing, sys.argv[2], fmt='PNG', dpi=300)
 print(f"Rendered {sys.argv[2]}")
