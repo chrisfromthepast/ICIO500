@@ -20,14 +20,14 @@ def main():
       (effects (font (size 1 1) (thickness 0.15)))
     )
     (model "build/icio500/panel_satellite.step"
-      (offset (xyz 90 -11.55 166.675))
+      (offset (xyz 90 -59.175 -119.05))
       (scale (xyz 1 1 1))
-      (rotate (xyz -90 0 90))
+      (rotate (xyz 0 -90 0))
     )
     (model "build/icio500/faceplate_front.step"
-      (offset (xyz 75 -11.55 166.675))
+      (offset (xyz 75 -59.175 -119.05))
       (scale (xyz 1 1 1))
-      (rotate (xyz -90 0 90))
+      (rotate (xyz 0 -90 0))
     )
   )
 )
