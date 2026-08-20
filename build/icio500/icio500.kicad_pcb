@@ -4101,7 +4101,8 @@
 			(net "gnd")
 			(pintype "stereo")
 			(uuid "73f0b786-e895-4f54-88b2-cbbde73e5da1")
-		)
+		
+			(zone_connect 2))
 		(embedded_fonts no)
 		(model "${KISYS3DMOD}/Capacitor_SMD.3dshapes/C_0402_1005Metric.step"
 			(offset
@@ -8742,7 +8743,8 @@
 			(net "gnd")
 			(pintype "stereo")
 			(uuid "d31315a0-7536-4c4c-a578-a8518aac1725")
-		)
+		
+			(zone_connect 2))
 		(pad "4" thru_hole circle
 			(at 2.54 2.54 90)
 			(size 1.7 1.7)
@@ -8762,7 +8764,8 @@
 			(net "gnd")
 			(pintype "stereo")
 			(uuid "116d16bd-b820-49d8-a14f-99ada2002246")
-		)
+		
+			(zone_connect 2))
 		(pad "6" thru_hole circle
 			(at 2.54 5.08 90)
 			(size 1.7 1.7)
@@ -8782,7 +8785,8 @@
 			(net "gnd")
 			(pintype "stereo")
 			(uuid "e444e20b-db2b-4839-8f41-e674ee2fa850")
-		)
+		
+			(zone_connect 2))
 		(pad "8" thru_hole circle
 			(at 2.54 7.62 90)
 			(size 1.7 1.7)
@@ -16853,14 +16857,6 @@
 		(net "d13")
 		(uuid "ead932b5-daf0-45bc-87da-f23606e042ae")
 	)
-	(via
-		(at 102.49 107)
-		(size 0.6)
-		(drill 0.3)
-		(layers "F.Cu" "B.Cu")
-		(net "d14")
-		(uuid "df0a3bee-e540-4fb2-9dce-f9d533c73126")
-	)
 	(segment
 		(start 101.2066 109.3234)
 		(end 99.4892 109.3234)
@@ -19073,7 +19069,7 @@
 		(fill yes
 			(thermal_gap 0.3)
 			(thermal_bridge_width 0.4)
-			(island_removal_mode 0)
+			(island_removal_mode 1)
 		)
 		(polygon
 			(pts
