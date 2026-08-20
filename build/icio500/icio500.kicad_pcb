@@ -16187,14 +16187,7 @@
 		(net "gnd")
 		(uuid "2b1ce212-d0ba-4cc5-9a91-4589a6d05bee")
 	)
-	(segment
-		(start 159.5 78)
-		(end 159.5 76.5)
-		(width 0.25)
-		(layer "F.Cu")
-		(net "gnd")
-		(uuid "3b8c5521-2355-4e3f-8571-cddb13739bce")
-	)
+
 	(segment
 		(start 148.3 89.3)
 		(end 149.5 90.5)
@@ -16357,7 +16350,7 @@
 		(uuid "57d8751e-7ce2-4520-b1cc-7a1501ed53d8")
 	)
 	(via
-		(at 159.5 76.5)
+		(at 157.5 76.5)
 		(size 0.6)
 		(drill 0.3)
 		(layers "F.Cu" "B.Cu")
