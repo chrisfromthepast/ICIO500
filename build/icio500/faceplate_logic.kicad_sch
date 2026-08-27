@@ -10,7 +10,7 @@
 		(company "ICIO")
 	)
 	(lib_symbols
-  (symbol "Local:JST_SH_8"
+  (symbol "Connector_Generic:Conn_01x08"
     (pin_names (offset 1.016))
     (exclude_from_sim no) (in_bom yes) (on_board yes)
         (property "Reference" "J"
@@ -29,7 +29,7 @@
       (at 0 0 0)
       (effects (font (size 1.27 1.27) ) (hide yes))
     )
-    (symbol "Local:JST_SH_8_0_1"
+    (symbol "Connector_Generic:Conn_01x08_0_1"
       (rectangle (start -2.54 1.27) (end 2.54 -19.05) (stroke (width 0) (type default)) (fill (type background)))
       
     (pin passive line (at -5.08 0.0 0) (length 2.54) (name "Pin_1" (effects (font (size 1.016 1.016)))) (number "1" (effects (font (size 1.016 1.016)))))
@@ -42,7 +42,7 @@
     (pin passive line (at -5.08 -17.78 0) (length 2.54) (name "Pin_8" (effects (font (size 1.016 1.016)))) (number "8" (effects (font (size 1.016 1.016)))))
     )
   )
-  (symbol "Local:IS31FL3236"
+  (symbol "Driver_LED:IS31FL3236-TQ"
     (pin_names (offset 1.016))
     (exclude_from_sim no) (in_bom yes) (on_board yes)
         (property "Reference" "U"
@@ -61,7 +61,7 @@
       (at 0 0 0)
       (effects (font (size 1.27 1.27) ) (hide yes))
     )
-    (symbol "Local:IS31FL3236_0_1"
+    (symbol "Driver_LED:IS31FL3236-TQ_0_1"
       (rectangle (start -3.81 10.16) (end 3.81 -15.24) (stroke (width 0) (type default)) (fill (type background)))
       
     (pin power_in line (at 5.08 8.89 180) (length 2.54) (name "VCC" (effects (font (size 1.016 1.016)))) (number "1" (effects (font (size 1.016 1.016)))))
@@ -82,7 +82,7 @@
     (pin output line (at -5.08 -13.969999999999999 0) (length 2.54) (name "OUT10" (effects (font (size 1.016 1.016)))) (number "16" (effects (font (size 1.016 1.016)))))
     )
   )
-  (symbol "Local:EC11E_Encoder"
+  (symbol "Device:RotaryEncoder_Switch"
     (pin_names (offset 1.016))
     (exclude_from_sim no) (in_bom yes) (on_board yes)
         (property "Reference" "ENC"
@@ -101,7 +101,7 @@
       (at 0 0 0)
       (effects (font (size 1.27 1.27) ) (hide yes))
     )
-    (symbol "Local:EC11E_Encoder_0_1"
+    (symbol "Device:RotaryEncoder_Switch_0_1"
       (rectangle (start -3.81 3.81) (end 3.81 -3.81) (stroke (width 0) (type default)) (fill (type background)))
       
     (pin passive line (at 5.08 2.54 180) (length 2.54) (name "A" (effects (font (size 1.016 1.016)))) (number "1" (effects (font (size 1.016 1.016)))))
@@ -111,13 +111,13 @@
     (pin passive line (at -5.08 0.0 0) (length 2.54) (name "SW_2" (effects (font (size 1.016 1.016)))) (number "5" (effects (font (size 1.016 1.016)))))
     )
   )
-  (symbol "Local:R"
+  (symbol "Device:R_Small"
     (pin_names (offset 0)) (exclude_from_sim no) (in_bom yes) (on_board yes)
     (property "Reference" "R" (at 2.032 0 90) (effects (font (size 1.27 1.27))))
     (property "Value" "R" (at 0 0 90) (effects (font (size 1.27 1.27)) (hide yes)))
     (property "Footprint" "Resistor_SMD:R_0402_1005Metric" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes)))
     (property "Datasheet" "" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes)))
-    (symbol "Local:R_0_1"
+    (symbol "Device:R_Small_0_1"
       (polyline (pts (xy 0 -2.286) (xy 0 -0.762)) (stroke (width 0) (type default)) (fill (type none)))
       (rectangle (start -1.016 -0.762) (end 1.016 0.762) (stroke (width 0) (type default)) (fill (type background)))
       (polyline (pts (xy 0 0.762) (xy 0 2.286)) (stroke (width 0) (type default)) (fill (type none)))
@@ -125,13 +125,13 @@
       (pin passive line (at 0 3.81 270) (length 1.524) (name "~" (effects (font (size 1.016 1.016)))) (number "2" (effects (font (size 1.016 1.016)))))
     )
   )
-  (symbol "Local:C"
+  (symbol "Device:C_Small"
     (pin_names (offset 0.254)) (exclude_from_sim no) (in_bom yes) (on_board yes)
     (property "Reference" "C" (at 1.778 0 0) (effects (font (size 1.27 1.27))))
     (property "Value" "C" (at 1.778 -2.54 0) (effects (font (size 1.27 1.27)) (hide yes)))
     (property "Footprint" "Capacitor_SMD:C_0402_1005Metric" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes)))
     (property "Datasheet" "" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes)))
-    (symbol "Local:C_0_1"
+    (symbol "Device:C_Small_0_1"
       (polyline (pts (xy -2.032 -0.762) (xy 2.032 -0.762)) (stroke (width 0.508) (type default)) (fill (type none)))
       (polyline (pts (xy -2.032  0.762) (xy 2.032  0.762)) (stroke (width 0.508) (type default)) (fill (type none)))
       (polyline (pts (xy 0 -0.762) (xy 0 -2.54)) (stroke (width 0) (type default)) (fill (type none)))
@@ -140,13 +140,13 @@
       (pin passive line (at 0 -3.81 90)  (length 1.27) (name "~" (effects (font (size 1.016 1.016)))) (number "2" (effects (font (size 1.016 1.016)))))
     )
   )
-  (symbol "Local:LED"
+  (symbol "Device:LED_Small"
     (pin_names (offset 1.016)) (exclude_from_sim no) (in_bom yes) (on_board yes)
     (property "Reference" "D" (at 0 2.54 0) (effects (font (size 1.27 1.27))))
     (property "Value" "LED" (at 0 -2.54 0) (effects (font (size 1.27 1.27)) (hide yes)))
     (property "Footprint" "LED_SMD:LED_0805_2012Metric" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes)))
     (property "Datasheet" "" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes)))
-    (symbol "Local:LED_0_1"
+    (symbol "Device:LED_Small_0_1"
       (polyline (pts (xy -1.27 -1.27) (xy -1.27 1.27) (xy 1.27 0) (xy -1.27 -1.27)) (stroke (width 0) (type default)) (fill (type background)))
       (polyline (pts (xy 1.27 -1.27) (xy 1.27 1.27)) (stroke (width 0) (type default)) (fill (type none)))
       (polyline (pts (xy -1.27 0) (xy -2.54 0)) (stroke (width 0) (type default)) (fill (type none)))
@@ -155,13 +155,13 @@
       (pin passive line (at  3.81 0 180) (length 1.27) (name "A" (effects (font (size 1.016 1.016)))) (number "A" (effects (font (size 1.016 1.016)))))
     )
   )
-  (symbol "Local:Ferrite_Bead"
+  (symbol "Device:Ferrite_Bead_Small"
     (pin_names (offset 0)) (exclude_from_sim no) (in_bom yes) (on_board yes)
     (property "Reference" "FB" (at 2.032 0 90) (effects (font (size 1.27 1.27))))
     (property "Value" "BLM18PG" (at 0 0 90) (effects (font (size 1.27 1.27)) (hide yes)))
     (property "Footprint" "Inductor_SMD:L_0402_1005Metric" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes)))
     (property "Datasheet" "" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes)))
-    (symbol "Local:Ferrite_Bead_0_1"
+    (symbol "Device:Ferrite_Bead_Small_0_1"
       (polyline (pts (xy 0 -2.286) (xy 0 -0.762)) (stroke (width 0) (type default)) (fill (type none)))
       (rectangle (start -1.016 -0.762) (end 1.016 0.762) (stroke (width 0.254) (type default)) (fill (type background)))
       (polyline (pts (xy 0 0.762) (xy 0 2.286)) (stroke (width 0) (type default)) (fill (type none)))
@@ -170,30 +170,21 @@
     )
   )
 	)
-  (symbol
-    (lib_id "Local:JST_SH_8")
-    (at 30 50 0)
-    (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes)
-    (uuid "35a0cb1d-3b6f-46e8-96a0-91f87f05e099")
-        (property "Reference" "J1"
-      (at 5 48 0)
-      (effects (font (size 1.27 1.27) (bold yes)) )
+  (symbol (lib_id "Connector_Generic:Conn_02x10_Odd_Even") (at 30 50 0) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no)
+    (uuid "73f7df3f-ca31-43f7-b250-d5915f141655")
+    (property "Reference" "J1" (at 30 35 0)
+      (effects (font (size 1.27 1.27)))
     )
-        (property "Value" "SM08B-SRSS-TB"
-      (at 5 52 0)
-      (effects (font (size 1.27 1.27) ) )
+    (property "Value" "Conn_02x10" (at 30 37 0)
+      (effects (font (size 1.27 1.27)))
     )
-        (property "Footprint" "Connector_JST:JST_SH_SM08B-SRSS-TB_1x08-1MP_P1.00mm_Horizontal"
-      (at 0 0 0)
-      (effects (font (size 1.27 1.27) ) (hide yes))
-    )
-        (property "Datasheet" ""
-      (at 0 0 0)
-      (effects (font (size 1.27 1.27) ) (hide yes))
+    (property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_2x10_P2.54mm_Vertical" (at 0 0 0)
+      (effects (font (size 1.27 1.27)) (hide yes))
     )
   )
   (symbol
-    (lib_id "Local:Ferrite_Bead")
+    (lib_id "Device:Ferrite_Bead_Small")
     (at 55 35 0)
     (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes)
     (uuid "c5012a72-6352-4659-a570-82147ac0dda3")
@@ -215,7 +206,7 @@
     )
   )
   (symbol
-    (lib_id "Local:C")
+    (lib_id "Device:C_Small")
     (at 68 35 0)
     (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes)
     (uuid "139a45b3-d174-4441-9040-f36521b3824b")
@@ -237,7 +228,7 @@
     )
   )
   (symbol
-    (lib_id "Local:C")
+    (lib_id "Device:C_Small")
     (at 78 35 0)
     (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes)
     (uuid "cc2f6f5b-81cf-4284-8d8f-bb238b4376ba")
@@ -259,7 +250,7 @@
     )
   )
   (symbol
-    (lib_id "Local:R")
+    (lib_id "Device:R_Small")
     (at 88 25 0)
     (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes)
     (uuid "2e1bf5f7-3e1f-42cd-845f-893891a1224d")
@@ -281,7 +272,7 @@
     )
   )
   (symbol
-    (lib_id "Local:R")
+    (lib_id "Device:R_Small")
     (at 98 25 0)
     (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes)
     (uuid "1b0b4d4c-30f9-4226-b7a1-432e87adc2e4")
@@ -303,7 +294,7 @@
     )
   )
   (symbol
-    (lib_id "Local:IS31FL3236")
+    (lib_id "Driver_LED:IS31FL3236-TQ")
     (at 110 60 0)
     (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes)
     (uuid "54822215-106b-477f-8de7-3535b1073de1")
@@ -325,7 +316,7 @@
     )
   )
   (symbol
-    (lib_id "Local:EC11E_Encoder")
+    (lib_id "Device:RotaryEncoder_Switch")
     (at 30 130 0)
     (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes)
     (uuid "4fc107a2-cd96-4384-bb32-3fc496f80520")
@@ -347,7 +338,7 @@
     )
   )
   (symbol
-    (lib_id "Local:R")
+    (lib_id "Device:R_Small")
     (at 150 20 90)
     (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes)
     (uuid "d68d8220-c5a7-4eb6-8bbe-55a0ba4849ff")
@@ -369,7 +360,7 @@
     )
   )
   (symbol
-    (lib_id "Local:LED")
+    (lib_id "Device:LED_Small")
     (at 170 20 0)
     (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes)
     (uuid "4f8e4eba-dc67-49d3-9f6d-5995f9299963")
@@ -391,7 +382,7 @@
     )
   )
   (symbol
-    (lib_id "Local:R")
+    (lib_id "Device:R_Small")
     (at 150 29 90)
     (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes)
     (uuid "ff86b91a-e3b8-4e78-affb-291f3412ab85")
@@ -413,7 +404,7 @@
     )
   )
   (symbol
-    (lib_id "Local:LED")
+    (lib_id "Device:LED_Small")
     (at 170 29 0)
     (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes)
     (uuid "fab877e4-e84e-4235-af05-6b742b064269")
@@ -435,7 +426,7 @@
     )
   )
   (symbol
-    (lib_id "Local:R")
+    (lib_id "Device:R_Small")
     (at 150 38 90)
     (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes)
     (uuid "e1c75846-1d08-476b-9606-c3edc2eece67")
@@ -457,7 +448,7 @@
     )
   )
   (symbol
-    (lib_id "Local:LED")
+    (lib_id "Device:LED_Small")
     (at 170 38 0)
     (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes)
     (uuid "4444ed50-f202-49da-a2b8-38fa17356377")
@@ -479,7 +470,7 @@
     )
   )
   (symbol
-    (lib_id "Local:R")
+    (lib_id "Device:R_Small")
     (at 150 47 90)
     (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes)
     (uuid "375c130f-f9f0-4e47-b08b-a8161ecfc259")
@@ -501,7 +492,7 @@
     )
   )
   (symbol
-    (lib_id "Local:LED")
+    (lib_id "Device:LED_Small")
     (at 170 47 0)
     (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes)
     (uuid "68cf6ef0-c2b6-4270-b5c9-91d409fb7414")
@@ -523,7 +514,7 @@
     )
   )
   (symbol
-    (lib_id "Local:R")
+    (lib_id "Device:R_Small")
     (at 150 56 90)
     (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes)
     (uuid "f7f31b5a-3cd0-47b4-bed6-b3f03e009506")
@@ -545,7 +536,7 @@
     )
   )
   (symbol
-    (lib_id "Local:LED")
+    (lib_id "Device:LED_Small")
     (at 170 56 0)
     (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes)
     (uuid "e2be1a36-dab0-415c-9f60-68e5e2d32a7a")
@@ -567,7 +558,7 @@
     )
   )
   (symbol
-    (lib_id "Local:R")
+    (lib_id "Device:R_Small")
     (at 150 65 90)
     (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes)
     (uuid "e616c835-f9ff-4a67-ad0f-254241c4b446")
@@ -589,7 +580,7 @@
     )
   )
   (symbol
-    (lib_id "Local:LED")
+    (lib_id "Device:LED_Small")
     (at 170 65 0)
     (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes)
     (uuid "1c6fcf9d-e95c-48cd-85d4-c5fa1d6d5c33")
@@ -611,7 +602,7 @@
     )
   )
   (symbol
-    (lib_id "Local:R")
+    (lib_id "Device:R_Small")
     (at 150 74 90)
     (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes)
     (uuid "40de2a3c-e698-46e0-8ef1-4670f6930e30")
@@ -633,7 +624,7 @@
     )
   )
   (symbol
-    (lib_id "Local:LED")
+    (lib_id "Device:LED_Small")
     (at 170 74 0)
     (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes)
     (uuid "80ba2523-c179-4884-aabe-b4f4a740079b")
@@ -655,7 +646,7 @@
     )
   )
   (symbol
-    (lib_id "Local:R")
+    (lib_id "Device:R_Small")
     (at 150 83 90)
     (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes)
     (uuid "53bfc452-83e0-4c61-8c72-5a884f04210c")
@@ -677,7 +668,7 @@
     )
   )
   (symbol
-    (lib_id "Local:LED")
+    (lib_id "Device:LED_Small")
     (at 170 83 0)
     (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes)
     (uuid "ac87bf2f-1d29-4a56-ac11-e948d809fe53")
@@ -699,7 +690,7 @@
     )
   )
   (symbol
-    (lib_id "Local:R")
+    (lib_id "Device:R_Small")
     (at 150 92 90)
     (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes)
     (uuid "7186fd7c-e20e-4ab4-ba8f-3116550c04e5")
@@ -721,7 +712,7 @@
     )
   )
   (symbol
-    (lib_id "Local:LED")
+    (lib_id "Device:LED_Small")
     (at 170 92 0)
     (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes)
     (uuid "733ecdd6-cb48-4a8d-a869-668c54c56947")
@@ -743,7 +734,7 @@
     )
   )
   (symbol
-    (lib_id "Local:R")
+    (lib_id "Device:R_Small")
     (at 150 101 90)
     (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes)
     (uuid "cb2e9811-ee2c-497e-95a3-45c21644db4b")
@@ -765,7 +756,7 @@
     )
   )
   (symbol
-    (lib_id "Local:LED")
+    (lib_id "Device:LED_Small")
     (at 170 101 0)
     (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes)
     (uuid "b355824d-a046-4351-a442-1667a17ee5c3")
@@ -846,4 +837,15 @@
   (text "NOTE: All LEDs are 0805 forward-biased\nfrom IS31FL3236 constant-current outputs.\n33R resistors fine-tune brightness." (at 140 5 0) (uuid "955090c4-3297-4d51-ab34-1f15486ae689") (effects (font (size 1.5 1.5))))
   (text "NOTE: ENC_A, ENC_B, ENC_SW route directly\nto Daisy GPIO via JST connector.\nDaisy handles quadrature decode in firmware." (at 15 145 0) (uuid "b2dfc416-b08b-407a-b1b5-d9e14a0a0030") (effects (font (size 1.5 1.5))))
   (text "I2C bus (SDA/SCL)\nIS31FL3236 addr: 0x3C (AD=GND)\n4.7k pull-ups to 3V3" (at 78 15 0) (uuid "9b2bb37f-d8ed-436b-b433-e2380a3fdfa2") (effects (font (size 1.5 1.5))))
+
+  (global_label "+3V3" (shape input) (at 24.92 39.84 0) (fields_autoplaced yes) (uuid "e415cd66-ccb5-4fb7-ae5a-74090d163095") (property "Intersheet References" "" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes))))
+  (global_label "+3V3" (shape input) (at 37.62 39.84 180) (fields_autoplaced yes) (uuid "813565c8-5888-4412-ae81-5f9da3a70b43") (property "Intersheet References" "" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes))))
+  (global_label "GND" (shape input) (at 24.92 42.38 0) (fields_autoplaced yes) (uuid "f0f0e6f7-604a-41ce-b09a-b25b6d04d735") (property "Intersheet References" "" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes))))
+  (global_label "SDA" (shape input) (at 37.62 42.38 180) (fields_autoplaced yes) (uuid "ab95bdca-0302-465a-ae9c-f2e34436383a") (property "Intersheet References" "" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes))))
+  (global_label "GND" (shape input) (at 24.92 44.92 0) (fields_autoplaced yes) (uuid "44dd1ff5-1067-4a85-b776-f286e63bd951") (property "Intersheet References" "" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes))))
+  (global_label "SCL" (shape input) (at 37.62 44.92 180) (fields_autoplaced yes) (uuid "112c957f-f067-48fb-a991-2066e05f3b14") (property "Intersheet References" "" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes))))
+  (global_label "GND" (shape input) (at 24.92 47.46 0) (fields_autoplaced yes) (uuid "136789ee-b500-492a-b500-2c91d3812808") (property "Intersheet References" "" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes))))
+  (global_label "ENC_A" (shape input) (at 37.62 47.46 180) (fields_autoplaced yes) (uuid "05cd8633-3eaa-4e3e-822a-ab134c499ef8") (property "Intersheet References" "" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes))))
+  (global_label "ENC_B" (shape input) (at 24.92 50 0) (fields_autoplaced yes) (uuid "cec3846d-3f34-47ad-bbae-caf86e087bb0") (property "Intersheet References" "" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes))))
+  (global_label "ENC_SW" (shape input) (at 37.62 50 180) (fields_autoplaced yes) (uuid "0c676715-44f5-4a64-a60e-7d6406788da0") (property "Intersheet References" "" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes))))
 )
