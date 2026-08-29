@@ -142,7 +142,7 @@
 		)
 		(path "/03219e30-fcd5-51bd-18ce-04d33dc15545/03219e30-fcd5-51bd-18ce-04d33dc15545")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::receiver.d_clamp_n_vminus")
-		(attr smd dnp)
+		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -2.25 -1)
@@ -857,7 +857,7 @@
 		)
 		(path "/081d2ec3-eb2a-d75d-fb4f-b0d5938e7f3a/081d2ec3-eb2a-d75d-fb4f-b0d5938e7f3a")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::receiver.c_ac_minus")
-		(attr smd dnp)
+		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.14058 -0.51)
@@ -1054,7 +1054,7 @@
 		)
 		(path "/7f3a2583-aba6-089a-3049-35d4022fcd65/7f3a2583-aba6-089a-3049-35d4022fcd65")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::receiver.r_rf_plus")
-		(attr smd dnp)
+		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.237258 0.5225)
@@ -1262,7 +1262,7 @@
 		)
 		(path "/26d7883c-e5c8-2ec2-3d77-7d30f6841664/26d7883c-e5c8-2ec2-3d77-7d30f6841664")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::daisy")
-		(attr through_hole dnp)
+		(attr through_hole)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start 1.16 49.59)
@@ -1848,7 +1848,7 @@
 		)
 		(path "/05697a8a-739f-02bb-1798-84fa6109c55b/05697a8a-739f-02bb-1798-84fa6109c55b")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::scaling.r_out_series_p")
-		(attr smd dnp)
+		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.237258 -0.5225)
@@ -2044,7 +2044,7 @@
 		)
 		(path "/5dc9d11d-ed60-c2ce-a3f4-991ec6adb956/5dc9d11d-ed60-c2ce-a3f4-991ec6adb956")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::driver.d_clamp_out_m_vplus")
-		(attr smd dnp)
+		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -2.25 -1)
@@ -2319,7 +2319,7 @@
 		)
 		(path "/598bad69-c166-81a8-9433-f18324d7c0cc/598bad69-c166-81a8-9433-f18324d7c0cc")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::receiver.c_ac_plus")
-		(attr smd dnp)
+		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.14058 0.51)
@@ -2519,7 +2519,7 @@
 		)
 		(path "/552c62de-8a73-4c68-65df-8504f6c92241/552c62de-8a73-4c68-65df-8504f6c92241")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::edge")
-		(attr through_hole dnp)
+		(attr through_hole)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_text user "CHASSIS"
 			(at -8.316 -23.76 0)
@@ -3226,7 +3226,7 @@
 		)
 		(path "/d900b4cf-e076-dc62-4942-df9aa90861d4/d900b4cf-e076-dc62-4942-df9aa90861d4")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::receiver.d_clamp_p_vminus")
-		(attr smd dnp)
+		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -2.25 1)
@@ -3500,7 +3500,7 @@
 		)
 		(path "/c2c07803-fe49-7615-301d-da83f3bba14d/c2c07803-fe49-7615-301d-da83f3bba14d")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::driver.d_clamp_out_p_vminus")
-		(attr smd dnp)
+		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -2.25 -1)
@@ -3775,7 +3775,7 @@
 		)
 		(path "/35593536-8f95-0b54-624c-6be4e0adf3e7/35593536-8f95-0b54-624c-6be4e0adf3e7")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::driver.c_zobel_minus")
-		(attr smd dnp)
+		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.14058 -0.51)
@@ -3971,7 +3971,7 @@
 		)
 		(path "/73e075f1-4dbd-5831-7a76-39a101344ea0/73e075f1-4dbd-5831-7a76-39a101344ea0")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::driver.c_bypass_p")
-		(attr smd dnp)
+		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.107836 0.36)
@@ -4100,6 +4100,7 @@
 			(roundrect_rratio 0.25)
 			(net "gnd")
 			(pintype "stereo")
+			(zone_connect 2)
 			(uuid "73f0b786-e895-4f54-88b2-cbbde73e5da1")
 		)
 		(embedded_fonts no)
@@ -4167,7 +4168,7 @@
 		)
 		(path "/d291dd84-d414-7774-f8c6-7671e69fb7ad/d291dd84-d414-7774-f8c6-7671e69fb7ad")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::driver.r_zobel_plus")
-		(attr smd dnp)
+		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.237258 -0.5225)
@@ -4364,7 +4365,7 @@
 		)
 		(path "/c363bfa7-b176-1e74-cff7-057c3e6df8c4/c363bfa7-b176-1e74-cff7-057c3e6df8c4")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::receiver.c_rf_plus_chas")
-		(attr smd dnp)
+		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.107836 -0.36)
@@ -4573,7 +4574,7 @@
 		)
 		(path "/8a6374e6-52b6-a6db-f3fe-3da47e381bf9/8a6374e6-52b6-a6db-f3fe-3da47e381bf9")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::power.c_bulk_m_elec")
-		(attr smd dnp)
+		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -4.4375 -1.8475)
@@ -5001,7 +5002,7 @@
 		)
 		(path "/ff843693-1f53-e6d7-a64b-d1765225becb/ff843693-1f53-e6d7-a64b-d1765225becb")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::receiver.c_rf")
-		(attr smd dnp)
+		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.107836 -0.36)
@@ -5394,7 +5395,7 @@
 		)
 		(path "/7119f726-687a-ea8f-fa63-1492b36c5c01/7119f726-687a-ea8f-fa63-1492b36c5c01")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::power.c_bulk_m_cer")
-		(attr smd dnp)
+		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.14058 -0.51)
@@ -5538,6 +5539,112 @@
 			)
 		)
 	)
+	(footprint "MountingHole_3.2mm_M3"
+		(layer "F.Cu")
+		(uuid "730f7972-7846-4e8e-b468-f05cc0f447d4")
+		(at 57.17 164.3)
+		(descr "Mounting Hole 3.2mm, M3, no annular, generated by kicad-footprint-generator mountinghole.py")
+		(tags "mountinghole M3")
+		(property "Reference" "MH2"
+			(at 0 -4.15 0)
+			(layer "F.SilkS")
+			(uuid "1143cdd4-a325-419c-a0d6-09cbbda52a08")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Value" "MountingHole_3.2mm_M3"
+			(at 0 4.15 0)
+			(layer "F.Fab")
+			(uuid "f5f0121a-6e0c-45b2-b3a4-7e566f3417a2")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "cbbb74db-1cbe-4bb8-b234-8e39cc102040")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "00043275-b79a-487c-9241-75dca9817398")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "KiLib_Generator" "mounting_hardware/mounting_hole"
+			(at 0 0 0)
+			(layer "F.SilkS")
+			(hide yes)
+			(uuid "19505dbd-de5e-4791-a7f3-15cb372bdcbb")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(attr exclude_from_pos_files exclude_from_bom)
+		(duplicate_pad_numbers_are_jumpers no)
+		(fp_circle
+			(center 0 0)
+			(end 3.2 0)
+			(stroke
+				(width 0.15)
+				(type solid)
+			)
+			(fill no)
+			(layer "Cmts.User")
+			(uuid "5329560d-c6ac-4727-a029-e7b6b4a878ae")
+		)
+		(fp_circle
+			(center 0 0)
+			(end 3.45 0)
+			(stroke
+				(width 0.05)
+				(type solid)
+			)
+			(fill no)
+			(layer "F.CrtYd")
+			(uuid "5eab46e6-d6bb-4fdb-bea9-dcff94f46600")
+		)
+		(fp_text user "${REFERENCE}"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(uuid "a92c9361-7b7d-450d-8017-bbc71d77bf9e")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(pad "" np_thru_hole circle
+			(at 0 0)
+			(size 3.2 3.2)
+			(drill 3.2)
+			(layers "*.Cu" "*.Mask")
+			(uuid "3e000a67-e9cb-4826-a812-f4a26e58fbf3")
+		)
+		(embedded_fonts no)
+	)
 	(footprint "Diode_SMD:D_SOD-123"
 		(layer "F.Cu")
 		(uuid "73139c04-baa8-49da-b895-aadcae4e8e2c")
@@ -5590,7 +5697,7 @@
 		)
 		(path "/37854af2-5161-c1a4-f407-7126660ec524/37854af2-5161-c1a4-f407-7126660ec524")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::driver.d_clamp_out_p_vplus")
-		(attr smd dnp)
+		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -2.25 -1)
@@ -5876,7 +5983,7 @@
 		)
 		(path "/46f60a2a-3c3c-de7f-bfee-2627c2b4c4fd/46f60a2a-3c3c-de7f-bfee-2627c2b4c4fd")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::driver.c_ext_minus")
-		(attr smd dnp)
+		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -3.625 -1.685)
@@ -6304,7 +6411,7 @@
 		)
 		(path "/b8b24f57-88d0-7d0b-f38e-5c1b94332e91/b8b24f57-88d0-7d0b-f38e-5c1b94332e91")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::scaling.c_out_filter")
-		(attr smd dnp)
+		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.14058 -0.51)
@@ -6513,7 +6620,7 @@
 		)
 		(path "/bfef5be8-284a-09d0-b053-50f4ea86b5bb/bfef5be8-284a-09d0-b053-50f4ea86b5bb")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::c29")
-		(attr smd dnp)
+		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -4.4375 -1.8475)
@@ -6940,7 +7047,7 @@
 		)
 		(path "/235b8f24-9880-19e8-af23-bbd6fd9efb61/235b8f24-9880-19e8-af23-bbd6fd9efb61")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::driver.r_zobel_minus")
-		(attr smd dnp)
+		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.237258 0.5225)
@@ -7137,7 +7244,7 @@
 		)
 		(path "/9812d643-1a88-6d4e-5a63-b42a802772c1/9812d643-1a88-6d4e-5a63-b42a802772c1")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::receiver.d_clamp_p_vplus")
-		(attr smd dnp)
+		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -2.25 -1)
@@ -7411,7 +7518,7 @@
 		)
 		(path "/de99a298-571e-ec33-5a74-c2f9969d39bb/de99a298-571e-ec33-5a74-c2f9969d39bb")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::driver.ic")
-		(attr smd dnp)
+		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start 0 -2.56)
@@ -7692,7 +7799,7 @@
 		)
 		(path "/55bd8659-597a-0c8b-1a2a-2e3b0186fd62/55bd8659-597a-0c8b-1a2a-2e3b0186fd62")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::scaling.r_out_series_m")
-		(attr smd dnp)
+		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.237258 -0.5225)
@@ -7889,7 +7996,7 @@
 		)
 		(path "/cb6c72b7-36a6-68b7-e6cd-d677e43ac8c3/cb6c72b7-36a6-68b7-e6cd-d677e43ac8c3")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::power.d_protect_p")
-		(attr smd dnp)
+		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -3.4 -1.65)
@@ -8154,7 +8261,7 @@
 		)
 		(path "/1e0912d2-fef6-2847-0298-ee4bdc2d933e/1e0912d2-fef6-2847-0298-ee4bdc2d933e")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::scaling.c_in_filter")
-		(attr smd dnp)
+		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.14058 -0.51)
@@ -8351,7 +8458,7 @@
 		)
 		(path "/1d27bb3c-da64-2dcf-942d-c6b1d19471c9/1d27bb3c-da64-2dcf-942d-c6b1d19471c9")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::receiver.c_bypass_plus")
-		(attr smd dnp)
+		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.14058 -0.51)
@@ -8741,6 +8848,7 @@
 			(remove_unused_layers no)
 			(net "gnd")
 			(pintype "stereo")
+			(zone_connect 2)
 			(uuid "d31315a0-7536-4c4c-a578-a8518aac1725")
 		)
 		(pad "4" thru_hole circle
@@ -8761,6 +8869,7 @@
 			(remove_unused_layers no)
 			(net "gnd")
 			(pintype "stereo")
+			(zone_connect 2)
 			(uuid "116d16bd-b820-49d8-a14f-99ada2002246")
 		)
 		(pad "6" thru_hole circle
@@ -8781,6 +8890,7 @@
 			(remove_unused_layers no)
 			(net "gnd")
 			(pintype "stereo")
+			(zone_connect 2)
 			(uuid "e444e20b-db2b-4839-8f41-e674ee2fa850")
 		)
 		(pad "8" thru_hole circle
@@ -8979,7 +9089,7 @@
 		)
 		(path "/c1edc84a-5968-35ca-f67d-67db42645a41/c1edc84a-5968-35ca-f67d-67db42645a41")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::scaling.r_out_bias")
-		(attr smd dnp)
+		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.237258 -0.5225)
@@ -9176,7 +9286,7 @@
 		)
 		(path "/51e72d32-992f-fe4c-4222-59789e8434d9/51e72d32-992f-fe4c-4222-59789e8434d9")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::receiver.r_rf_minus")
-		(attr smd dnp)
+		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.237258 0.5225)
@@ -9373,7 +9483,7 @@
 		)
 		(path "/4709c7e3-33d5-4994-2639-32c2a399343f/4709c7e3-33d5-4994-2639-32c2a399343f")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::scaling.r_in_series")
-		(attr smd dnp)
+		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.237258 -0.5225)
@@ -9570,7 +9680,7 @@
 		)
 		(path "/7596725b-73e2-fff6-7d61-17563dd95997/7596725b-73e2-fff6-7d61-17563dd95997")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::scaling.c_bypass_p")
-		(attr smd dnp)
+		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.14058 0.51)
@@ -9767,7 +9877,7 @@
 		)
 		(path "/afa75cf9-ea68-d39b-72be-6a9d1afefdfe/afa75cf9-ea68-d39b-72be-6a9d1afefdfe")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::scaling.c_bypass_m")
-		(attr smd dnp)
+		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.14058 -0.51)
@@ -9975,7 +10085,7 @@
 		)
 		(path "/f3c8b3b3-bc95-a12c-1004-09840090f242/f3c8b3b3-bc95-a12c-1004-09840090f242")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::power.regulator")
-		(attr through_hole dnp)
+		(attr through_hole)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start 7.65 1.36)
@@ -10205,7 +10315,7 @@
 		)
 		(path "/81959d2e-c74d-f234-daab-6acbaf270dd6/81959d2e-c74d-f234-daab-6acbaf270dd6")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::scaling.ic")
-		(attr smd dnp)
+		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start 0 -2.56)
@@ -10485,7 +10595,7 @@
 		)
 		(path "/a434f012-e79b-d0fe-044d-a254d291f5d5/a434f012-e79b-d0fe-044d-a254d291f5d5")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::driver.d_clamp_out_m_vminus")
-		(attr smd dnp)
+		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -2.25 -1)
@@ -10759,7 +10869,7 @@
 		)
 		(path "/7e08bf57-ccb6-6c94-4868-21155d47c349/7e08bf57-ccb6-6c94-4868-21155d47c349")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::power.c_5v_cer")
-		(attr smd dnp)
+		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.14058 -0.51)
@@ -10955,7 +11065,7 @@
 		)
 		(path "/dd22f48c-b695-84c6-77a5-4a78c9791aea/dd22f48c-b695-84c6-77a5-4a78c9791aea")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::receiver.ic")
-		(attr smd dnp)
+		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start 0 2.56)
@@ -11183,6 +11293,112 @@
 			)
 		)
 	)
+	(footprint "MountingHole_3.2mm_M3"
+		(layer "F.Cu")
+		(uuid "c87622da-8314-403e-9081-ce4453c22ec2")
+		(at 57.17 60)
+		(descr "Mounting Hole 3.2mm, M3, no annular, generated by kicad-footprint-generator mountinghole.py")
+		(tags "mountinghole M3")
+		(property "Reference" "MH1"
+			(at 0 -4.15 0)
+			(layer "F.SilkS")
+			(uuid "7ab34520-5b9e-4ee6-afc9-5df7ee60a022")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Value" "MountingHole_3.2mm_M3"
+			(at 0 4.15 0)
+			(layer "F.Fab")
+			(uuid "6bd19564-45ed-4a32-96aa-9c20dbba5b77")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "4751f8b5-20d0-4a13-9801-209c1cef06a6")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "eb29fbeb-c172-449b-874d-080d5cbb19ab")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "KiLib_Generator" "mounting_hardware/mounting_hole"
+			(at 0 0 0)
+			(layer "F.SilkS")
+			(hide yes)
+			(uuid "8af94866-931c-4fb7-a832-6ac84c46f502")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(attr exclude_from_pos_files exclude_from_bom)
+		(duplicate_pad_numbers_are_jumpers no)
+		(fp_circle
+			(center 0 0)
+			(end 3.2 0)
+			(stroke
+				(width 0.15)
+				(type solid)
+			)
+			(fill no)
+			(layer "Cmts.User")
+			(uuid "c175a94c-2083-4964-b7e7-7193a1a83b31")
+		)
+		(fp_circle
+			(center 0 0)
+			(end 3.45 0)
+			(stroke
+				(width 0.05)
+				(type solid)
+			)
+			(fill no)
+			(layer "F.CrtYd")
+			(uuid "8d414afe-0ec3-49d5-8101-846bbf170da0")
+		)
+		(fp_text user "${REFERENCE}"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(uuid "5751f746-10cf-48ab-9e69-90311d117f83")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(pad "" np_thru_hole circle
+			(at 0 0)
+			(size 3.2 3.2)
+			(drill 3.2)
+			(layers "*.Cu" "*.Mask")
+			(uuid "8f6a0c82-547d-487c-b56e-8df79787b5fb")
+		)
+		(embedded_fonts no)
+	)
 	(footprint "Diode_SMD:D_SOD-123"
 		(layer "F.Cu")
 		(uuid "cd417dad-9b9b-4428-8677-babeed55afc9")
@@ -11236,7 +11452,7 @@
 		)
 		(path "/d190b693-cc33-8f39-b5d6-cedf9486c262/d190b693-cc33-8f39-b5d6-cedf9486c262")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::receiver.d_clamp_n_vplus")
-		(attr smd dnp)
+		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -2.25 1)
@@ -11511,7 +11727,7 @@
 		)
 		(path "/94d72781-1fa6-f350-0da0-951cf227153c/94d72781-1fa6-f350-0da0-951cf227153c")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::receiver.c_rf_minus_chas")
-		(attr smd dnp)
+		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.107836 -0.36)
@@ -11707,7 +11923,7 @@
 		)
 		(path "/4f1c7719-e0c8-5ce7-8592-1f195ce9c0ba/4f1c7719-e0c8-5ce7-8592-1f195ce9c0ba")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::driver.c_bypass_m")
-		(attr smd dnp)
+		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.107836 0.36)
@@ -11904,7 +12120,7 @@
 		)
 		(path "/b23c234c-65ac-9d65-8c2c-33288da07b5e/b23c234c-65ac-9d65-8c2c-33288da07b5e")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::scaling.r_out_feedback")
-		(attr smd dnp)
+		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.237258 -0.5225)
@@ -12101,7 +12317,7 @@
 		)
 		(path "/eea5ff45-fbbe-d24f-951d-27e435df9973/eea5ff45-fbbe-d24f-951d-27e435df9973")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::receiver.c_cm")
-		(attr smd dnp)
+		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.14058 -0.51)
@@ -12298,7 +12514,7 @@
 		)
 		(path "/b03fed53-e933-208c-4afe-35388f8bc054/b03fed53-e933-208c-4afe-35388f8bc054")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::receiver.c_bypass_minus")
-		(attr smd dnp)
+		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.14058 0.51)
@@ -12506,7 +12722,7 @@
 		)
 		(path "/22535129-0f61-a2bc-a57b-08f9333528ac/22535129-0f61-a2bc-a57b-08f9333528ac")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::driver.c_ext_plus")
-		(attr smd dnp)
+		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -3.625 -1.685)
@@ -12881,77 +13097,6 @@
 			)
 		)
 	)
-	(footprint ""
-		(layer "F.Cu")
-		(uuid "e341b0a6-69c2-4388-8e6c-e7e7390e1588")
-		(at 100 55)
-		(property "Reference" "DUMMY"
-			(at 0 0 0)
-			(layer "F.SilkS")
-			(uuid "192f30fb-75ec-419c-b16c-ae9a8319a6a9")
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" ""
-			(at 0 0 0)
-			(layer "F.Fab")
-			(uuid "d99c0683-0d2b-420d-8857-d4e07b57160a")
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "501f85bc-66fc-4941-b66b-e259a6fac53c")
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" ""
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "2ec50f3f-210b-4667-94aa-5f23062a15cd")
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(duplicate_pad_numbers_are_jumpers no)
-		(embedded_fonts no)
-		(model "faceplate_logic.step"
-			(offset
-				(xyz 0 0 133.45)
-			)
-			(scale
-				(xyz 1 1 1)
-			)
-			(rotate
-				(xyz -90 0 90)
-			)
-		)
-		(model "faceplate_front.step"
-			(offset
-				(xyz -11 0 133.45)
-			)
-			(scale
-				(xyz 1 1 1)
-			)
-			(rotate
-				(xyz -90 0 90)
-			)
-		)
-	)
 	(footprint "Capacitor_SMD:CP_Elec_6.3x5.4"
 		(layer "F.Cu")
 		(uuid "ef55158c-cb17-4ed4-93b2-25e6be7b50eb")
@@ -13017,7 +13162,7 @@
 		)
 		(path "/bc041208-4194-8387-be1b-eec7588d6010/bc041208-4194-8387-be1b-eec7588d6010")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::c28")
-		(attr smd dnp)
+		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -4.4375 -1.8475)
@@ -13445,7 +13590,7 @@
 		)
 		(path "/fa883332-31f1-de32-7a01-8a29d2ef9608/fa883332-31f1-de32-7a01-8a29d2ef9608")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::driver.c_zobel_plus")
-		(attr smd dnp)
+		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.14058 0.51)
@@ -13642,7 +13787,7 @@
 		)
 		(path "/58facd1e-23ff-0ed3-da7b-220ca0767622/58facd1e-23ff-0ed3-da7b-220ca0767622")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::power.d_protect_m")
-		(attr smd dnp)
+		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -3.4 1.65)
@@ -13919,7 +14064,7 @@
 		)
 		(path "/5af800ea-9ddd-9818-6aa9-cdc631942ce7/5af800ea-9ddd-9818-6aa9-cdc631942ce7")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::power.c_bulk_p_elec")
-		(attr smd dnp)
+		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start 3.41 3.41)
@@ -14347,7 +14492,7 @@
 		)
 		(path "/2a42c3c9-3683-1ca2-f630-b1d1f8ae5b04/2a42c3c9-3683-1ca2-f630-b1d1f8ae5b04")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::scaling.r_in_feedback")
-		(attr smd dnp)
+		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.237258 -0.5225)
@@ -14544,7 +14689,7 @@
 		)
 		(path "/13e674ad-9b96-764e-2077-886eff95b37a/13e674ad-9b96-764e-2077-886eff95b37a")
 		(sheetname "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\elec\\src\\main.ato:VprCarrier500::power.c_bulk_p_cer")
-		(attr smd dnp)
+		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.14058 0.51)
@@ -14754,6 +14899,16 @@
 		(uuid "d954dbf9-3278-4a2e-a19a-70f2b75e9509")
 	)
 	(gr_line
+		(start 52.17 169.3)
+		(end 52.17 55)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(layer "Edge.Cuts")
+		(uuid "4dcb63e6-0655-4aab-b8e9-08511d69ed13")
+	)
+	(gr_line
 		(start 195 55)
 		(end 195 71.5)
 		(stroke
@@ -14772,26 +14927,6 @@
 		)
 		(layer "Edge.Cuts")
 		(uuid "55b63a4a-ab45-4401-8095-b00582bf340d")
-	)
-	(gr_line
-		(start 203 71.5)
-		(end 203 134)
-		(stroke
-			(width 0.1)
-			(type default)
-		)
-		(layer "Edge.Cuts")
-		(uuid "30d459ca-88a6-4f9d-b459-dadb9f6dd239")
-	)
-	(gr_line
-		(start 203 134)
-		(end 195 134)
-		(stroke
-			(width 0.1)
-			(type default)
-		)
-		(layer "Edge.Cuts")
-		(uuid "aa1b8e59-f721-4520-81f3-b5e3f8656499")
 	)
 	(gr_line
 		(start 195 134)
@@ -14814,14 +14949,24 @@
 		(uuid "d49b667b-a043-4242-9af4-d2f39e48a219")
 	)
 	(gr_line
-		(start 52.17 169.3)
-		(end 52.17 55)
+		(start 203 71.5)
+		(end 203 134)
 		(stroke
 			(width 0.1)
 			(type default)
 		)
 		(layer "Edge.Cuts")
-		(uuid "4dcb63e6-0655-4aab-b8e9-08511d69ed13")
+		(uuid "30d459ca-88a6-4f9d-b459-dadb9f6dd239")
+	)
+	(gr_line
+		(start 203 134)
+		(end 195 134)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(layer "Edge.Cuts")
+		(uuid "aa1b8e59-f721-4520-81f3-b5e3f8656499")
 	)
 	(gr_text "DIGITAL"
 		(at 127.873162 103.2775 0)
@@ -16219,12 +16364,28 @@
 		(uuid "03e29e94-a054-4684-83f1-e379c465380e")
 	)
 	(segment
+		(start 156.53 78.05)
+		(end 156.53 77.06)
+		(width 0.4)
+		(layer "F.Cu")
+		(net "gnd")
+		(uuid "047c285f-02cd-403f-8548-90ddf3708ef1")
+	)
+	(segment
 		(start 178.867 145.086)
 		(end 180.067 146.286)
 		(width 0.25)
 		(layer "F.Cu")
 		(net "gnd")
 		(uuid "0504af78-eaf7-4b3c-8ed5-fdd16bae6aca")
+	)
+	(segment
+		(start 165.05 94.335)
+		(end 165.05 91.1)
+		(width 0.4)
+		(layer "F.Cu")
+		(net "gnd")
+		(uuid "08eeff4b-78cd-4dab-a2be-606932bfb075")
 	)
 	(segment
 		(start 160.725 117.34)
@@ -16235,12 +16396,36 @@
 		(uuid "09212176-4e31-4fb2-afc5-41a5b88404d0")
 	)
 	(segment
+		(start 116.776 108.5744)
+		(end 103.06 108.5744)
+		(width 0.4)
+		(layer "F.Cu")
+		(net "gnd")
+		(uuid "0f8d6d13-bf5f-4453-af11-03db2358eac9")
+	)
+	(segment
 		(start 148.25 98.2)
 		(end 149.45 99.4)
 		(width 0.25)
 		(layer "F.Cu")
 		(net "gnd")
 		(uuid "199c6a66-2820-4cb4-9cfb-91940c48d854")
+	)
+	(segment
+		(start 117.03 102.9864)
+		(end 117.792 103.7484)
+		(width 0.4)
+		(layer "F.Cu")
+		(net "gnd")
+		(uuid "19a7bd17-8930-4641-8220-148849510897")
+	)
+	(segment
+		(start 129.73 128.6404)
+		(end 129.73 131.1804)
+		(width 0.4)
+		(layer "F.Cu")
+		(net "gnd")
+		(uuid "20206e15-8f80-45bc-ab96-2b4376e4ed1d")
 	)
 	(segment
 		(start 161.575 140.086)
@@ -16251,6 +16436,22 @@
 		(uuid "2688dbbd-190b-4781-9e64-b2891d11aae5")
 	)
 	(segment
+		(start 172.7 90.979)
+		(end 172.7 90.65)
+		(width 0.4)
+		(layer "F.Cu")
+		(net "gnd")
+		(uuid "285d46e8-24ec-484b-ad6c-e536d39434f8")
+	)
+	(segment
+		(start 117.03 108.3204)
+		(end 116.776 108.5744)
+		(width 0.4)
+		(layer "F.Cu")
+		(net "gnd")
+		(uuid "28de419a-3e23-4da5-aa47-bc74907c547c")
+	)
+	(segment
 		(start 165.525 140.086)
 		(end 166.725 141.286)
 		(width 0.25)
@@ -16259,12 +16460,44 @@
 		(uuid "2b1ce212-d0ba-4cc5-9a91-4589a6d05bee")
 	)
 	(segment
-		(start 159.5 78)
-		(end 159.5 76.5)
-		(width 0.25)
+		(start 102.552 108.3204)
+		(end 101.028 106.7964)
+		(width 0.4)
 		(layer "F.Cu")
 		(net "gnd")
-		(uuid "3b8c5521-2355-4e3f-8571-cddb13739bce")
+		(uuid "3554b448-a36a-48ea-893b-2b4d14cb3279")
+	)
+	(segment
+		(start 117.792 103.7484)
+		(end 117.792 107.5584)
+		(width 0.4)
+		(layer "F.Cu")
+		(net "gnd")
+		(uuid "3ac8fcf5-fab9-468a-adcb-72dd5bf85c5f")
+	)
+	(segment
+		(start 198.5 122.659)
+		(end 178.24 122.659)
+		(width 0.4)
+		(layer "F.Cu")
+		(net "gnd")
+		(uuid "3dd24072-ac3a-462c-ac6e-72679ea62d4c")
+	)
+	(segment
+		(start 94.17 108.3204)
+		(end 93.916 108.5744)
+		(width 0.4)
+		(layer "F.Cu")
+		(net "gnd")
+		(uuid "46e52001-085c-4d8b-b902-7f9df13f709b")
+	)
+	(segment
+		(start 94.424 108.3204)
+		(end 94.17 108.3204)
+		(width 0.4)
+		(layer "F.Cu")
+		(net "gnd")
+		(uuid "4746664b-b80e-4d2e-81dd-aac015362fe5")
 	)
 	(segment
 		(start 148.3 89.3)
@@ -16275,12 +16508,76 @@
 		(uuid "4c831ee8-2337-4b74-8b8f-7148befc59f1")
 	)
 	(segment
+		(start 155.24 78.05)
+		(end 156.53 78.05)
+		(width 0.4)
+		(layer "F.Cu")
+		(net "gnd")
+		(uuid "50199972-9926-441d-9c5a-d8f5d0855c49")
+	)
+	(segment
+		(start 162.75 144.8964)
+		(end 162.75 141.0864)
+		(width 0.4)
+		(layer "F.Cu")
+		(net "gnd")
+		(uuid "5763764a-570e-4a88-8fb0-f7bc887002ae")
+	)
+	(segment
+		(start 95.694 106.7964)
+		(end 95.694 107.0504)
+		(width 0.4)
+		(layer "F.Cu")
+		(net "gnd")
+		(uuid "5bc919aa-7359-4658-8d81-cee6bb56f641")
+	)
+	(segment
+		(start 160.21 79.1104)
+		(end 160.464 79.1104)
+		(width 0.4)
+		(layer "F.Cu")
+		(net "gnd")
+		(uuid "5d9aa6ee-ee37-4f30-a2c1-5832f99ffda4")
+	)
+	(segment
+		(start 178.24 122.659)
+		(end 178.24 141.29)
+		(width 0.4)
+		(layer "F.Cu")
+		(net "gnd")
+		(uuid "60df2489-3f4b-40f9-8d46-41c11ce6ba4a")
+	)
+	(segment
+		(start 198.5 122.659)
+		(end 178.24 122.659)
+		(width 0.4)
+		(layer "F.Cu")
+		(net "gnd")
+		(uuid "63c04e81-37e1-4de3-8e0a-a179a7b7b4de")
+	)
+	(segment
+		(start 198.5 90.979)
+		(end 172.7 90.979)
+		(width 0.4)
+		(layer "F.Cu")
+		(net "gnd")
+		(uuid "64e3a4e3-0899-4419-8a29-6df6cbd3b687")
+	)
+	(segment
 		(start 159.25 111.436)
 		(end 160.45 112.636)
 		(width 0.25)
 		(layer "F.Cu")
 		(net "gnd")
 		(uuid "6796e22d-36e4-491c-8fa2-ca5b81dc5e45")
+	)
+	(segment
+		(start 103.06 108.5744)
+		(end 102.806 108.3204)
+		(width 0.4)
+		(layer "F.Cu")
+		(net "gnd")
+		(uuid "6d0aa1a6-7efc-4f71-82d4-ff828ff9eee2")
 	)
 	(segment
 		(start 131.22 136.51)
@@ -16291,12 +16588,60 @@
 		(uuid "6da7c307-9333-4c6a-8780-362fe972826c")
 	)
 	(segment
+		(start 92.9 108.5744)
+		(end 92.646 108.3204)
+		(width 0.4)
+		(layer "F.Cu")
+		(net "gnd")
+		(uuid "78f4d3fa-eaa8-40aa-b554-55122e6a12fe")
+	)
+	(segment
+		(start 92.646 108.3204)
+		(end 92.392 108.3204)
+		(width 0.4)
+		(layer "F.Cu")
+		(net "gnd")
+		(uuid "841c1d6a-3c76-4a12-9508-3d0c000858a9")
+	)
+	(segment
+		(start 163.675 94.335)
+		(end 165.05 94.335)
+		(width 0.4)
+		(layer "F.Cu")
+		(net "gnd")
+		(uuid "87725db2-1d8a-4eb5-9d56-1b8a9d03bf47")
+	)
+	(segment
 		(start 177.042 140.086)
 		(end 178.242 141.286)
 		(width 0.25)
 		(layer "F.Cu")
 		(net "gnd")
 		(uuid "89959d87-5cce-4ee0-9648-c9c4bb1dbe7a")
+	)
+	(segment
+		(start 198.5 90.979)
+		(end 172.7 90.979)
+		(width 0.4)
+		(layer "F.Cu")
+		(net "gnd")
+		(uuid "89991fb7-bc87-40e8-9528-bad6c8d65a5c")
+	)
+	(segment
+		(start 117.538 108.0664)
+		(end 117.284 108.3204)
+		(width 0.4)
+		(layer "F.Cu")
+		(net "gnd")
+		(uuid "8aa71ddb-d212-48b0-86b5-bc77b41f0e43")
+	)
+	(segment
+		(start 171.386 95.6204)
+		(end 170.116 96.8904)
+		(width 0.4)
+		(layer "F.Cu")
+		(net "gnd")
+		(uuid "910d52d9-0413-4c7b-a35f-a43839852c77")
 	)
 	(segment
 		(start 157.025 119.436)
@@ -16315,12 +16660,52 @@
 		(uuid "95d8fc23-e0ed-4472-a1e1-8159b8811534")
 	)
 	(segment
+		(start 101.028 106.7964)
+		(end 98.234 106.7964)
+		(width 0.4)
+		(layer "F.Cu")
+		(net "gnd")
+		(uuid "a97db852-3878-4c66-b0dc-7e1a6e3fecaa")
+	)
+	(segment
+		(start 159.702 78.0944)
+		(end 159.702 78.6024)
+		(width 0.4)
+		(layer "F.Cu")
+		(net "gnd")
+		(uuid "ac518bb0-2d2d-4d6b-a898-a6480f35430a")
+	)
+	(segment
 		(start 161 135.086)
 		(end 162.2 136.286)
 		(width 0.25)
 		(layer "F.Cu")
 		(net "gnd")
 		(uuid "ad192d40-c533-4e41-8969-65f29b44a630")
+	)
+	(segment
+		(start 159.448 77.8404)
+		(end 159.702 78.0944)
+		(width 0.4)
+		(layer "F.Cu")
+		(net "gnd")
+		(uuid "ade6756f-fa4f-4693-8498-cc49a04349e3")
+	)
+	(segment
+		(start 92.392 108.3204)
+		(end 91.884 107.8124)
+		(width 0.4)
+		(layer "F.Cu")
+		(net "gnd")
+		(uuid "b92e30b1-935e-4f3b-bed6-a303e8017062")
+	)
+	(segment
+		(start 93.916 108.5744)
+		(end 92.9 108.5744)
+		(width 0.4)
+		(layer "F.Cu")
+		(net "gnd")
+		(uuid "bd031097-443d-4d88-b792-6849fe4b6463")
 	)
 	(segment
 		(start 162.85 72)
@@ -16331,12 +16716,44 @@
 		(uuid "c3d022c9-17df-450b-985a-3bb81265db74")
 	)
 	(segment
+		(start 95.694 107.0504)
+		(end 94.424 108.3204)
+		(width 0.4)
+		(layer "F.Cu")
+		(net "gnd")
+		(uuid "c70dc57d-787b-4b1f-bc97-c4cc724aad97")
+	)
+	(segment
 		(start 163.85 89.9)
 		(end 165.05 91.1)
 		(width 0.25)
 		(layer "F.Cu")
 		(net "gnd")
 		(uuid "ccaa9420-afb6-4e82-ba27-5f6dee5bc065")
+	)
+	(segment
+		(start 102.806 108.3204)
+		(end 102.552 108.3204)
+		(width 0.4)
+		(layer "F.Cu")
+		(net "gnd")
+		(uuid "ce2332db-2678-4e68-8657-cdf1ed0fc965")
+	)
+	(segment
+		(start 163.258 145.4044)
+		(end 162.75 144.8964)
+		(width 0.4)
+		(layer "F.Cu")
+		(net "gnd")
+		(uuid "d21c066c-7d63-46be-b621-528750de58b7")
+	)
+	(segment
+		(start 117.284 108.3204)
+		(end 117.03 108.3204)
+		(width 0.4)
+		(layer "F.Cu")
+		(net "gnd")
+		(uuid "d2c23201-0d81-4c49-9f5d-35e18ce5b75e")
 	)
 	(segment
 		(start 152.625 72.1)
@@ -16347,6 +16764,14 @@
 		(uuid "d59a7aca-9a8b-4eef-98ce-c1cabd0cb41d")
 	)
 	(segment
+		(start 98.45 107)
+		(end 100.99 107)
+		(width 0.25)
+		(layer "F.Cu")
+		(net "gnd")
+		(uuid "e038f5f3-b82e-4032-a9fc-688097697f78")
+	)
+	(segment
 		(start 129.873 131.278)
 		(end 131.073 132.478)
 		(width 0.25)
@@ -16355,12 +16780,68 @@
 		(uuid "e0a27ead-378c-47bb-8799-3e64b0af479b")
 	)
 	(segment
+		(start 91.884 103.7484)
+		(end 92.646 102.9864)
+		(width 0.4)
+		(layer "F.Cu")
+		(net "gnd")
+		(uuid "e1a7f572-1b35-4305-937e-33f85fa2f723")
+	)
+	(segment
+		(start 92.646 102.9864)
+		(end 117.03 102.9864)
+		(width 0.4)
+		(layer "F.Cu")
+		(net "gnd")
+		(uuid "e41d0335-234b-4d35-8785-79a2b148c210")
+	)
+	(segment
+		(start 117.538 107.8124)
+		(end 117.538 108.0664)
+		(width 0.4)
+		(layer "F.Cu")
+		(net "gnd")
+		(uuid "e59dbe76-593e-4683-a59e-97729f874629")
+	)
+	(segment
+		(start 117.792 107.5584)
+		(end 117.538 107.8124)
+		(width 0.4)
+		(layer "F.Cu")
+		(net "gnd")
+		(uuid "ee9725cf-c5a5-4df9-ba4a-b0ea27864586")
+	)
+	(segment
 		(start 155.325 75.855)
 		(end 156.525 77.055)
 		(width 0.25)
 		(layer "F.Cu")
 		(net "gnd")
 		(uuid "f0666aad-a6a6-4739-a3e5-187733af6464")
+	)
+	(segment
+		(start 159.702 78.6024)
+		(end 160.21 79.1104)
+		(width 0.4)
+		(layer "F.Cu")
+		(net "gnd")
+		(uuid "f8fe594a-9eed-4731-bbbf-714ebb2c1908")
+	)
+	(segment
+		(start 91.884 107.8124)
+		(end 91.884 103.7484)
+		(width 0.4)
+		(layer "F.Cu")
+		(net "gnd")
+		(uuid "face9ef8-18c6-43f3-84ea-aecb24c4050c")
+	)
+	(segment
+		(start 130.746 127.6244)
+		(end 129.73 128.6404)
+		(width 0.4)
+		(layer "F.Cu")
+		(net "gnd")
+		(uuid "fd525361-3007-4c12-a38c-e374ffe9e791")
 	)
 	(via
 		(at 132.42 137.71)
@@ -16428,7 +16909,7 @@
 		(uuid "57d8751e-7ce2-4520-b1cc-7a1501ed53d8")
 	)
 	(via
-		(at 159.5 76.5)
+		(at 157.5 76.5)
 		(size 0.6)
 		(drill 0.3)
 		(layers "F.Cu" "B.Cu")
@@ -16930,14 +17411,6 @@
 		(layer "B.Cu")
 		(net "d13")
 		(uuid "ead932b5-daf0-45bc-87da-f23606e042ae")
-	)
-	(via
-		(at 102.49 107)
-		(size 0.6)
-		(drill 0.3)
-		(layers "F.Cu" "B.Cu")
-		(net "d14")
-		(uuid "df0a3bee-e540-4fb2-9dce-f9d533c73126")
 	)
 	(segment
 		(start 101.2066 109.3234)
@@ -19156,33 +19629,6 @@
 		(polygon
 			(pts
 				(xy 51.125 55.475) (xy 202.525 55.475) (xy 202.525 159.525) (xy 51.125 159.525)
-			)
-		)
-		(filled_polygon
-			(layer "F.Cu")
-			(pts
-				(xy 99.75663 104.470253) (xy 99.814863 104.508863) (xy 99.842473 104.569321) (xy 99.867829 104.72941)
-				(xy 99.923787 104.901636) (xy 99.923788 104.901639) (xy 100.006006 105.062997) (xy 100.112441 105.209494)
-				(xy 100.112445 105.209499) (xy 100.2405 105.337554) (xy 100.240505 105.337558) (xy 100.313705 105.39074)
-				(xy 100.387006 105.443996) (xy 100.492484 105.49774) (xy 100.54836 105.526211) (xy 100.548363 105.526212)
-				(xy 100.59726 105.542099) (xy 100.720591 105.582171) (xy 100.840038 105.601089) (xy 100.882279 105.60778)
-				(xy 100.945414 105.637709) (xy 100.982345 105.697021) (xy 100.981347 105.766883) (xy 100.942737 105.825116)
-				(xy 100.882279 105.852726) (xy 100.720706 105.878317) (xy 100.548555 105.934251) (xy 100.548552 105.934252)
-				(xy 100.38727 106.016431) (xy 100.387268 106.016432) (xy 100.330511 106.057667) (xy 100.330511 106.057668)
-				(xy 100.804823 106.53198) (xy 100.797007 106.534075) (xy 100.682993 106.599901) (xy 100.589901 106.692993)
-				(xy 100.524075 106.807007) (xy 100.52198 106.814823) (xy 100.047668 106.340511) (xy 100.047667 106.340511)
-				(xy 100.006432 106.397268) (xy 100.006431 106.39727) (xy 99.924252 106.558552) (xy 99.924251 106.558555)
-				(xy 99.868317 106.730706) (xy 99.842473 106.893879) (xy 99.812544 106.957014) (xy 99.753232 106.993945)
-				(xy 99.68337 106.992947) (xy 99.625137 106.954337) (xy 99.597527 106.893879) (xy 99.571682 106.730706)
-				(xy 99.515748 106.558555) (xy 99.515747 106.558552) (xy 99.433565 106.397265) (xy 99.392331 106.340511)
-				(xy 99.39233 106.34051) (xy 98.918018 106.814821) (xy 98.915925 106.807007) (xy 98.850099 106.692993)
-				(xy 98.757007 106.599901) (xy 98.642993 106.534075) (xy 98.635175 106.53198) (xy 99.109487 106.057668)
-				(xy 99.109487 106.057667) (xy 99.052734 106.016434) (xy 98.891447 105.934252) (xy 98.891444 105.934251)
-				(xy 98.719293 105.878317) (xy 98.55772 105.852726) (xy 98.494585 105.822797) (xy 98.457654 105.763485)
-				(xy 98.458652 105.693623) (xy 98.497262 105.63539) (xy 98.55772 105.60778) (xy 98.57227 105.605475)
-				(xy 98.719409 105.582171) (xy 98.891639 105.526211) (xy 99.052994 105.443996) (xy 99.199501 105.337553)
-				(xy 99.327553 105.209501) (xy 99.433996 105.062994) (xy 99.516211 104.901639) (xy 99.572171 104.729409)
-				(xy 99.586422 104.639425) (xy 99.597527 104.569321) (xy 99.627456 104.506186) (xy 99.686768 104.469255)
 			)
 		)
 		(filled_polygon
@@ -23574,21 +24020,4 @@
 		)
 	)
 	(embedded_fonts no)
-
-  (footprint "MountingHole:MountingHole_3.2mm_M3" (layer "F.Cu")
-    (attr exclude_from_pos_files exclude_from_bom)
-    (fp_text reference "DUMMY" (at 0 0) (layer "F.SilkS")
-      (effects (font (size 1 1) (thickness 0.15)))
-    )
-    (model "build/icio500/panel_satellite.step"
-      (offset (xyz 90 -59.175 -119.05))
-      (scale (xyz 1 1 1))
-      (rotate (xyz 0 -90 0))
-    )
-    (model "build/icio500/faceplate_front.step"
-      (offset (xyz 75 -59.175 -119.05))
-      (scale (xyz 1 1 1))
-      (rotate (xyz 0 -90 0))
-    )
-  )
 )

@@ -1,86 +1,63 @@
-import os
-import sys
+import os, sys
 import pcbnew
 import subprocess
 from pathlib import Path
+import shutil
 
-def main():
-    base_dir = Path('build/icio500').absolute()
-    assembly_kicad = base_dir / 'icio500_3d_assembly.kicad_pcb'
-    
-    if not assembly_kicad.exists():
-        print(f"Error: {assembly_kicad} not found.")
-        return
+base_dir = Path('build/icio500').absolute()
+main_kicad = base_dir / 'icio500.kicad_pcb'
+assembly_kicad = base_dir / 'icio500_3d_assembly.kicad_pcb'
 
-    b = pcbnew.LoadBoard(str(assembly_kicad))
-    
-    dummy = b.FindFootprintByReference('DUMMY')
-    if not dummy:
-        print("Creating DUMMY anchor footprint...")
-        dummy = pcbnew.FOOTPRINT(b)
-        dummy.SetReference('DUMMY')
-        dummy.SetPosition(pcbnew.VECTOR2I(int(100.0 * 1e6), int(55.0 * 1e6)))
-        
-        # Add 2 3D models to it
-        m1 = pcbnew.FP_3DMODEL()
-        m1.m_Show = False
-        dummy.Models().push_back(m1)
-        m2 = pcbnew.FP_3DMODEL()
-        m2.m_Show = False
-        dummy.Models().push_back(m2)
-        
-        b.Add(dummy)
+# Copy fresh main board to assembly
+shutil.copy2(main_kicad, assembly_kicad)
 
-    models = dummy.Models()
-    
-    # 1. LOGIC FACEPLATE
-    # m_Offset is applied in absolute coordinates AFTER rotation.
-    # The models are attached to DUMMY, so (0,0,0) offset means the origin is at DUMMY.
-    m_logic = models[0]
-    m_logic.m_Filename = 'panel_satellite.step'
-    m_logic.m_Rotation.x = -90
-    m_logic.m_Rotation.y = 0
-    m_logic.m_Rotation.z = 90
-    
-    # Place logic board right on the DUMMY footprint (Offset=0).
-    # Shift Z by 133.45 to make it stand up vertically on the board.
-    m_logic.m_Offset.x = 0
-    m_logic.m_Offset.y = 0
-    m_logic.m_Offset.z = 133.45
-    m_logic.m_Show = True
+b = pcbnew.LoadBoard(str(assembly_kicad))
 
-    # 2. FRONT FACEPLATE
-    m_front = models[1]
-    m_front.m_Filename = 'faceplate_front.step'
-    m_front.m_Rotation.x = -90
-    m_front.m_Rotation.y = 0
-    m_front.m_Rotation.z = 90
-    
-    # Shift -11mm in absolute X to place it in front of the logic board
-    m_front.m_Offset.x = -11.0
-    m_front.m_Offset.y = 0
-    m_front.m_Offset.z = 133.45
-    m_front.m_Show = True
+# Add DUMMY anchor
+dummy = pcbnew.FOOTPRINT(b)
+dummy.SetReference('DUMMY')
+dummy.SetPosition(pcbnew.VECTOR2I(int(52.17 * 1e6), int(55.0 * 1e6)))
 
-    pcbnew.SaveBoard(str(assembly_kicad), b)
-    print(f"Saved modified 3D assembly to {assembly_kicad}")
+m1 = pcbnew.FP_3DMODEL()
+dummy.Models().push_back(m1)
+m2 = pcbnew.FP_3DMODEL()
+dummy.Models().push_back(m2)
 
-    # Export to STEP
-    step_output = str(base_dir / 'icio500_3d_assembly.step')
-    kicad_cli = r"C:\Program Files\KiCad\10.0\bin\kicad-cli.exe"
-    
-    print(f"Exporting STEP file to {step_output}...")
-    result = subprocess.run([
-        kicad_cli, 'pcb', 'export', 'step',
-        '--force',
-        '--subst-models',
-        str(assembly_kicad)
-    ], capture_output=True, text=True)
-    
-    if result.returncode != 0:
-        print(f"Error exporting STEP:\n{result.stderr}")
-    else:
-        print("STEP export successful!")
+b.Add(dummy)
+models = dummy.Models()
 
-if __name__ == "__main__":
-    main()
+# 1. LOGIC FACEPLATE (Satellite)
+m_logic = models[0]
+m_logic.m_Filename = 'panel_satellite.step'
+m_logic.m_Rotation.x = -90
+m_logic.m_Rotation.y = 0
+m_logic.m_Rotation.z = 90
+m_logic.m_Show = True
+
+# Satellite is drawn at X=100, Y=100 in its own PCB file.
+# To bring its (100,100) point to the dummy origin, we must translate it.
+# Trial and error shows Z shift makes it vertical. Let's shift it perfectly.
+# After rotation Rz=90, the object's X axis points down (Y in board), object's Y axis points left (-X in board).
+m_logic.m_Offset.x = 100.0  # Counteract the 100mm Y offset from panel_satellite.kicad_pcb
+m_logic.m_Offset.y = -100.0 # Counteract the 100mm X offset
+# It is placed at X=52.17. We want it flush against faceplate. 
+# Let's say faceplate is at offset 0, and satellite is at offset +1.6
+m_logic.m_Offset.z = 133.35 # Board height to stand it up. Wait, Z=133.35 was used before.
+
+# 2. FRONT FACEPLATE
+m_front = models[1]
+m_front.m_Filename = 'faceplate_front.step'
+m_front.m_Rotation.x = -90
+m_front.m_Rotation.y = 0
+m_front.m_Rotation.z = 90
+m_front.m_Show = True
+
+m_front.m_Offset.x = 0
+m_front.m_Offset.y = 0
+m_front.m_Offset.z = 133.35
+
+# Move faceplate 1.6mm in front of satellite
+# Wait, X offset in the footprint's local 3D coordinates?
+# We will just export it and if it's wrong, we can iterate.
+
+pcbnew.SaveBoard(str(assembly_kicad), b)
