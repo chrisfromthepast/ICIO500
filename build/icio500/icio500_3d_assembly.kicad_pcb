@@ -24020,5 +24020,19 @@
 		)
 	)
 	(embedded_fonts no)
+  (footprint "DUMMY"
+    (layer "F.Cu")
+    (at 52.17 55.0)
+    (attr exclude_from_pos_files exclude_from_bom)
+    (model "/panel_satellite.step"
+      (offset (xyz 100 -100 133.35))
+      (scale (xyz 1 1 1))
+      (rotate (xyz -90 0 90))
+    )
+    (model "/faceplate_front.step"
+      (offset (xyz 0 0 133.35))
+      (scale (xyz 1 1 1))
+      (rotate (xyz -90 0 90))
+    )
+  )
 )
-
