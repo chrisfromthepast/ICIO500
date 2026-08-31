@@ -4949,6 +4949,77 @@
 			)
 		)
 	)
+	(footprint ""
+		(layer "F.Cu")
+		(uuid "5db5218f-74f5-4f4b-8f0e-32e834605377")
+		(at 52.17 112.15)
+		(property "Reference" "DUMMY"
+			(at 0 0 0)
+			(layer "F.SilkS")
+			(uuid "dfb90dd5-411e-4917-a345-691bb7ab1642")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" ""
+			(at 0 0 0)
+			(layer "F.Fab")
+			(uuid "f18c4f23-8168-436f-97d0-c6e454466632")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "74d28b09-8df5-4d33-b5d7-a23570d6769f")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "9b219fb1-a92e-4b69-b18d-c76d7f47a241")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(duplicate_pad_numbers_are_jumpers no)
+		(embedded_fonts no)
+		(model "./faceplate_front.step"
+			(offset
+				(xyz -1.6 -66.675 19.05)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 90 0)
+			)
+		)
+		(model "./panel_satellite.step"
+			(offset
+				(xyz 0 -166.675 119.05)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 90 0)
+			)
+		)
+	)
 	(footprint "lib:C0402"
 		(layer "F.Cu")
 		(uuid "5fb74626-9117-43a6-9f6c-3f543f1413bb")
@@ -10018,77 +10089,6 @@
 			)
 			(rotate
 				(xyz 0 0 0)
-			)
-		)
-	)
-	(footprint ""
-		(layer "F.Cu")
-		(uuid "afbc966a-f7ee-4c39-8f69-113d0ecee011")
-		(at 52.17 112.15)
-		(property "Reference" "DUMMY"
-			(at 0 0 0)
-			(layer "F.SilkS")
-			(uuid "58286314-f51c-40de-a696-7a9d82684086")
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" ""
-			(at 0 0 0)
-			(layer "F.Fab")
-			(uuid "1c2aa569-5e54-4505-ba5a-17e0c786dbf8")
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "2b6e9a73-d895-42ee-b471-3ad4f17521c4")
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" ""
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "24694008-81d2-4408-aefe-efe708905f54")
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(duplicate_pad_numbers_are_jumpers no)
-		(embedded_fonts no)
-		(model "./faceplate_front.step"
-			(offset
-				(xyz -1.6 -66.675 -19.05)
-			)
-			(scale
-				(xyz 1 1 1)
-			)
-			(rotate
-				(xyz 0 -90 0)
-			)
-		)
-		(model "./panel_satellite.step"
-			(offset
-				(xyz 0 -166.675 -119.05)
-			)
-			(scale
-				(xyz 1 1 1)
-			)
-			(rotate
-				(xyz 0 -90 0)
 			)
 		)
 	)
