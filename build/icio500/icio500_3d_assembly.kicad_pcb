@@ -24019,8 +24019,7 @@
 			)
 		)
 	)
-	(embedded_fonts no)
-  (footprint "DUMMY"
+	  (footprint "DUMMY"
     (layer "F.Cu")
     (at 52.17 112.15)
     (attr exclude_from_pos_files exclude_from_bom)
@@ -24035,4 +24034,5 @@
       (rotate (xyz 0 -90 0))
     )
   )
+  (embedded_fonts no)
 )
