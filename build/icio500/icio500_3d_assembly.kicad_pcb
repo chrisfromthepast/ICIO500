@@ -24025,7 +24025,7 @@
     (attr exclude_from_pos_files exclude_from_bom)
     (model "./panel_satellite.step"
       (offset
-        (xyz 0 -166.675 -119.05)
+        (xyz 0 166.675 119.05)
       )
       (scale
         (xyz 1 1 1)
@@ -24036,7 +24036,7 @@
     )
     (model "./faceplate_front.step"
       (offset
-        (xyz -1.6 -66.675 -19.05)
+        (xyz -1.6 66.675 19.05)
       )
       (scale
         (xyz 1 1 1)
