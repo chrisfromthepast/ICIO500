@@ -8602,10 +8602,10 @@
 			)
 		)
 	)
-	(footprint "Connector_PinHeader_2.54mm:PinHeader_2x10_P2.54mm_Vertical"
+	(footprint "Connector_PinHeader_2.54mm:PinHeader_2x10_P2.54mm_Horizontal"
 		(layer "F.Cu")
 		(uuid "95a8ff09-0c0b-4a44-8b4a-0e353805373d")
-		(at 93.37 107 90)
+		(at 52.17 120.475 180)
 		(descr "Through hole straight pin header, 2x10, 2.54mm pitch, double rows")
 		(tags "Through hole pin header THT 2x10 2.54mm double row")
 		(property "Reference" "U6"
@@ -9024,7 +9024,7 @@
 			(uuid "32746496-fda6-4c7a-8664-1c2df3329cb0")
 		)
 		(embedded_fonts no)
-		(model "${KICAD10_3DMODEL_DIR}/Connector_PinHeader_2.54mm.3dshapes/PinHeader_2x10_P2.54mm_Vertical.step"
+		(model "/Connector_PinHeader_2.54mm.3dshapes/PinHeader_2x10_P2.54mm_Horizontal.step"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -24019,7 +24019,8 @@
 			)
 		)
 	)
-	  (footprint "DUMMY"
+	
+  (footprint "DUMMY"
     (layer "F.Cu")
     (at 52.17 112.15)
     (attr exclude_from_pos_files exclude_from_bom)
@@ -24046,5 +24047,5 @@
       )
     )
   )
-  (embedded_fonts no)
+(embedded_fonts no)
 )
