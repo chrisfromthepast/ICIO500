@@ -3241,10 +3241,10 @@
 			)
 		)
 	)
-	(footprint "Connector_PinHeader_2.54mm:PinHeader_2x10_P2.54mm_Vertical_SMD"
+	(footprint "Connector_PinSocket_2.54mm:PinSocket_2x10_P2.54mm_Vertical_SMD"
 		(layer "B.Cu")
 		(uuid "80151eae-98ca-40a5-997e-ab2b3cac73ab")
-		(at 105 175 180)
+		(at 119.05 175.0 0)
 		(descr "surface-mounted straight pin header, 2x10, 2.54mm pitch, double rows")
 		(tags "Surface mounted pin header SMD 2x10 2.54mm double row")
 		(property "Reference" "J1"
@@ -4354,7 +4354,7 @@
 			(uuid "cfbc66d6-1912-4e2d-9d64-d21ee5d497b2")
 		)
 		(embedded_fonts no)
-		(model "${KICAD10_3DMODEL_DIR}/Connector_PinHeader_2.54mm.3dshapes/PinHeader_2x10_P2.54mm_Vertical_SMD.step"
+		(model "${KICAD10_3DMODEL_DIR}/Connector_PinSocket_2.54mm.3dshapes/PinSocket_2x10_P2.54mm_Vertical_SMD.step"
 			(offset
 				(xyz 0 0 0)
 			)
