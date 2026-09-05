@@ -8605,7 +8605,7 @@
 	(footprint "Connector_PinHeader_2.54mm:PinHeader_2x10_P2.54mm_Horizontal"
 		(layer "F.Cu")
 		(uuid "95a8ff09-0c0b-4a44-8b4a-0e353805373d")
-		(at 52.17 120.475 180)
+		(at 52.17 103.825 180)
 		(descr "Through hole straight pin header, 2x10, 2.54mm pitch, double rows")
 		(tags "Through hole pin header THT 2x10 2.54mm double row")
 		(property "Reference" "U6"
