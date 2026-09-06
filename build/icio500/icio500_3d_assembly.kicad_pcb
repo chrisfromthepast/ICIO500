@@ -26078,12 +26078,12 @@
   )
 	(footprint "DUMMY"
 		(layer "F.Cu")
-		(uuid "f7ff2375-4988-4ba2-af2e-ecc8e562cc0c")
+		(uuid "7cf16e2b-c5f3-4f80-a971-d2cf829b0227")
 		(at 52.17 112.15)
 		(attr exclude_from_pos_files exclude_from_bom)
 		(model "C:/Users/Chris Williams/Documents/GitHub/ICIO500/build/icio500/panel_satellite.step"
 			(offset
-				(xyz -119.05 166.675 0)
+				(xyz 0 171.895 119.05)
 			)
 			(scale
 				(xyz 1 1 1)
@@ -26094,7 +26094,7 @@
 		)
 		(model "C:/Users/Chris Williams/Documents/GitHub/ICIO500/build/icio500/faceplate_front.step"
 			(offset
-				(xyz -19.05 66.675 0)
+				(xyz 0 71.895 19.05)
 			)
 			(scale
 				(xyz 1 1 1)
