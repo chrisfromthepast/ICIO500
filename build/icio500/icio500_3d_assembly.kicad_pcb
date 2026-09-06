@@ -26076,32 +26076,33 @@
     (net "gpio_disp_res")
     (uuid "9d501752-59e4-471d-80ff-82d03bf1452b")
   )
-  (footprint "DUMMY"
-    (layer "F.Cu")
-    (at 52.17 112.15)
-    (attr exclude_from_pos_files exclude_from_bom)
-    (model "./panel_satellite.step"
-      (offset
-        (xyz -119.05 166.675 0)
-      )
-      (scale
-        (xyz 1 1 1)
-      )
-      (rotate
-        (xyz 0 -90 0)
-      )
-    )
-    (model "./faceplate_front.step"
-      (offset
-        (xyz -19.05 66.675 0)
-      )
-      (scale
-        (xyz 1 1 1)
-      )
-      (rotate
-        (xyz 0 -90 0)
-      )
-    )
-  )
+	(footprint "DUMMY"
+		(layer "F.Cu")
+		(uuid "f7ff2375-4988-4ba2-af2e-ecc8e562cc0c")
+		(at 52.17 112.15)
+		(attr exclude_from_pos_files exclude_from_bom)
+		(model "C:/Users/Chris Williams/Documents/GitHub/ICIO500/build/icio500/panel_satellite.step"
+			(offset
+				(xyz -119.05 166.675 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 -90 0)
+			)
+		)
+		(model "C:/Users/Chris Williams/Documents/GitHub/ICIO500/build/icio500/faceplate_front.step"
+			(offset
+				(xyz -19.05 66.675 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 -90 0)
+			)
+		)
+	)
 
 )
