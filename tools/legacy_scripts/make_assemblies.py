@@ -6,11 +6,14 @@ def gen_assembly(cli_mode=False):
     fpx = 52.17
     fpy = 112.15 # in PCB (so -112.15 in 3D)
     
-    # Restoring the correct Z signs!
+    # Using Ry = 90 (to make faceplate face LEFT / user)
+    # Geo_X = 119.05
+    # Rot_Z (Ry=90) = -Geo_X = -119.05
+    # Final_Z = 0 = Rot_Z + Offset_Z => Offset_Z = 119.05
+    
     gui_sat_off = (0, 166.675, 119.05)
     gui_fp_off = (0, 66.675, 19.05)
     
-    # CLI offsets (Offset BEFORE Rotation)
     cli_sat_off = (-119.05, 166.675, 0)
     cli_fp_off = (-19.05, 66.675, 0)
     
@@ -35,12 +38,12 @@ def gen_assembly(cli_mode=False):
 \t\t(model "{sat_step}"
 \t\t\t(offset (xyz {sat_off[0]} {sat_off[1]} {sat_off[2]}))
 \t\t\t(scale (xyz 1 1 1))
-\t\t\t(rotate (xyz 0 -90 0))
+\t\t\t(rotate (xyz 0 90 0))
 \t\t)
 \t\t(model "{fp_step}"
 \t\t\t(offset (xyz {fp_off[0]} {fp_off[1]} {fp_off[2]}))
 \t\t\t(scale (xyz 1 1 1))
-\t\t\t(rotate (xyz 0 -90 0))
+\t\t\t(rotate (xyz 0 90 0))
 \t\t)
 \t)
 '''
@@ -53,4 +56,4 @@ shutil.copy('build/icio500/icio500.kicad_pcb', 'build/icio500/icio500_3d_assembl
 with open('build/icio500/icio500_3d_assembly.kicad_pcb', 'w', encoding='utf-8') as f:
     insert_pos = pcb.rfind(')')
     f.write(pcb[:insert_pos] + gen_assembly(cli_mode=False) + ')')
-print("Written GUI assembly with POSITIVE Z offsets!")
+print("Written GUI assembly with Ry=90!")
