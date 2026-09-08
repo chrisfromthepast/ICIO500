@@ -12,7 +12,7 @@ import heapq
 from collections import defaultdict
 
 PCB_PATH = 'build/icio500/panel_satellite.kicad_pcb'
-GRID_RESOLUTION = 0.05  # mm per grid cell
+GRID_RESOLUTION = 0.2  # mm per grid cell
 CLEARANCE = 0.1  # mm clearance from other nets
 TRACE_WIDTH = 0.3  # mm
 

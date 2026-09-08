@@ -1,23 +1,9 @@
 import re
-with open('build/icio500/icio500.kicad_sch', 'r', encoding='utf-8') as f:
-    content = f.read()
+with open('build/icio500/icio500.kicad_pcb', 'r', encoding='utf-8') as f:
+    text = f.read()
 
-u6_block = None
-for m in re.finditer(r'\(symbol \(lib_id "Connector_Generic:Conn_02x10_Odd_Even".*?\(property "Reference" "U6"', content, re.DOTALL):
-    start = m.start()
-    depth = 0
-    end = start
-    for i in range(start, len(content)):
-        if content[i] == '(': depth += 1
-        elif content[i] == ')':
-            depth -= 1
-            if depth == 0:
-                end = i
-                break
-    u6_block = content[start:end+1]
-    break
-
-if u6_block:
-    print("Found U6 in main schematic!")
+m = re.search(r'\(footprint "Connector_PinHeader_2.54mm:PinHeader_2x10_P2.54mm_Vertical_SMD"[\s\S]*?\(property "Reference" "U6"[\s\S]*?\(at ([\d\.-]+) ([\d\.-]+)', text)
+if m:
+    print(f"U6 is at X={m.group(1)}, Y={m.group(2)}")
 else:
-    print("Could not find U6 in schematic!")
+    print("U6 not found!")

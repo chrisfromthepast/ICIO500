@@ -1,0 +1,16 @@
+Loading PCB...
+  211 pads, 450 segments, 47 vias
+  Board bounds: (44.6, 64.1) to (206.6, 151.3)
+Building occupancy grids...
+Traceback (most recent call last):
+  File "C:\Users\Chris Williams\Documents\GitHub\ICIO500\tools\legacy_scripts\autoroute_main.py", line 489, in <module>
+    main()
+  File "C:\Users\Chris Williams\Documents\GitHub\ICIO500\tools\legacy_scripts\autoroute_main.py", line 360, in main
+    grid.mark_line(seg['layer'], seg['sx'], seg['sy'], seg['ex'], seg['ey'], 
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Chris Williams\Documents\GitHub\ICIO500\tools\legacy_scripts\autoroute_main.py", line 196, in mark_line
+    self.mark_circle(layer, cx, cy, width/2, net)
+  File "C:\Users\Chris Williams\Documents\GitHub\ICIO500\tools\legacy_scripts\autoroute_main.py", line 179, in mark_circle
+    self.grid[layer][(r, c)] = net
+    ~~~~~~~~~^^^^^^^
+KeyError: 'In2.Cu'

@@ -1,12 +1,8 @@
-import pcbnew
 import sys
-import os
-
-pcb_path = os.path.abspath(sys.argv[1])
-dsn_path = os.path.abspath(sys.argv[2])
-
-print(f"Loading board from {pcb_path}")
-board = pcbnew.LoadBoard(pcb_path)
-print(f"Exporting Specctra DSN to {dsn_path}")
-pcbnew.ExportSpecctraDSN(board, dsn_path)
-print("Export complete.")
+import pcbnew
+board = pcbnew.LoadBoard('build/icio500/icio500.kicad_pcb')
+try:
+    pcbnew.ExportSpecctraDSN(board, 'build/icio500/board.dsn')
+    print("DSN Exported successfully")
+except Exception as e:
+    print(f"Failed: {e}")

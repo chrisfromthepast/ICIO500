@@ -9202,7 +9202,7 @@
 				)
 			)
 		)
-		(pad "1" smd roundrect
+		(pad "19" smd roundrect
 			(at -0.825 0)
 			(size 0.8 0.95)
 			(layers "F.Cu" "F.Mask" "F.Paste")
@@ -9211,7 +9211,7 @@
 			(pintype "stereo")
 			(uuid "088b4956-3ce2-474c-ae35-0da99346df4b")
 		)
-		(pad "2" smd roundrect
+		(pad "20" smd roundrect
 			(at 0.825 0)
 			(size 0.8 0.95)
 			(layers "F.Cu" "F.Mask" "F.Paste")
@@ -9399,7 +9399,7 @@
 				)
 			)
 		)
-		(pad "1" smd roundrect
+		(pad "19" smd roundrect
 			(at -0.825 0 180)
 			(size 0.8 0.95)
 			(layers "F.Cu" "F.Mask" "F.Paste")
@@ -9408,7 +9408,7 @@
 			(pintype "stereo")
 			(uuid "2d01de09-938f-4c98-8b13-eea3f9e41f32")
 		)
-		(pad "2" smd roundrect
+		(pad "20" smd roundrect
 			(at 0.825 0 180)
 			(size 0.8 0.95)
 			(layers "F.Cu" "F.Mask" "F.Paste")
@@ -9596,7 +9596,7 @@
 				)
 			)
 		)
-		(pad "1" smd roundrect
+		(pad "19" smd roundrect
 			(at -0.825 0)
 			(size 0.8 0.95)
 			(layers "F.Cu" "F.Mask" "F.Paste")
@@ -9605,7 +9605,7 @@
 			(pintype "stereo")
 			(uuid "3d91dc98-32c5-4d88-9152-b6e12f7f61ed")
 		)
-		(pad "2" smd roundrect
+		(pad "20" smd roundrect
 			(at 0.825 0)
 			(size 0.8 0.95)
 			(layers "F.Cu" "F.Mask" "F.Paste")
@@ -9793,7 +9793,7 @@
 				)
 			)
 		)
-		(pad "1" smd roundrect
+		(pad "19" smd roundrect
 			(at -0.775 0 180)
 			(size 0.9 0.95)
 			(layers "F.Cu" "F.Mask" "F.Paste")
@@ -9802,7 +9802,7 @@
 			(pintype "stereo")
 			(uuid "5fda78a8-22e8-4f26-975f-b1551ed7214a")
 		)
-		(pad "2" smd roundrect
+		(pad "20" smd roundrect
 			(at 0.775 0 180)
 			(size 0.9 0.95)
 			(layers "F.Cu" "F.Mask" "F.Paste")
@@ -9990,7 +9990,7 @@
 				)
 			)
 		)
-		(pad "1" smd roundrect
+		(pad "19" smd roundrect
 			(at -0.775 0)
 			(size 0.9 0.95)
 			(layers "F.Cu" "F.Mask" "F.Paste")
@@ -9999,7 +9999,7 @@
 			(pintype "stereo")
 			(uuid "58f983cc-aac2-4b0d-9b6f-04f942acf2bd")
 		)
-		(pad "2" smd roundrect
+		(pad "20" smd roundrect
 			(at 0.775 0)
 			(size 0.9 0.95)
 			(layers "F.Cu" "F.Mask" "F.Paste")
@@ -10220,7 +10220,7 @@
 				)
 			)
 		)
-		(pad "1" thru_hole rect
+		(pad "19" thru_hole rect
 			(at 0 0 180)
 			(size 1.905 2)
 			(drill 1.1)
@@ -10230,7 +10230,7 @@
 			(pintype "stereo")
 			(uuid "3d664933-d7bb-4fba-9230-4c73d97407ec")
 		)
-		(pad "2" thru_hole oval
+		(pad "20" thru_hole oval
 			(at 2.54 0 180)
 			(size 1.905 2)
 			(drill 1.1)
@@ -10240,7 +10240,7 @@
 			(pintype "stereo")
 			(uuid "6bcabb4c-5fae-4ba4-9b61-27341d209898")
 		)
-		(pad "3" thru_hole oval
+		(pad "17" thru_hole oval
 			(at 5.08 0 180)
 			(size 1.905 2)
 			(drill 1.1)
@@ -10458,7 +10458,7 @@
 				)
 			)
 		)
-		(pad "1" smd roundrect
+		(pad "19" smd roundrect
 			(at -2.475 -1.905)
 			(size 1.95 0.6)
 			(layers "F.Cu" "F.Mask" "F.Paste")
@@ -10467,7 +10467,7 @@
 			(pintype "stereo")
 			(uuid "241728c5-8a82-4518-8e4f-baa51c1e7189")
 		)
-		(pad "2" smd roundrect
+		(pad "20" smd roundrect
 			(at -2.475 -0.635)
 			(size 1.95 0.6)
 			(layers "F.Cu" "F.Mask" "F.Paste")
@@ -10476,7 +10476,7 @@
 			(pintype "stereo")
 			(uuid "621d71d0-7ded-44f3-b604-c8f831022eb8")
 		)
-		(pad "3" smd roundrect
+		(pad "17" smd roundrect
 			(at -2.475 0.635)
 			(size 1.95 0.6)
 			(layers "F.Cu" "F.Mask" "F.Paste")
@@ -10485,7 +10485,7 @@
 			(pintype "stereo")
 			(uuid "ae3006bc-cec1-4c9b-bb19-016f4a5eb598")
 		)
-		(pad "4" smd roundrect
+		(pad "18" smd roundrect
 			(at -2.475 1.905)
 			(size 1.95 0.6)
 			(layers "F.Cu" "F.Mask" "F.Paste")
@@ -10494,7 +10494,7 @@
 			(pintype "stereo")
 			(uuid "48624d18-1627-4f49-a78f-d6f2b8d3ed2e")
 		)
-		(pad "5" smd roundrect
+		(pad "15" smd roundrect
 			(at 2.475 1.905)
 			(size 1.95 0.6)
 			(layers "F.Cu" "F.Mask" "F.Paste")
@@ -10503,7 +10503,7 @@
 			(pintype "stereo")
 			(uuid "25b56754-86fc-42dc-9569-d2e7905e0f00")
 		)
-		(pad "6" smd roundrect
+		(pad "16" smd roundrect
 			(at 2.475 0.635)
 			(size 1.95 0.6)
 			(layers "F.Cu" "F.Mask" "F.Paste")
@@ -10512,7 +10512,7 @@
 			(pintype "stereo")
 			(uuid "98bc11b2-b3d4-4f1c-8fe5-c6091b7a86e6")
 		)
-		(pad "7" smd roundrect
+		(pad "13" smd roundrect
 			(at 2.475 -0.635)
 			(size 1.95 0.6)
 			(layers "F.Cu" "F.Mask" "F.Paste")
@@ -10521,7 +10521,7 @@
 			(pintype "stereo")
 			(uuid "a3191fe1-354b-4d4e-9987-0eba88c59643")
 		)
-		(pad "8" smd roundrect
+		(pad "14" smd roundrect
 			(at 2.475 -1.905)
 			(size 1.95 0.6)
 			(layers "F.Cu" "F.Mask" "F.Paste")
@@ -10788,7 +10788,7 @@
 				)
 			)
 		)
-		(pad "1" smd rect
+		(pad "19" smd rect
 			(at -1.65 0)
 			(size 0.9 1.2)
 			(layers "F.Cu" "F.Mask" "F.Paste")
@@ -10796,7 +10796,7 @@
 			(pintype "stereo")
 			(uuid "8b2199c0-a131-4659-8c14-49ee6baa3e48")
 		)
-		(pad "2" smd rect
+		(pad "20" smd rect
 			(at 1.65 0)
 			(size 0.9 1.2)
 			(layers "F.Cu" "F.Mask" "F.Paste")
@@ -10982,7 +10982,7 @@
 				)
 			)
 		)
-		(pad "1" smd roundrect
+		(pad "19" smd roundrect
 			(at -0.775 0)
 			(size 0.9 0.95)
 			(layers "F.Cu" "F.Mask" "F.Paste")
@@ -10991,7 +10991,7 @@
 			(pintype "stereo")
 			(uuid "44f7a938-2f9f-4b3d-bf6e-562f3a77f56c")
 		)
-		(pad "2" smd roundrect
+		(pad "20" smd roundrect
 			(at 0.775 0)
 			(size 0.9 0.95)
 			(layers "F.Cu" "F.Mask" "F.Paste")
@@ -11208,7 +11208,7 @@
 				)
 			)
 		)
-		(pad "1" smd roundrect
+		(pad "19" smd roundrect
 			(at -2.475 -1.905 180)
 			(size 1.95 0.6)
 			(layers "F.Cu" "F.Mask" "F.Paste")
@@ -11217,7 +11217,7 @@
 			(pintype "stereo")
 			(uuid "c0af9679-b96a-4688-b148-ca6f2fcb3674")
 		)
-		(pad "2" smd roundrect
+		(pad "20" smd roundrect
 			(at -2.475 -0.635 180)
 			(size 1.95 0.6)
 			(layers "F.Cu" "F.Mask" "F.Paste")
@@ -11226,7 +11226,7 @@
 			(pintype "stereo")
 			(uuid "005f509e-b5cd-4da7-935e-e0b1ddcbf1f5")
 		)
-		(pad "3" smd roundrect
+		(pad "17" smd roundrect
 			(at -2.475 0.635 180)
 			(size 1.95 0.6)
 			(layers "F.Cu" "F.Mask" "F.Paste")
@@ -11235,7 +11235,7 @@
 			(pintype "stereo")
 			(uuid "4bdc4d29-0e26-45c6-9863-2eacf69a65e6")
 		)
-		(pad "4" smd roundrect
+		(pad "18" smd roundrect
 			(at -2.475 1.905 180)
 			(size 1.95 0.6)
 			(layers "F.Cu" "F.Mask" "F.Paste")
@@ -11244,7 +11244,7 @@
 			(pintype "stereo")
 			(uuid "1e1ebdc2-9f3a-4735-9b16-eaea8a70490a")
 		)
-		(pad "5" smd roundrect
+		(pad "15" smd roundrect
 			(at 2.475 1.905 180)
 			(size 1.95 0.6)
 			(layers "F.Cu" "F.Mask" "F.Paste")
@@ -11253,7 +11253,7 @@
 			(pintype "stereo")
 			(uuid "19c1722c-7c0a-4eaf-9c5f-dc7af982db6b")
 		)
-		(pad "6" smd roundrect
+		(pad "16" smd roundrect
 			(at 2.475 0.635 180)
 			(size 1.95 0.6)
 			(layers "F.Cu" "F.Mask" "F.Paste")
@@ -11262,7 +11262,7 @@
 			(pintype "stereo")
 			(uuid "7a88d188-71cf-4e2d-8952-339b6423b21d")
 		)
-		(pad "7" smd roundrect
+		(pad "13" smd roundrect
 			(at 2.475 -0.635 180)
 			(size 1.95 0.6)
 			(layers "F.Cu" "F.Mask" "F.Paste")
@@ -11271,7 +11271,7 @@
 			(pintype "stereo")
 			(uuid "f220a909-7d95-4864-a294-dc41657c39f2")
 		)
-		(pad "8" smd roundrect
+		(pad "14" smd roundrect
 			(at 2.475 -1.905 180)
 			(size 1.95 0.6)
 			(layers "F.Cu" "F.Mask" "F.Paste")
@@ -11645,7 +11645,7 @@
 				)
 			)
 		)
-		(pad "1" smd rect
+		(pad "19" smd rect
 			(at -1.65 0 180)
 			(size 0.9 1.2)
 			(layers "F.Cu" "F.Mask" "F.Paste")
@@ -11653,7 +11653,7 @@
 			(pintype "stereo")
 			(uuid "e01b389c-4824-4620-ac19-3e1ec20c1444")
 		)
-		(pad "2" smd rect
+		(pad "20" smd rect
 			(at 1.65 0 180)
 			(size 0.9 1.2)
 			(layers "F.Cu" "F.Mask" "F.Paste")
@@ -11840,7 +11840,7 @@
 				)
 			)
 		)
-		(pad "1" smd roundrect
+		(pad "19" smd roundrect
 			(at -0.48 0)
 			(size 0.56 0.62)
 			(layers "F.Cu" "F.Mask" "F.Paste")
@@ -11849,7 +11849,7 @@
 			(pintype "stereo")
 			(uuid "23fb0369-61e3-41dd-b14a-b3e2de454b4d")
 		)
-		(pad "2" smd roundrect
+		(pad "20" smd roundrect
 			(at 0.48 0)
 			(size 0.56 0.62)
 			(layers "F.Cu" "F.Mask" "F.Paste")
@@ -12036,7 +12036,7 @@
 				)
 			)
 		)
-		(pad "1" smd roundrect
+		(pad "19" smd roundrect
 			(at -0.48 0 180)
 			(size 0.56 0.62)
 			(layers "F.Cu" "F.Mask" "F.Paste")
@@ -12045,7 +12045,7 @@
 			(pintype "stereo")
 			(uuid "166cd42d-caa5-4626-acc5-bd96fc08842d")
 		)
-		(pad "2" smd roundrect
+		(pad "20" smd roundrect
 			(at 0.48 0 180)
 			(size 0.56 0.62)
 			(layers "F.Cu" "F.Mask" "F.Paste")
@@ -12233,7 +12233,7 @@
 				)
 			)
 		)
-		(pad "1" smd roundrect
+		(pad "19" smd roundrect
 			(at -0.825 0)
 			(size 0.8 0.95)
 			(layers "F.Cu" "F.Mask" "F.Paste")
@@ -12242,7 +12242,7 @@
 			(pintype "stereo")
 			(uuid "0e548c61-7589-4125-ae35-b6c74eaf4191")
 		)
-		(pad "2" smd roundrect
+		(pad "20" smd roundrect
 			(at 0.825 0)
 			(size 0.8 0.95)
 			(layers "F.Cu" "F.Mask" "F.Paste")
@@ -12430,7 +12430,7 @@
 				)
 			)
 		)
-		(pad "1" smd roundrect
+		(pad "19" smd roundrect
 			(at -0.775 0 90)
 			(size 0.9 0.95)
 			(layers "F.Cu" "F.Mask" "F.Paste")
@@ -12439,7 +12439,7 @@
 			(pintype "stereo")
 			(uuid "2a771712-0f84-48b1-b968-1dd4fae95081")
 		)
-		(pad "2" smd roundrect
+		(pad "20" smd roundrect
 			(at 0.775 0 90)
 			(size 0.9 0.95)
 			(layers "F.Cu" "F.Mask" "F.Paste")
@@ -12627,7 +12627,7 @@
 				)
 			)
 		)
-		(pad "1" smd roundrect
+		(pad "19" smd roundrect
 			(at -0.775 0 180)
 			(size 0.9 0.95)
 			(layers "F.Cu" "F.Mask" "F.Paste")
@@ -12636,7 +12636,7 @@
 			(pintype "stereo")
 			(uuid "95c83668-bb73-4721-8c1a-3fb5f40c4537")
 		)
-		(pad "2" smd roundrect
+		(pad "20" smd roundrect
 			(at 0.775 0 180)
 			(size 0.9 0.95)
 			(layers "F.Cu" "F.Mask" "F.Paste")
@@ -13066,7 +13066,7 @@
 				)
 			)
 		)
-		(pad "1" smd roundrect
+		(pad "19" smd roundrect
 			(at -2.2 0)
 			(size 3 1.6)
 			(layers "F.Cu" "F.Mask" "F.Paste")
@@ -13075,7 +13075,7 @@
 			(pintype "stereo")
 			(uuid "df1ddcff-f606-441d-b1b9-efb04e09453c")
 		)
-		(pad "2" smd roundrect
+		(pad "20" smd roundrect
 			(at 2.2 0)
 			(size 3 1.6)
 			(layers "F.Cu" "F.Mask" "F.Paste")
@@ -13506,7 +13506,7 @@
 				)
 			)
 		)
-		(pad "1" smd roundrect
+		(pad "19" smd roundrect
 			(at -2.8 0)
 			(size 3.5 1.6)
 			(layers "F.Cu" "F.Mask" "F.Paste")
@@ -13515,7 +13515,7 @@
 			(pintype "stereo")
 			(uuid "a82cedc6-e420-4f85-a0cb-fa1361bf153f")
 		)
-		(pad "2" smd roundrect
+		(pad "20" smd roundrect
 			(at 2.8 0)
 			(size 3.5 1.6)
 			(layers "F.Cu" "F.Mask" "F.Paste")
@@ -13703,7 +13703,7 @@
 				)
 			)
 		)
-		(pad "1" smd roundrect
+		(pad "19" smd roundrect
 			(at -0.775 0 180)
 			(size 0.9 0.95)
 			(layers "F.Cu" "F.Mask" "F.Paste")
@@ -13712,7 +13712,7 @@
 			(pintype "stereo")
 			(uuid "6dfd44e1-14b5-43a1-af0c-a12aeb642aa4")
 		)
-		(pad "2" smd roundrect
+		(pad "20" smd roundrect
 			(at 0.775 0 180)
 			(size 0.9 0.95)
 			(layers "F.Cu" "F.Mask" "F.Paste")
@@ -13970,7 +13970,7 @@
 				)
 			)
 		)
-		(pad "1" smd rect
+		(pad "19" smd rect
 			(at -2 0 180)
 			(size 2.5 1.8)
 			(layers "F.Cu" "F.Mask" "F.Paste")
@@ -13978,7 +13978,7 @@
 			(pintype "stereo")
 			(uuid "d77428a4-f5a7-406c-8ee1-f87ff1aa2678")
 		)
-		(pad "2" smd rect
+		(pad "20" smd rect
 			(at 2 0 180)
 			(size 2.5 1.8)
 			(layers "F.Cu" "F.Mask" "F.Paste")
@@ -14408,7 +14408,7 @@
 				)
 			)
 		)
-		(pad "1" smd roundrect
+		(pad "19" smd roundrect
 			(at -2.8 0 180)
 			(size 3.5 1.6)
 			(layers "F.Cu" "F.Mask" "F.Paste")
@@ -14417,7 +14417,7 @@
 			(pintype "stereo")
 			(uuid "d7148c9a-8f5a-4856-8f7e-01e83e89a47b")
 		)
-		(pad "2" smd roundrect
+		(pad "20" smd roundrect
 			(at 2.8 0 180)
 			(size 3.5 1.6)
 			(layers "F.Cu" "F.Mask" "F.Paste")
@@ -14605,7 +14605,7 @@
 				)
 			)
 		)
-		(pad "1" smd roundrect
+		(pad "19" smd roundrect
 			(at -0.825 0)
 			(size 0.8 0.95)
 			(layers "F.Cu" "F.Mask" "F.Paste")
@@ -14614,7 +14614,7 @@
 			(pintype "stereo")
 			(uuid "4e6c29e0-a1c9-471e-8897-4c09846b7ed1")
 		)
-		(pad "2" smd roundrect
+		(pad "20" smd roundrect
 			(at 0.825 0)
 			(size 0.8 0.95)
 			(layers "F.Cu" "F.Mask" "F.Paste")
@@ -14802,7 +14802,7 @@
 				)
 			)
 		)
-		(pad "1" smd roundrect
+		(pad "19" smd roundrect
 			(at -0.775 0 180)
 			(size 0.9 0.95)
 			(layers "F.Cu" "F.Mask" "F.Paste")
@@ -14811,7 +14811,7 @@
 			(pintype "stereo")
 			(uuid "a0880ebf-c79e-4941-bb5e-d713ffbbeaa6")
 		)
-		(pad "2" smd roundrect
+		(pad "20" smd roundrect
 			(at 0.775 0 180)
 			(size 0.9 0.95)
 			(layers "F.Cu" "F.Mask" "F.Paste")
@@ -24380,4 +24380,102 @@
     (net "gnd")
     (uuid "7327bc3d-5eb6-470b-9f88-7703153e4eb7")
   )
+  (segment (start 56.000 97.615) (end 65.000 97.615) (width 0.25) (layer "In1.Cu") (net "daisy_5v_power"))
+  (via (at 65.000 97.615) (size 0.8) (drill 0.4) (layers "F.Cu" "B.Cu") (net "daisy_5v_power"))
+  (segment (start 65.000 97.615) (end 65.000 98.000) (width 0.25) (layer "In2.Cu") (net "daisy_5v_power"))
+  (via (at 65.000 98.000) (size 0.8) (drill 0.4) (layers "F.Cu" "B.Cu") (net "daisy_5v_power"))
+  (segment (start 65.000 98.000) (end 133.460 98.000) (width 0.25) (layer "In1.Cu") (net "daisy_5v_power"))
+  (via (at 133.460 98.000) (size 0.8) (drill 0.4) (layers "F.Cu" "B.Cu") (net "daisy_5v_power"))
+  (segment (start 133.460 98.000) (end 133.460 97.270) (width 0.25) (layer "In2.Cu") (net "daisy_5v_power"))
+  (segment (start 53.460 97.615) (end 65.500 97.615) (width 0.25) (layer "In1.Cu") (net "audio_in_r"))
+  (via (at 65.500 97.615) (size 0.8) (drill 0.4) (layers "F.Cu" "B.Cu") (net "audio_in_r"))
+  (segment (start 65.500 97.615) (end 65.500 98.500) (width 0.25) (layer "In2.Cu") (net "audio_in_r"))
+  (via (at 65.500 98.500) (size 0.8) (drill 0.4) (layers "F.Cu" "B.Cu") (net "audio_in_r"))
+  (segment (start 65.500 98.500) (end 136.000 98.500) (width 0.25) (layer "In1.Cu") (net "audio_in_r"))
+  (via (at 136.000 98.500) (size 0.8) (drill 0.4) (layers "F.Cu" "B.Cu") (net "audio_in_r"))
+  (segment (start 136.000 98.500) (end 136.000 97.270) (width 0.25) (layer "In2.Cu") (net "audio_in_r"))
+  (segment (start 56.000 115.395) (end 66.000 115.395) (width 0.25) (layer "In1.Cu") (net "gpio_disp_res"))
+  (via (at 66.000 115.395) (size 0.8) (drill 0.4) (layers "F.Cu" "B.Cu") (net "gpio_disp_res"))
+  (segment (start 66.000 115.395) (end 66.000 99.000) (width 0.25) (layer "In2.Cu") (net "gpio_disp_res"))
+  (via (at 66.000 99.000) (size 0.8) (drill 0.4) (layers "F.Cu" "B.Cu") (net "gpio_disp_res"))
+  (segment (start 66.000 99.000) (end 141.080 99.000) (width 0.25) (layer "In1.Cu") (net "gpio_disp_res"))
+  (via (at 141.080 99.000) (size 0.8) (drill 0.4) (layers "F.Cu" "B.Cu") (net "gpio_disp_res"))
+  (segment (start 141.080 99.000) (end 141.080 112.510) (width 0.25) (layer "In2.Cu") (net "gpio_disp_res"))
+  (segment (start 53.460 120.475) (end 66.500 120.475) (width 0.25) (layer "In1.Cu") (net "gpio_disp_dc"))
+  (via (at 66.500 120.475) (size 0.8) (drill 0.4) (layers "F.Cu" "B.Cu") (net "gpio_disp_dc"))
+  (segment (start 66.500 120.475) (end 66.500 99.500) (width 0.25) (layer "In2.Cu") (net "gpio_disp_dc"))
+  (via (at 66.500 99.500) (size 0.8) (drill 0.4) (layers "F.Cu" "B.Cu") (net "gpio_disp_dc"))
+  (segment (start 66.500 99.500) (end 143.620 99.500) (width 0.25) (layer "In1.Cu") (net "gpio_disp_dc"))
+  (via (at 143.620 99.500) (size 0.8) (drill 0.4) (layers "F.Cu" "B.Cu") (net "gpio_disp_dc"))
+  (segment (start 143.620 99.500) (end 143.620 112.510) (width 0.25) (layer "In2.Cu") (net "gpio_disp_dc"))
+  (segment (start 56.000 117.935) (end 67.000 117.935) (width 0.25) (layer "In1.Cu") (net "spi1_cs"))
+  (via (at 67.000 117.935) (size 0.8) (drill 0.4) (layers "F.Cu" "B.Cu") (net "spi1_cs"))
+  (segment (start 67.000 117.935) (end 67.000 100.000) (width 0.25) (layer "In2.Cu") (net "spi1_cs"))
+  (via (at 67.000 100.000) (size 0.8) (drill 0.4) (layers "F.Cu" "B.Cu") (net "spi1_cs"))
+  (segment (start 67.000 100.000) (end 146.160 100.000) (width 0.25) (layer "In1.Cu") (net "spi1_cs"))
+  (via (at 146.160 100.000) (size 0.8) (drill 0.4) (layers "F.Cu" "B.Cu") (net "spi1_cs"))
+  (segment (start 146.160 100.000) (end 146.160 112.510) (width 0.25) (layer "In2.Cu") (net "spi1_cs"))
+  (segment (start 53.460 112.855) (end 67.500 112.855) (width 0.25) (layer "In1.Cu") (net "spi1_sck"))
+  (via (at 67.500 112.855) (size 0.8) (drill 0.4) (layers "F.Cu" "B.Cu") (net "spi1_sck"))
+  (segment (start 67.500 112.855) (end 67.500 100.500) (width 0.25) (layer "In2.Cu") (net "spi1_sck"))
+  (via (at 67.500 100.500) (size 0.8) (drill 0.4) (layers "F.Cu" "B.Cu") (net "spi1_sck"))
+  (segment (start 67.500 100.500) (end 148.700 100.500) (width 0.25) (layer "In1.Cu") (net "spi1_sck"))
+  (via (at 148.700 100.500) (size 0.8) (drill 0.4) (layers "F.Cu" "B.Cu") (net "spi1_sck"))
+  (segment (start 148.700 100.500) (end 148.700 112.510) (width 0.25) (layer "In2.Cu") (net "spi1_sck"))
+  (segment (start 56.000 112.855) (end 68.000 112.855) (width 0.25) (layer "In1.Cu") (net "spi1_miso"))
+  (via (at 68.000 112.855) (size 0.8) (drill 0.4) (layers "F.Cu" "B.Cu") (net "spi1_miso"))
+  (segment (start 68.000 112.855) (end 68.000 101.000) (width 0.25) (layer "In2.Cu") (net "spi1_miso"))
+  (via (at 68.000 101.000) (size 0.8) (drill 0.4) (layers "F.Cu" "B.Cu") (net "spi1_miso"))
+  (segment (start 68.000 101.000) (end 151.240 101.000) (width 0.25) (layer "In1.Cu") (net "spi1_miso"))
+  (via (at 151.240 101.000) (size 0.8) (drill 0.4) (layers "F.Cu" "B.Cu") (net "spi1_miso"))
+  (segment (start 151.240 101.000) (end 151.240 112.510) (width 0.25) (layer "In2.Cu") (net "spi1_miso"))
+  (segment (start 53.460 110.315) (end 68.500 110.315) (width 0.25) (layer "In1.Cu") (net "spi1_mosi"))
+  (via (at 68.500 110.315) (size 0.8) (drill 0.4) (layers "F.Cu" "B.Cu") (net "spi1_mosi"))
+  (segment (start 68.500 110.315) (end 68.500 101.500) (width 0.25) (layer "In2.Cu") (net "spi1_mosi"))
+  (via (at 68.500 101.500) (size 0.8) (drill 0.4) (layers "F.Cu" "B.Cu") (net "spi1_mosi"))
+  (segment (start 68.500 101.500) (end 153.780 101.500) (width 0.25) (layer "In1.Cu") (net "spi1_mosi"))
+  (via (at 153.780 101.500) (size 0.8) (drill 0.4) (layers "F.Cu" "B.Cu") (net "spi1_mosi"))
+  (segment (start 153.780 101.500) (end 153.780 112.510) (width 0.25) (layer "In2.Cu") (net "spi1_mosi"))
+  (segment (start 53.460 102.695) (end 69.000 102.695) (width 0.25) (layer "In1.Cu") (net "i2c1_scl"))
+  (via (at 69.000 102.695) (size 0.8) (drill 0.4) (layers "F.Cu" "B.Cu") (net "i2c1_scl"))
+  (segment (start 69.000 102.695) (end 69.000 102.000) (width 0.25) (layer "In2.Cu") (net "i2c1_scl"))
+  (via (at 69.000 102.000) (size 0.8) (drill 0.4) (layers "F.Cu" "B.Cu") (net "i2c1_scl"))
+  (segment (start 69.000 102.000) (end 156.320 102.000) (width 0.25) (layer "In1.Cu") (net "i2c1_scl"))
+  (via (at 156.320 102.000) (size 0.8) (drill 0.4) (layers "F.Cu" "B.Cu") (net "i2c1_scl"))
+  (segment (start 156.320 102.000) (end 156.320 112.510) (width 0.25) (layer "In2.Cu") (net "i2c1_scl"))
+  (segment (start 53.460 100.155) (end 69.500 100.155) (width 0.25) (layer "In1.Cu") (net "i2c1_sda"))
+  (via (at 69.500 100.155) (size 0.8) (drill 0.4) (layers "F.Cu" "B.Cu") (net "i2c1_sda"))
+  (segment (start 69.500 100.155) (end 69.500 102.500) (width 0.25) (layer "In2.Cu") (net "i2c1_sda"))
+  (via (at 69.500 102.500) (size 0.8) (drill 0.4) (layers "F.Cu" "B.Cu") (net "i2c1_sda"))
+  (segment (start 69.500 102.500) (end 158.860 102.500) (width 0.25) (layer "In1.Cu") (net "i2c1_sda"))
+  (via (at 158.860 102.500) (size 0.8) (drill 0.4) (layers "F.Cu" "B.Cu") (net "i2c1_sda"))
+  (segment (start 158.860 102.500) (end 158.860 112.510) (width 0.25) (layer "In2.Cu") (net "i2c1_sda"))
+  (segment (start 53.460 105.235) (end 70.000 105.235) (width 0.25) (layer "In1.Cu") (net "d13"))
+  (via (at 70.000 105.235) (size 0.8) (drill 0.4) (layers "F.Cu" "B.Cu") (net "d13"))
+  (segment (start 70.000 105.235) (end 70.000 103.000) (width 0.25) (layer "In2.Cu") (net "d13"))
+  (via (at 70.000 103.000) (size 0.8) (drill 0.4) (layers "F.Cu" "B.Cu") (net "d13"))
+  (segment (start 70.000 103.000) (end 166.480 103.000) (width 0.25) (layer "In1.Cu") (net "d13"))
+  (via (at 166.480 103.000) (size 0.8) (drill 0.4) (layers "F.Cu" "B.Cu") (net "d13"))
+  (segment (start 166.480 103.000) (end 166.480 112.510) (width 0.25) (layer "In2.Cu") (net "d13"))
+  (segment (start 56.000 107.775) (end 70.500 107.775) (width 0.25) (layer "In1.Cu") (net "d14"))
+  (via (at 70.500 107.775) (size 0.8) (drill 0.4) (layers "F.Cu" "B.Cu") (net "d14"))
+  (segment (start 70.500 107.775) (end 70.500 103.500) (width 0.25) (layer "In2.Cu") (net "d14"))
+  (via (at 70.500 103.500) (size 0.8) (drill 0.4) (layers "F.Cu" "B.Cu") (net "d14"))
+  (segment (start 70.500 103.500) (end 169.020 103.500) (width 0.25) (layer "In1.Cu") (net "d14"))
+  (via (at 169.020 103.500) (size 0.8) (drill 0.4) (layers "F.Cu" "B.Cu") (net "d14"))
+  (segment (start 169.020 103.500) (end 169.020 112.510) (width 0.25) (layer "In2.Cu") (net "d14"))
+  (segment (start 53.460 107.775) (end 71.000 107.775) (width 0.25) (layer "In1.Cu") (net "gpio_enc_b"))
+  (via (at 71.000 107.775) (size 0.8) (drill 0.4) (layers "F.Cu" "B.Cu") (net "gpio_enc_b"))
+  (segment (start 71.000 107.775) (end 71.000 104.000) (width 0.25) (layer "In2.Cu") (net "gpio_enc_b"))
+  (via (at 71.000 104.000) (size 0.8) (drill 0.4) (layers "F.Cu" "B.Cu") (net "gpio_enc_b"))
+  (segment (start 71.000 104.000) (end 171.560 104.000) (width 0.25) (layer "In1.Cu") (net "gpio_enc_b"))
+  (via (at 171.560 104.000) (size 0.8) (drill 0.4) (layers "F.Cu" "B.Cu") (net "gpio_enc_b"))
+  (segment (start 171.560 104.000) (end 171.560 112.510) (width 0.25) (layer "In2.Cu") (net "gpio_enc_b"))
+  (segment (start 56.000 110.315) (end 71.500 110.315) (width 0.25) (layer "In1.Cu") (net "gpio_enc_sw"))
+  (via (at 71.500 110.315) (size 0.8) (drill 0.4) (layers "F.Cu" "B.Cu") (net "gpio_enc_sw"))
+  (segment (start 71.500 110.315) (end 71.500 104.500) (width 0.25) (layer "In2.Cu") (net "gpio_enc_sw"))
+  (via (at 71.500 104.500) (size 0.8) (drill 0.4) (layers "F.Cu" "B.Cu") (net "gpio_enc_sw"))
+  (segment (start 71.500 104.500) (end 174.100 104.500) (width 0.25) (layer "In1.Cu") (net "gpio_enc_sw"))
+  (via (at 174.100 104.500) (size 0.8) (drill 0.4) (layers "F.Cu" "B.Cu") (net "gpio_enc_sw"))
+  (segment (start 174.100 104.500) (end 174.100 112.510) (width 0.25) (layer "In2.Cu") (net "gpio_enc_sw"))
 )

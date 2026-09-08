@@ -1,0 +1,66 @@
+Loading PCB...
+  113 pads, 0 segments, 0 vias
+  Board bounds: (97.0, 108.5) to (138.6, 222.4)
+Building occupancy grids...
+  Occupancy grids built.
+
+Finding disconnected pads...
+  Found 31 disconnected pads
+  Routing D10 pad 1 (GND): (119.0,192.9) -> (119.0,176.9) dist=16.0mm
+    Path found: 83 cells -> 9 waypoints
+  Routing D10 pad 2 (LED_10_MID): (119.0,191.1) -> (114.0,192.5) dist=5.3mm
+    Path found: 28 cells -> 8 waypoints
+  Routing D8 pad 1 (GND): (119.0,176.9) -> (119.0,180.5) dist=3.6mm
+    Path found: 18 cells -> 3 waypoints
+  Routing D8 pad 2 (LED_8_MID): (119.0,175.1) -> (114.0,176.5) dist=5.3mm
+    Path found: 26 cells -> 5 waypoints
+  Routing D7 pad 2 (LED_7_MID): (119.0,167.1) -> (114.0,168.5) dist=5.3mm
+    Path found: 26 cells -> 3 waypoints
+  Routing D9 pad 2 (LED_9_MID): (119.0,183.1) -> (114.0,184.5) dist=5.3mm
+    Path found: 28 cells -> 7 waypoints
+  Routing D6 pad 2 (LED_6_MID): (119.0,159.1) -> (114.0,160.5) dist=5.3mm
+    Path found: 26 cells -> 3 waypoints
+  SKIP R3 pad 1 (LED_3_MID) - no target
+  Routing R3 pad 2 (LED_3): (114.0,135.5) -> (107.8,159.7) dist=25.0mm
+    Path found: 122 cells -> 3 waypoints
+  Routing R10 pad 1 (LED_10_MID): (114.0,192.5) -> (116.8,192.3) dist=2.8mm
+    Path found: 14 cells -> 3 waypoints
+  SKIP R10 pad 2 (LED_10) - no target
+  Routing R12 pad 1 (SCL): (103.0,153.5) -> (111.1,159.7) dist=10.2mm
+    Path found: 54 cells -> 7 waypoints
+  SKIP R2 pad 1 (LED_2_MID) - no target
+  SKIP R2 pad 2 (LED_2) - no target
+  Routing U1 pad 3 (SDA): (111.7,159.7) -> (103.0,150.5) dist=12.7mm
+    Path found: 77 cells -> 9 waypoints
+  Routing U1 pad 4 (SCL): (111.1,159.7) -> (109.0,159.5) dist=2.1mm
+    Path found: 12 cells -> 3 waypoints
+  Routing U1 pad 9 (LED_3): (107.8,159.7) -> (107.8,141.5) dist=18.2mm
+    Path found: 92 cells -> 4 waypoints
+  SKIP U1 pad 10 (LED_4) - no target
+  SKIP U1 pad 11 (LED_5) - no target
+  SKIP U1 pad 12 (LED_6) - no target
+  Routing U1 pad 13 (LED_7): (105.2,159.7) -> (114.0,167.5) dist=11.7mm
+    Path found: 45 cells -> 3 waypoints
+  Routing U1 pad 14 (LED_8): (104.6,159.7) -> (114.0,175.5) dist=18.4mm
+    Path found: 80 cells -> 5 waypoints
+  Routing U1 pad 15 (LED_9): (103.9,159.7) -> (114.0,183.5) dist=25.8mm
+    Path found: 120 cells -> 7 waypoints
+  Routing R9 pad 1 (LED_9_MID): (114.0,184.5) -> (116.8,184.3) dist=2.8mm
+    Path found: 14 cells -> 3 waypoints
+  Routing R9 pad 2 (LED_9): (114.0,183.5) -> (114.0,177.5) dist=6.0mm
+    Path found: 31 cells -> 3 waypoints
+  Routing R8 pad 1 (LED_8_MID): (114.0,176.5) -> (117.0,176.3) dist=3.0mm
+    Path found: 15 cells -> 3 waypoints
+  Routing R8 pad 2 (LED_8): (114.0,175.5) -> (114.0,169.5) dist=6.0mm
+    Path found: 31 cells -> 3 waypoints
+  Routing R11 pad 1 (SDA): (103.0,150.5) -> (107.0,150.3) dist=4.0mm
+    Path found: 20 cells -> 3 waypoints
+  Routing R6 pad 1 (LED_6_MID): (114.0,160.5) -> (117.6,160.3) dist=3.6mm
+    Path found: 18 cells -> 3 waypoints
+  Routing R7 pad 1 (LED_7_MID): (114.0,168.5) -> (117.6,168.3) dist=3.6mm
+    Path found: 18 cells -> 4 waypoints
+  Routing R7 pad 2 (LED_7): (114.0,167.5) -> (113.0,167.3) dist=1.0mm
+    Path found: 7 cells -> 3 waypoints
+
+=== WRITING 83 NEW SEGMENTS ===
+Saved to build/icio500/panel_satellite.kicad_pcb
