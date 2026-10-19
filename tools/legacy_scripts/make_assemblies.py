@@ -6,8 +6,8 @@ def gen_assembly(cli_mode=False):
     fpx = 52.17
     fpy = 112.15 
     
-    sat_off = (-88.0, 266.675, 118.25)
-    fp_off = (0.0, 66.675, 18.25)
+    sat_off = (-88.0, 266.675, 88.89)
+    fp_off = (0.0, 66.675, -11.11)
         
     step_dir = os.path.abspath('build/icio500').replace('\\', '/')
     sat_step = f"{step_dir}/panel_satellite.step"
