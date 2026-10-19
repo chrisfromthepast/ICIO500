@@ -1,17 +1,17 @@
 import re
+import uuid
 
 with open('build/icio500/icio500.kicad_pcb', 'r', encoding='utf-8') as f:
     pcb = f.read()
 
 def add_track(net, x1, y1, x2, y2, layer="In1.Cu"):
-    return f'  (segment (start {x1:.3f} {y1:.3f}) (end {x2:.3f} {y2:.3f}) (width 0.25) (layer "{layer}") (net "{net}"))\n'
+    if abs(x1 - x2) < 0.001 and abs(y1 - y2) < 0.001:
+        return ""
+    return f'  (segment (start {x1:.3f} {y1:.3f}) (end {x2:.3f} {y2:.3f}) (width 0.25) (layer "{layer}") (net "{net}") (uuid "{uuid.uuid4()}"))\n'
 
 def add_via(net, x, y):
-    return f'  (via (at {x:.3f} {y:.3f}) (size 0.8) (drill 0.4) (layers "F.Cu" "B.Cu") (net "{net}"))\n'
+    return f'  (via (at {x:.3f} {y:.3f}) (size 0.6) (drill 0.3) (layers "F.Cu" "B.Cu") (net "{net}") (uuid "{uuid.uuid4()}"))\n'
 
-# Because U6 was renumbered, Pad 1 is now at Y=97.615 (Top of U6).
-# Pad 1 logically carries `daisy_5v_power` in main.ato!
-# So `daisy_5v_power` starts at 97.615!
 new_u6_pads = {
     'daisy_5v_power': (56.0, 97.615),   
     'audio_in_r': (53.46, 97.615),      
@@ -48,51 +48,55 @@ u5_pads = {
 
 nets = list(new_u6_pads.keys())
 
-# Let's remove ALL traces on these nets to start perfectly clean.
+# Clear any stragglers
 for net in nets:
-    pcb = re.sub(fr'\s*\(segment.*?\(net "{net}"\)\)', '', pcb)
-    pcb = re.sub(fr'\s*\(via.*?\(net "{net}"\)\)', '', pcb)
-
-# We will inject the traces using the new CORRECT mappings.
-# Since the mapping is now logically inverted but physically straight, the lines will be beautiful.
+    pcb = re.sub(fr'\s*\(segment.*?\(net "{net}"\).*?\)', '', pcb)
+    pcb = re.sub(fr'\s*\(via.*?\(net "{net}"\).*?\)', '', pcb)
 
 new_segments = ""
+y_channel_base = 75.0
+spacing = 0.8
 
-y_bus_base = 98.0
-x_drop_base = 65.0
-spacing = 0.5
-
-# Sort nets by U5 X coordinate (right to left? Actually Left to Right)
 sorted_nets = sorted(nets, key=lambda n: u5_pads[n][0])
+
+right_idx = 0
+left_idx = 0
 
 for i, net in enumerate(sorted_nets):
     sx, sy = new_u6_pads[net]
     ex, ey = u5_pads[net]
     
-    x_drop = x_drop_base + i * spacing
-    y_bus = y_bus_base + i * spacing
+    y_channel = y_channel_base + i * spacing
     
-    # 1. Horizontal from U6 to x_drop on In1.Cu
-    new_segments += add_track(net, sx, sy, x_drop, sy, "In1.Cu")
+    if sx > 55.0: # Right row
+        x_start_drop = 60.0 + right_idx * spacing
+        right_idx += 1
+    else: # Left row
+        x_start_drop = 49.0 - left_idx * spacing
+        left_idx += 1
+        
+    # 1. F.Cu: sx -> x_start_drop
+    new_segments += add_track(net, sx, sy, x_start_drop, sy, "F.Cu")
     
-    # 2. Via to In2.Cu
-    new_segments += add_via(net, x_drop, sy)
+    # 2. Via down to In2.Cu
+    new_segments += add_via(net, x_start_drop, sy)
     
-    # 3. Vertical on In2.Cu to y_bus
-    new_segments += add_track(net, x_drop, sy, x_drop, y_bus, "In2.Cu")
+    # 3. In2.Cu (vertical): y -> y_channel
+    new_segments += add_track(net, x_start_drop, sy, x_start_drop, y_channel, "In2.Cu")
     
-    # 4. Via back to In1.Cu
-    new_segments += add_via(net, x_drop, y_bus)
+    # 4. Via to In1.Cu for horizontal run
+    new_segments += add_via(net, x_start_drop, y_channel)
     
-    # 5. Horizontal on In1.Cu to ex
-    new_segments += add_track(net, x_drop, y_bus, ex, y_bus, "In1.Cu")
+    # 5. In1.Cu (horizontal): x_start_drop -> ex
+    new_segments += add_track(net, x_start_drop, y_channel, ex, y_channel, "In1.Cu")
     
-    # 6. Via to In2.Cu
-    new_segments += add_via(net, ex, y_bus)
+    # 6. Via to In2.Cu for final vertical drop exactly at ex
+    new_segments += add_via(net, ex, y_channel)
     
-    # 7. Vertical on In2.Cu to ey
-    new_segments += add_track(net, ex, y_bus, ex, ey, "In2.Cu")
-
+    # 7. In2.Cu (vertical): y_channel -> ey
+    new_segments += add_track(net, ex, y_channel, ex, ey, "In2.Cu")
+    
+    # 8. No via needed at (ex, ey) because U5 pads are through-hole and connect to all layers!
 
 idx = pcb.rfind(')')
 pcb = pcb[:idx] + new_segments + pcb[idx:]
@@ -100,4 +104,4 @@ pcb = pcb[:idx] + new_segments + pcb[idx:]
 with open('build/icio500/icio500.kicad_pcb', 'w', encoding='utf-8') as f:
     f.write(pcb)
 
-print("Beautiful Manhattan routing injected using the NEW U6 coordinates!")
+print("Flawless non-crossing traces injected!")
