@@ -38,6 +38,8 @@ build/icio500/*
 .venv/
 venv/
 env/
+__pycache__/
+*.pyc
 
 # Large files and archives
 *.jar
