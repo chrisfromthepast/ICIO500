@@ -36,9 +36,9 @@ def gen_assembly(cli_mode=False):
     return pcb_template
 
 def update_assembly_pcb():
-    pcb_path = 'build/icio500/icio500_3d_assembly.kicad_pcb'
-    # Always pull latest from main PCB
-    shutil.copy('build/icio500/icio500.kicad_pcb', pcb_path)
+    pcb_path = os.path.normpath('build/icio500/icio500_3d_assembly.kicad_pcb')
+    src_path = os.path.normpath('build/icio500/icio500.kicad_pcb')
+    shutil.copy(src_path, pcb_path)
     
     with open(pcb_path, 'r', encoding='utf-8') as f:
         lines = f.readlines()

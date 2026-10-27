@@ -25889,7 +25889,7 @@
 
 	(footprint "DUMMY"
 		(layer "F.Cu")
-		(uuid "51481d07-5e8e-446e-900c-422390140e02")
+		(uuid "a33a2506-83fa-4d0f-92b5-e3c702c6d2c7")
 		(at 55.39 112.15)
 		(attr exclude_from_pos_files exclude_from_bom)
 		(model "C:/Users/Chris Williams/Documents/GitHub/ICIO500/build/icio500/panel_satellite.step"
