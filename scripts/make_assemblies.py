@@ -4,11 +4,11 @@ import shutil
 import subprocess
 
 def gen_assembly(cli_mode=False):
-    fpx = 52.17
+    fpx = 55.39
     fpy = 112.15 
     
-    sat_off = (-10.22, 166.675, -108.74)
-    fp_off = (-11.82, 66.675, -8.74)
+    sat_off = (-0.08, 166.675, -108.74)
+    fp_off = (-1.68, 66.675, -8.74)
         
     step_dir = os.path.abspath('build/icio500').replace('\\', '/')
     sat_step = f"{step_dir}/panel_satellite.step"
