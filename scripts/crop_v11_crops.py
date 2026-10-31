@@ -27,7 +27,6 @@ shutil.copyfile('views/v11_top_full_crop.png', os.path.join(art_dir, 'v11_top_fu
 print("Saved v11_top_full_crop.png")
 
 # 2. Top connector & bracket mating close-up
-# On the uncropped 1568x872 top view, mating zone is roughly X in [300, 750], Y in [200, 700]
 crop_top_conn = im_top.crop((320, 200, 750, 700))
 crop_top_conn.save('views/v11_top_connector_crop.png')
 shutil.copyfile('views/v11_top_connector_crop.png', os.path.join(art_dir, 'v11_top_connector_crop.png'))
@@ -53,18 +52,25 @@ crop_side.save('views/v11_side_profile_crop.png')
 shutil.copyfile('views/v11_side_profile_crop.png', os.path.join(art_dir, 'v11_side_profile_crop.png'))
 print("Saved v11_side_profile_crop.png")
 
-# 6. Faceplate front crop (from assembly_front_faceplate_v11)
+# 6. Faceplate front 3D crop (from assembly_front_faceplate_v11)
 im_fp = Image.open('views/assembly_front_faceplate_v11.png')
 crop_fp = crop_content(im_fp, pad=15)
 crop_fp.save('views/v11_faceplate_crop.png')
 shutil.copyfile('views/v11_faceplate_crop.png', os.path.join(art_dir, 'v11_faceplate_crop.png'))
 print("Saved v11_faceplate_crop.png")
 
-# 7. Faceplate direct crop (from assembly_faceplate_direct)
+# 7. Faceplate direct 3D crop (from assembly_faceplate_direct)
 im_fp_dir = Image.open('views/assembly_faceplate_direct.png')
 crop_fp_dir = crop_content(im_fp_dir, pad=15)
 crop_fp_dir.save('views/v11_faceplate_direct_crop.png')
 shutil.copyfile('views/v11_faceplate_direct_crop.png', os.path.join(art_dir, 'v11_faceplate_direct_crop.png'))
 print("Saved v11_faceplate_direct_crop.png")
+
+# 8. Faceplate Front UI (authentic direct PCB render with full silkscreen, VU meter, labels, encoder dial)
+im_ui = Image.open('views/faceplate_front_ui.png')
+crop_ui = crop_content(im_ui, pad=15)
+crop_ui.save('views/v11_faceplate_front_ui.png')
+shutil.copyfile('views/v11_faceplate_front_ui.png', os.path.join(art_dir, 'v11_faceplate_front_ui.png'))
+print("Saved v11_faceplate_front_ui.png")
 
 print("All v11 crops saved and copied to artifacts directory!")
