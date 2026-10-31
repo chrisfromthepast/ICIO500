@@ -6,8 +6,8 @@ def gen_assembly():
     fpx = 55.39
     fpy = 112.15 
     
-    sat_off = (0.0, 166.675, 105.24)
-    fp_off = (-1.6, 66.675, 5.24)
+    sat_off = (-0.08, 166.675, -108.74)
+    fp_off = (-1.68, 66.675, -8.74)
         
     step_dir = os.path.abspath('build/icio500').replace('\\', '/')
     sat_step = f"{step_dir}/panel_satellite.step"
@@ -15,7 +15,7 @@ def gen_assembly():
     fp_uuid = str(uuid_mod.uuid4())
     
     pcb_template = f'''
-\t(footprint "DUMMY_ASSEMBLY"
+\t(footprint "DUMMY"
 \t\t(layer "F.Cu")
 \t\t(uuid "{fp_uuid}")
 \t\t(at {fpx} {fpy})
@@ -70,4 +70,4 @@ def update_assembly_pcb():
 
 if __name__ == "__main__":
     update_assembly_pcb()
-    print("Assembly updated with summer VPR board outline alignment!")
+    print("Assembly updated with c1e0e05 alignment!")
