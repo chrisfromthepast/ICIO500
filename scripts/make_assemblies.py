@@ -4,10 +4,10 @@ import shutil
 
 def gen_assembly():
     fpx = 55.39
-    fpy = 112.15 
+    fpy = 102.75 # Centered on VPR-500 card edge tongue (Y in [71.50, 134.00])
     
-    sat_off = (-0.08, 166.675, -108.74)
-    fp_off = (-1.68, 66.675, -8.74)
+    sat_off = (-105.24, 166.675, 0.0)
+    fp_off = (-5.24, 66.675, -1.6)
         
     step_dir = os.path.abspath('build/icio500').replace('\\', '/')
     sat_step = f"{step_dir}/panel_satellite.step"
@@ -70,4 +70,4 @@ def update_assembly_pcb():
 
 if __name__ == "__main__":
     update_assembly_pcb()
-    print("Assembly updated with c1e0e05 alignment!")
+    print("Assembly updated with centered VPR-500 alignment (fpy=102.75)!")
