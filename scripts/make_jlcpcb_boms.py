@@ -6,8 +6,8 @@ main_meta = {
     "C25": ("220uF", "CP_Elec_6.3x5.4", "C72494"),
     "C26": ("220uF", "CP_Elec_6.3x5.4", "C72494"),
     "C27": ("220uF", "CP_Elec_6.3x5.4", "C72494"),
-    "C21": ("10uF_BP", "CP_Elec_5x5.4", "UWT1C100MCL1GS"),
-    "C22": ("10uF_BP", "CP_Elec_5x5.4", "UWT1C100MCL1GS"),
+    "C21": ("10uF_BP", "CP_Elec_5x5.4", "C1984751"),
+    "C22": ("10uF_BP", "CP_Elec_5x5.4", "C1984751"),
     "C2": ("100nF", "C0603", "C14663"),
     "C4": ("100nF", "C0603", "C14663"),
     "C6": ("100nF", "C0603", "C14663"),
@@ -48,11 +48,11 @@ main_meta = {
     "D8": ("1N4148W", "D_SOD-123", "C57759"),
     "D9": ("1N4148W", "D_SOD-123", "C57759"),
     "D10": ("1N4148W", "D_SOD-123", "C57759"),
-    "U1": ("TSR1-2450", "TO-220-3_Vertical", "TSR1-2450"),
-    "U2": ("THAT1200S08-U", "SOIC-8_3.9x4.9mm_P1.27mm", "THAT1200S08-U"),
+    "U1": ("TSR 1-2450", "TO-220-3_Vertical", "C6886877"),
+    "U2": ("1200S08-U", "SOIC-8_3.9x4.9mm_P1.27mm", "C3202799"),
     "U3": ("TL072CDT", "SOIC-8_3.9x4.9mm_P1.27mm", "C9002"),
-    "U4": ("THAT1646S08-U", "SOIC-8_3.9x4.9mm_P1.27mm", "THAT1646S08-U"),
-    "U5": ("Daisy_Seed_Socket", "DIP-40_W15.24mm_Socket", ""),
+    "U4": ("THAT1646S08-U", "SOIC-8_3.9x4.9mm_P1.27mm", "C5290156"),
+    "U5": ("Daisy_Seed_Socket", "DIP-40_W15.24mm_Socket", "C2332"),
     "U6": ("PinHeader_2x10_P2.54mm_Horizontal", "PinHeader_2x10_P2.54mm_Horizontal", "C124378"),
 }
 
@@ -100,7 +100,7 @@ with open("build/jlcpcb/icio500_bom.csv", "w", newline="", encoding="utf-8") as 
 
 # 3. Write build/jlcpcb/panel_satellite_bom.csv
 sat_groups = [
-    ("WP-SMRA-M3 (Wuerth 7466303)", "BR1,BR2", "Mounting_Wuerth_WP-SMRA-M3_L7mm_7466303_Horizontal", "7466303"),
+    ("WP-SMRA-M3 (Wuerth 7466303)", "BR1,BR2", "Mounting_Wuerth_WP-SMRA-M3_L7mm_7466303_Horizontal", "C5523891"),
     ("10uF", "C1", "C_0402_1005Metric", "C15849"),
     ("100nF", "C2", "C_0402_1005Metric", "C1525"),
     ("BLM18PG", "FB1", "L_0402_1005Metric", "C76886"),
