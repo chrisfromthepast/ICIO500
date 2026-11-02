@@ -67,6 +67,7 @@ main_pos_override = {
 sat_pos_override = {
     "ENC1": ("119.050000", "-209.350000", "270.000000"),
     "J1": ("111.280000", "-175.000000", "90.000000"),
+    "U1": ("107.500000", "-144.000000", "0.000000"),
 }
 
 # 1. Convert CPL files to official JLCPCB CPL format:
@@ -123,7 +124,7 @@ sat_groups = [
     ("PinSocket_2x10_P2.54mm_Vertical_SMD", "J1", "PinSocket_2x10_P2.54mm_Vertical_SMD", "C41427539"),
     ("33R", "R1,R2,R3,R4,R5,R6,R7,R8,R9,R10", "R_0402_1005Metric", "C25105"),
     ("4.7k", "R11,R12", "R_0402_1005Metric", "C25900"),
-    ("IS31FL3236", "U1", "TSSOP-36_6.1x12.5mm_P0.65mm", "C246443"),
+    ("PCA9555PW", "U1", "TSSOP-24_4.4x7.8mm_P0.65mm", "C128392"),
     ("LED_RED", "D1", "LED_0805_2012Metric", "C2295"),
     ("LED_YLW", "D2,D3", "LED_0805_2012Metric", "C2296"),
     ("LED_GRN", "D4,D5,D6,D7,D8,D9,D10", "LED_0805_2012Metric", "C2297"),
