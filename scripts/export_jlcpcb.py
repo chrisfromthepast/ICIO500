@@ -10,7 +10,7 @@ os.makedirs(OUT_ROOT, exist_ok=True)
 boards = [
     ("icio500", "build/icio500/icio500.kicad_pcb", "F.Cu,In1.Cu,In2.Cu,B.Cu,F.Paste,B.Paste,F.SilkS,B.SilkS,F.Mask,B.Mask,Edge.Cuts"),
     ("panel_satellite", "build/icio500/panel_satellite.kicad_pcb", "F.Cu,B.Cu,F.Paste,B.Paste,F.SilkS,B.SilkS,F.Mask,B.Mask,Edge.Cuts"),
-    ("faceplate_front", "build/icio500/faceplate_front.kicad_pcb", "F.Cu,B.Cu,F.Paste,B.Paste,F.SilkS,B.SilkS,F.Mask,B.Mask,Edge.Cuts"),
+    ("faceplate_front", "build/icio500/faceplate_front.kicad_pcb", "F.Cu,B.Cu,F.Paste,B.Paste,F.SilkS,B.SilkS,F.Mask,B.Mask,Dwgs.User,Cmts.User,Edge.Cuts"),
 ]
 
 for name, pcb_path, layers in boards:

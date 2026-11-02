@@ -32,6 +32,9 @@ build/*
 build/icio500/*
 !build/icio500/*.kicad_pcb
 !build/icio500/*.kicad_sch
+!build/icio500/*.step
+!build/jlcpcb/
+!build/jlcpcb/**
 .ato/
 
 # Python virtual environment
