@@ -101,15 +101,17 @@ with open("build/jlcpcb/icio500_bom.csv", "w", newline="", encoding="utf-8") as 
 # 3. Write build/jlcpcb/panel_satellite_bom.csv
 sat_groups = [
     ("WP-SMRA-M3 (Wuerth 7466303)", "BR1,BR2", "Mounting_Wuerth_WP-SMRA-M3_L7mm_7466303_Horizontal", "C5523891"),
-    ("10uF", "C1", "C_0402_1005Metric", "C15849"),
+    ("10uF", "C1", "C_0402_1005Metric", "C15525"),
     ("100nF", "C2", "C_0402_1005Metric", "C1525"),
-    ("BLM18PG", "FB1", "L_0402_1005Metric", "C76886"),
-    ("PinSocket_2x10_P2.54mm_Vertical_SMD", "J1", "PinSocket_2x10_P2.54mm_Vertical_SMD", "C2906163"),
+    ("BLM15AX601SN1D", "FB1", "L_0402_1005Metric", "C76886"),
+    ("PinSocket_2x10_P2.54mm_Vertical_SMD", "J1", "PinSocket_2x10_P2.54mm_Vertical_SMD", "C41427539"),
     ("33R", "R1,R2,R3,R4,R5,R6,R7,R8,R9,R10", "R_0402_1005Metric", "C25105"),
     ("4.7k", "R11,R12", "R_0402_1005Metric", "C25900"),
-    ("IS31FL3236", "U1", "TSSOP-36_6.1x12.5mm_P0.65mm", "C282734"),
-    ("LED", "D1,D2,D3,D4,D5,D6,D7,D8,D9,D10", "LED_0805_2012Metric", "C2290"),
-    ("EC11E", "ENC1", "RotaryEncoder_Alps_EC11E-Switch_Vertical_H20mm", "C470661"),
+    ("IS31FL3236", "U1", "TSSOP-36_6.1x12.5mm_P0.65mm", "C246443"),
+    ("LED_RED", "D1", "LED_0805_2012Metric", "C2295"),
+    ("LED_YLW", "D2,D3", "LED_0805_2012Metric", "C2296"),
+    ("LED_GRN", "D4,D5,D6,D7,D8,D9,D10", "LED_0805_2012Metric", "C2297"),
+    ("EC11E", "ENC1", "RotaryEncoder_Alps_EC11E-Switch_Vertical_H20mm", "C255515"),
 ]
 with open("build/jlcpcb/panel_satellite_bom.csv", "w", newline="", encoding="utf-8") as f:
     w = csv.writer(f)
