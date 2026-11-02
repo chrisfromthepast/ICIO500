@@ -4,10 +4,18 @@ import shutil
 
 def gen_assembly():
     fpx = 55.39
-    fpy = 102.75 # Centered on VPR-500 card edge tongue (Y in [71.50, 134.00])
+    fpy = 102.85  # Exactly centered on carrier card (Y in [45.70, 160.00])
     
-    sat_off = (-105.24, 166.675, 0.0)
-    fp_off = (-5.24, 66.675, -1.6)
+    # Satellite and Faceplate overhang evenly top and bottom by 9.525 mm (0.375")
+    # Top edge: Y = 36.175 mm (9.525 mm above carrier top Y=45.70)
+    # Bottom edge: Y = 169.525 mm (9.525 mm below carrier bottom Y=160.00)
+    # Chassis rail screw holes MH1 (Y=40.135) and MH2 (Y=165.565) extend symmetrically
+    # above and below the card to screw directly into the 500-series chassis rails!
+    sat_off = (-0.08, 166.675, -108.74)
+    sat_rot = (0, 90, 0)
+    
+    fp_off = (-1.68, 66.675, -8.74)
+    fp_rot = (0, 90, 0)
         
     step_dir = os.path.abspath('build/icio500').replace('\\', '/')
     sat_step = f"{step_dir}/panel_satellite.step"
@@ -23,12 +31,12 @@ def gen_assembly():
 \t\t(model "{sat_step}"
 \t\t\t(offset (xyz {sat_off[0]} {sat_off[1]} {sat_off[2]}))
 \t\t\t(scale (xyz 1 1 1))
-\t\t\t(rotate (xyz 0 90 0))
+\t\t\t(rotate (xyz {sat_rot[0]} {sat_rot[1]} {sat_rot[2]}))
 \t\t)
 \t\t(model "{fp_step}"
 \t\t\t(offset (xyz {fp_off[0]} {fp_off[1]} {fp_off[2]}))
 \t\t\t(scale (xyz 1 1 1))
-\t\t\t(rotate (xyz 0 90 0))
+\t\t\t(rotate (xyz {fp_rot[0]} {fp_rot[1]} {fp_rot[2]}))
 \t\t)
 \t)
 '''
@@ -46,7 +54,7 @@ def update_assembly_pcb():
     in_dummy = False
     brace_count = 0
     for line in lines:
-        if '(footprint "DUMMY' in line:
+        if '(footprint "DUMMY"' in line:
             in_dummy = True
             brace_count = 0
             
@@ -61,7 +69,6 @@ def update_assembly_pcb():
         
     pcb_data = "".join(out_lines)
     
-    # insert dummy before the last ')'
     idx = pcb_data.rfind(')')
     pcb_data = pcb_data[:idx] + gen_assembly() + '\n)'
         
@@ -70,4 +77,4 @@ def update_assembly_pcb():
 
 if __name__ == "__main__":
     update_assembly_pcb()
-    print("Assembly updated with centered VPR-500 alignment (fpy=102.75)!")
+    print("Assembly PCB updated successfully!")
