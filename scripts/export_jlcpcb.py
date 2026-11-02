@@ -19,12 +19,13 @@ for name, pcb_path, layers in boards:
         shutil.rmtree(bdir)
     os.makedirs(bdir, exist_ok=True)
 
-    # 1. Export Gerbers (Protel extensions for JLCPCB)
+    # 1. Export Gerbers (standard RS-274X without X2 %TO attributes so JLCPCB uses CPL exact coordinates/rotations)
     subprocess.run([
         KICAD_CLI, "pcb", "export", "gerbers",
         "--layers", layers,
         "--use-drill-file-origin",
         "--no-protel-ext",
+        "--no-x2",
         "-o", bdir + "/",
         pcb_path
     ], check=True)

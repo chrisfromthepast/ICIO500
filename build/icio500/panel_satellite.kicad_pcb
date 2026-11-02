@@ -1863,15 +1863,15 @@
 			(uuid "722fb560-9846-4ec7-985e-7de6a3ad9f84")
 		)
 		(embedded_fonts no)
-		(model "${KICAD10_3DMODEL_DIR}/Rotary_Encoder.3dshapes/RotaryEncoder_Alps_EC11E-Switch_Vertical_H20mm.step"
+		(model "RotaryEncoder_Alps_EC11E-Switch_Vertical_H20mm.step"
 			(offset
-				(xyz 0 0 0)
+				(xyz 7.5 -2.5 0)
 			)
 			(scale
 				(xyz 1 1 1)
 			)
 			(rotate
-				(xyz 0 0 0)
+				(xyz 0 0 90)
 			)
 		)
 	)
