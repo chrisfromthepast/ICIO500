@@ -1,11 +1,11 @@
 import csv
 
 main_meta = {
-    "C1": ("220uF", "CP_Elec_6.3x5.4", "C72494"),
-    "C3": ("220uF", "CP_Elec_6.3x5.4", "C72494"),
-    "C25": ("220uF", "CP_Elec_6.3x5.4", "C72494"),
-    "C26": ("220uF", "CP_Elec_6.3x5.4", "C72494"),
-    "C27": ("220uF", "CP_Elec_6.3x5.4", "C72494"),
+    "C1": ("220uF", "CP_Elec_6.3x5.4", "C4747974"),
+    "C3": ("220uF", "CP_Elec_6.3x5.4", "C4747974"),
+    "C25": ("220uF", "CP_Elec_6.3x5.4", "C4747974"),
+    "C26": ("220uF", "CP_Elec_6.3x5.4", "C4747974"),
+    "C27": ("220uF", "CP_Elec_6.3x5.4", "C4747974"),
     "C21": ("10uF_BP", "CP_Elec_5x5.4", "C1984751"),
     "C22": ("10uF_BP", "CP_Elec_5x5.4", "C1984751"),
     "C2": ("100nF", "C0603", "C14663"),
@@ -30,9 +30,9 @@ main_meta = {
     "C20": ("1uF", "C0402", "C52923"),
     "R1": ("100R", "R0603", "C22775"),
     "R2": ("100R", "R0603", "C22775"),
-    "R3": ("22k", "R0603", "C22962"),
-    "R6": ("22k", "R0603", "C22962"),
-    "R8": ("22k", "R0603", "C22962"),
+    "R3": ("22k", "R0603", "C31850"),
+    "R6": ("22k", "R0603", "C31850"),
+    "R8": ("22k", "R0603", "C31850"),
     "R4": ("10k", "R0603", "C25804"),
     "R5": ("10k", "R0603", "C25804"),
     "R7": ("10k", "R0603", "C25804"),
@@ -40,26 +40,39 @@ main_meta = {
     "R10": ("10R", "R0603", "C22859"),
     "D1": ("SS14", "D_SMA", "C2480"),
     "D2": ("SS14", "D_SMA", "C2480"),
-    "D3": ("1N4148W", "D_SOD-123", "C57759"),
-    "D4": ("1N4148W", "D_SOD-123", "C57759"),
-    "D5": ("1N4148W", "D_SOD-123", "C57759"),
-    "D6": ("1N4148W", "D_SOD-123", "C57759"),
-    "D7": ("1N4148W", "D_SOD-123", "C57759"),
-    "D8": ("1N4148W", "D_SOD-123", "C57759"),
-    "D9": ("1N4148W", "D_SOD-123", "C57759"),
-    "D10": ("1N4148W", "D_SOD-123", "C57759"),
+    "D3": ("1N4148W", "D_SOD-123", "C81598"),
+    "D4": ("1N4148W", "D_SOD-123", "C81598"),
+    "D5": ("1N4148W", "D_SOD-123", "C81598"),
+    "D6": ("1N4148W", "D_SOD-123", "C81598"),
+    "D7": ("1N4148W", "D_SOD-123", "C81598"),
+    "D8": ("1N4148W", "D_SOD-123", "C81598"),
+    "D9": ("1N4148W", "D_SOD-123", "C81598"),
+    "D10": ("1N4148W", "D_SOD-123", "C81598"),
     "U1": ("TSR 1-2450", "TO-220-3_Vertical", "C6886877"),
     "U2": ("1200S08-U", "SOIC-8_3.9x4.9mm_P1.27mm", "C3202799"),
-    "U3": ("TL072CDT", "SOIC-8_3.9x4.9mm_P1.27mm", "C9002"),
+    "U3": ("TL072CDT", "SOIC-8_3.9x4.9mm_P1.27mm", "C6961"),
     "U4": ("THAT1646S08-U", "SOIC-8_3.9x4.9mm_P1.27mm", "C5290156"),
     "U5": ("Daisy_Seed_Socket", "DIP-40_W15.24mm_Socket", "C2332"),
-    "U6": ("PinHeader_2x10_P2.54mm_Horizontal", "PinHeader_2x10_P2.54mm_Horizontal", "C124378"),
+    "U6": ("2541WR-2x10P", "PinHeader_2x10_P2.54mm_Horizontal", "C5383093"),
+}
+
+# THT components in KiCad use Pin 1 as their origin rather than the geometric center.
+# Override (Mid X, Mid Y, Rotation) to match JLCPCB/EasyEDA component center and orientation:
+main_pos_override = {
+    "U1": ("163.307000", "-145.485500", "180.000000"),
+    "U5": ("102.620000", "-114.130000", "90.000000"),
+    "U6": ("66.730000", "-111.175000", "90.000000"),
+}
+
+sat_pos_override = {
+    "ENC1": ("119.050000", "-209.350000", "0.000000"),
 }
 
 # 1. Convert CPL files to official JLCPCB CPL format:
 #    Designator,Val,Package,Mid X,Mid Y,Rotation,Layer
-def convert_cpl_to_jlcpcb(cpl_path, meta_override=None, exclude_refs=None):
+def convert_cpl_to_jlcpcb(cpl_path, meta_override=None, pos_override=None, exclude_refs=None):
     exclude_refs = exclude_refs or set()
+    pos_override = pos_override or {}
     rows = []
     with open(cpl_path, "r", encoding="utf-8") as f:
         reader = csv.DictReader(f)
@@ -74,6 +87,8 @@ def convert_cpl_to_jlcpcb(cpl_path, meta_override=None, exclude_refs=None):
             pos_x = r.get("PosX") or r.get("Mid X", "")
             pos_y = r.get("PosY") or r.get("Mid Y", "")
             rot = r.get("Rot") or r.get("Rotation", "")
+            if ref in pos_override:
+                pos_x, pos_y, rot = pos_override[ref]
             side = (r.get("Side") or r.get("Layer", "")).lower()
             rows.append((ref, val, pkg, pos_x, pos_y, rot, side))
 
@@ -82,8 +97,8 @@ def convert_cpl_to_jlcpcb(cpl_path, meta_override=None, exclude_refs=None):
         for ref, val, pkg, pos_x, pos_y, rot, side in rows:
             f.write(f"{ref},{val},{pkg},{pos_x},{pos_y},{rot},{side}\n")
 
-convert_cpl_to_jlcpcb("build/jlcpcb/icio500_cpl.csv", meta_override=main_meta, exclude_refs={"J1"})
-convert_cpl_to_jlcpcb("build/jlcpcb/panel_satellite_cpl.csv")
+convert_cpl_to_jlcpcb("build/jlcpcb/icio500_cpl.csv", meta_override=main_meta, pos_override=main_pos_override, exclude_refs={"J1"})
+convert_cpl_to_jlcpcb("build/jlcpcb/panel_satellite_cpl.csv", pos_override=sat_pos_override)
 convert_cpl_to_jlcpcb("build/jlcpcb/faceplate_front_cpl.csv")
 
 # 2. Write build/jlcpcb/icio500_bom.csv grouped by (Comment, Footprint, LCSC Part #)
