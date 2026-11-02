@@ -43,7 +43,7 @@ for name, pcb_path, layers in boards:
         pcb_path
     ], check=True)
 
-    # 3. Export Component Position (CPL / Pick-and-Place CSV)
+    # 3. Export Component Position (CPL / Pick-and-Place CSV) and convert headers to JLCPCB standard
     pos_csv = os.path.join(OUT_ROOT, f"{name}_cpl.csv")
     subprocess.run([
         KICAD_CLI, "pcb", "export", "pos",
@@ -54,6 +54,12 @@ for name, pcb_path, layers in boards:
         "-o", pos_csv,
         pcb_path
     ], check=True)
+
+    with open(pos_csv, "r", encoding="utf-8") as f:
+        cpl_text = f.read()
+    cpl_text = cpl_text.replace("Ref,Val,Package,PosX,PosY,Rot,Side", "Designator,Val,Package,Mid X,Mid Y,Rotation,Layer", 1)
+    with open(pos_csv, "w", encoding="utf-8", newline="") as f:
+        f.write(cpl_text)
 
     # 4. Zip Gerbers + Drills for direct JLCPCB upload
     zip_path = os.path.join(OUT_ROOT, f"{name}_jlcpcb_gerbers.zip")

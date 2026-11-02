@@ -56,24 +56,35 @@ main_meta = {
     "U6": ("PinHeader_2x10_P2.54mm_Horizontal", "PinHeader_2x10_P2.54mm_Horizontal", "C124378"),
 }
 
-# 1. Update build/jlcpcb/icio500_cpl.csv with real values and remove PCB edge finger J1 from CPL
-rows = []
-with open("build/jlcpcb/icio500_cpl.csv", "r", encoding="utf-8") as f:
-    reader = csv.DictReader(f)
-    for r in reader:
-        ref = r["Ref"]
-        if ref == "J1":
-            continue  # Gold finger edge connector is part of PCB fabrication, not SMT placement
-        if ref in main_meta:
-            r["Val"] = main_meta[ref][0]
-        rows.append(r)
+# 1. Convert CPL files to official JLCPCB CPL format:
+#    Designator,Val,Package,Mid X,Mid Y,Rotation,Layer
+def convert_cpl_to_jlcpcb(cpl_path, meta_override=None, exclude_refs=None):
+    exclude_refs = exclude_refs or set()
+    rows = []
+    with open(cpl_path, "r", encoding="utf-8") as f:
+        reader = csv.DictReader(f)
+        for r in reader:
+            ref = r.get("Ref") or r.get("Designator", "")
+            if not ref or ref in exclude_refs:
+                continue
+            val = r.get("Val", "")
+            if meta_override and ref in meta_override:
+                val = meta_override[ref][0]
+            pkg = r.get("Package", "")
+            pos_x = r.get("PosX") or r.get("Mid X", "")
+            pos_y = r.get("PosY") or r.get("Mid Y", "")
+            rot = r.get("Rot") or r.get("Rotation", "")
+            side = (r.get("Side") or r.get("Layer", "")).lower()
+            rows.append((ref, val, pkg, pos_x, pos_y, rot, side))
 
-with open("build/jlcpcb/icio500_cpl.csv", "w", newline="", encoding="utf-8") as f:
-    writer = csv.DictWriter(f, fieldnames=["Ref", "Val", "Package", "PosX", "PosY", "Rot", "Side"], quoting=csv.QUOTE_NONNUMERIC)
-    # Write header unquoted to match KiCad standard
-    f.write("Ref,Val,Package,PosX,PosY,Rot,Side\n")
-    for r in rows:
-        f.write(f'"{r["Ref"]}","{r["Val"]}","{r["Package"]}",{r["PosX"]},{r["PosY"]},{r["Rot"]},{r["Side"]}\n')
+    with open(cpl_path, "w", newline="", encoding="utf-8") as f:
+        f.write("Designator,Val,Package,Mid X,Mid Y,Rotation,Layer\n")
+        for ref, val, pkg, pos_x, pos_y, rot, side in rows:
+            f.write(f"{ref},{val},{pkg},{pos_x},{pos_y},{rot},{side}\n")
+
+convert_cpl_to_jlcpcb("build/jlcpcb/icio500_cpl.csv", meta_override=main_meta, exclude_refs={"J1"})
+convert_cpl_to_jlcpcb("build/jlcpcb/panel_satellite_cpl.csv")
+convert_cpl_to_jlcpcb("build/jlcpcb/faceplate_front_cpl.csv")
 
 # 2. Write build/jlcpcb/icio500_bom.csv grouped by (Comment, Footprint, LCSC Part #)
 from collections import defaultdict
