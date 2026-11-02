@@ -65,7 +65,8 @@ main_pos_override = {
 }
 
 sat_pos_override = {
-    "ENC1": ("119.050000", "-209.350000", "0.000000"),
+    "ENC1": ("119.050000", "-209.350000", "270.000000"),
+    "J1": ("111.280000", "-175.000000", "90.000000"),
 }
 
 # 1. Convert CPL files to official JLCPCB CPL format:
