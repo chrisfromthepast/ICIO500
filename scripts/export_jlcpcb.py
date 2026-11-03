@@ -5,41 +5,39 @@ import zipfile
 
 KICAD_CLI = r"C:\Program Files\KiCad\10.0\bin\kicad-cli.exe"
 OUT_ROOT = "build/jlcpcb"
+
+# Clear out any previous files in OUT_ROOT
+if os.path.exists(OUT_ROOT):
+    shutil.rmtree(OUT_ROOT)
 os.makedirs(OUT_ROOT, exist_ok=True)
 
-# Clean up obsolete 3-board files
-for old_f in ["panel_satellite_bom.csv", "panel_satellite_cpl.csv", "panel_satellite_jlcpcb_gerbers.zip"]:
-    p = os.path.join(OUT_ROOT, old_f)
-    if os.path.exists(p):
-        os.remove(p)
-old_dir = os.path.join(OUT_ROOT, "panel_satellite")
-if os.path.exists(old_dir):
-    shutil.rmtree(old_dir)
-
 boards = [
-    ("icio500", "build/icio500/icio500.kicad_pcb", "F.Cu,In1.Cu,In2.Cu,B.Cu,F.Paste,B.Paste,F.SilkS,B.SilkS,F.Mask,B.Mask,Edge.Cuts"),
-    ("faceplate_front", "build/icio500/faceplate_front.kicad_pcb", "F.Cu,B.Cu,F.Paste,B.Paste,F.SilkS,B.SilkS,F.Mask,B.Mask,Dwgs.User,Cmts.User,Edge.Cuts"),
-    ("encoder_board", "build/icio500/encoder_board.kicad_pcb", "F.Cu,B.Cu,F.Paste,B.Paste,F.SilkS,B.SilkS,F.Mask,B.Mask,Dwgs.User,Cmts.User,Edge.Cuts"),
+    ("carrier", "build/icio500/icio500.kicad_pcb", "F.Cu,In1.Cu,In2.Cu,B.Cu,F.Paste,B.Paste,F.SilkS,B.SilkS,F.Mask,B.Mask,Edge.Cuts"),
+    ("faceplate", "build/icio500/faceplate_front.kicad_pcb", "F.Cu,B.Cu,F.Paste,B.Paste,F.SilkS,B.SilkS,F.Mask,B.Mask,Dwgs.User,Cmts.User,Edge.Cuts"),
+    ("encoder", "build/icio500/encoder_board.kicad_pcb", "F.Cu,B.Cu,F.Paste,B.Paste,F.SilkS,B.SilkS,F.Mask,B.Mask,Dwgs.User,Cmts.User,Edge.Cuts"),
 ]
 
 for name, pcb_path, layers in boards:
-    bdir = os.path.join(OUT_ROOT, name)
-    if os.path.exists(bdir):
-        shutil.rmtree(bdir)
-    os.makedirs(bdir, exist_ok=True)
+    # 1. Dedicated board directory
+    board_dir = os.path.join(OUT_ROOT, name)
+    os.makedirs(board_dir, exist_ok=True)
 
-    # 1. Export Gerbers (standard RS-274X without X2 %TO attributes so JLCPCB uses CPL exact coordinates/rotations)
+    # 2. Temporary gerbers staging directory
+    stage_dir = os.path.join(board_dir, "temp_gerbers")
+    os.makedirs(stage_dir, exist_ok=True)
+
+    # Export Gerbers (standard RS-274X without X2 %TO attributes for exact JLCPCB SMT coordinates)
     subprocess.run([
         KICAD_CLI, "pcb", "export", "gerbers",
         "--layers", layers,
         "--use-drill-file-origin",
         "--no-protel-ext",
         "--no-x2",
-        "-o", bdir + "/",
+        "-o", stage_dir + "/",
         pcb_path
     ], check=True)
 
-    # 2. Export Excellon Drill + Map
+    # Export Excellon Drill + Map
     subprocess.run([
         KICAD_CLI, "pcb", "export", "drill",
         "--format", "excellon",
@@ -49,12 +47,12 @@ for name, pcb_path, layers in boards:
         "--drill-origin", "plot",
         "--generate-map",
         "--map-format", "gerberx2",
-        "-o", bdir + "/",
+        "-o", stage_dir + "/",
         pcb_path
     ], check=True)
 
-    # 3. Export Component Position (CPL / Pick-and-Place CSV) and convert headers to JLCPCB standard
-    pos_csv = os.path.join(OUT_ROOT, f"{name}_cpl.csv")
+    # Export Component Position (CPL / Pick-and-Place CSV)
+    pos_csv = os.path.join(board_dir, f"{name}_cpl.csv")
     subprocess.run([
         KICAD_CLI, "pcb", "export", "pos",
         "--side", "both",
@@ -71,13 +69,21 @@ for name, pcb_path, layers in boards:
     with open(pos_csv, "w", encoding="utf-8", newline="") as f:
         f.write(cpl_text)
 
-    # 4. Zip Gerbers + Drills for direct JLCPCB upload
-    zip_path = os.path.join(OUT_ROOT, f"{name}_jlcpcb_gerbers.zip")
+    # Zip Gerbers + Drills into clean package
+    zip_path = os.path.join(board_dir, f"{name}_gerbers.zip")
     with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as zf:
-        for fn in sorted(os.listdir(bdir)):
-            full = os.path.join(bdir, fn)
+        for fn in sorted(os.listdir(stage_dir)):
+            full = os.path.join(stage_dir, fn)
             if os.path.isfile(full):
                 zf.write(full, arcname=fn)
-    print(f"Exported {zip_path} ({os.path.getsize(zip_path)} bytes) and {pos_csv}")
+    
+    # Remove raw loose gerbers staging folder (keep only the zip archive!)
+    shutil.rmtree(stage_dir)
 
-print("JLCPCB raw exports completed.")
+    # Also place top-level copies in build/jlcpcb/
+    shutil.copyfile(zip_path, os.path.join(OUT_ROOT, f"{name}_gerbers.zip"))
+    shutil.copyfile(pos_csv, os.path.join(OUT_ROOT, f"{name}_cpl.csv"))
+
+    print(f"Exported {name}: {zip_path} and {pos_csv}")
+
+print("JLCPCB exports complete.")

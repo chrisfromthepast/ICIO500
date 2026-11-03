@@ -3,8 +3,10 @@ import os
 import shutil
 from collections import defaultdict
 
+OUT_ROOT = "build/jlcpcb"
+
 # -------------------------------------------------------------
-# 1. Carrier Card (icio500) Metadata & Position Overrides
+# 1. Carrier Card (icio500.kicad_pcb) Metadata
 # -------------------------------------------------------------
 main_meta = {
     "C1": ("220uF", "CP_Elec_6.3x5.4", "C4747974"),
@@ -105,9 +107,9 @@ for comment, refs_str, fp, lcsc in encoder_groups:
         encoder_meta[r.strip()] = (comment, fp, lcsc)
 
 # -------------------------------------------------------------
-# CPL Conversion Function
+# Helper: Format CPL to exact JLCPCB standard
 # -------------------------------------------------------------
-def convert_cpl_to_jlcpcb(cpl_path, meta_override=None, pos_override=None, exclude_refs=None):
+def format_cpl(cpl_path, meta_override=None, pos_override=None, exclude_refs=None):
     if not os.path.exists(cpl_path):
         return
     exclude_refs = exclude_refs or set()
@@ -137,53 +139,54 @@ def convert_cpl_to_jlcpcb(cpl_path, meta_override=None, pos_override=None, exclu
         for ref, val, pkg, pos_x, pos_y, rot, side in rows:
             f.write(f"{ref},{val},{pkg},{pos_x},{pos_y},{rot},{side}\n")
 
-# Process CPLs
-convert_cpl_to_jlcpcb("build/jlcpcb/icio500_cpl.csv", meta_override=main_meta, pos_override=main_pos_override, exclude_refs={"J1"})
-convert_cpl_to_jlcpcb("build/jlcpcb/faceplate_front_cpl.csv", meta_override=faceplate_meta)
-convert_cpl_to_jlcpcb("build/jlcpcb/encoder_board_cpl.csv", meta_override=encoder_meta)
+# Format CPLs (both inside board dirs and top-level)
+for p in ["build/jlcpcb/carrier/carrier_cpl.csv", "build/jlcpcb/carrier_cpl.csv"]:
+    format_cpl(p, meta_override=main_meta, pos_override=main_pos_override, exclude_refs={"J1"})
 
+for p in ["build/jlcpcb/faceplate/faceplate_cpl.csv", "build/jlcpcb/faceplate_cpl.csv"]:
+    format_cpl(p, meta_override=faceplate_meta)
+
+for p in ["build/jlcpcb/encoder/encoder_cpl.csv", "build/jlcpcb/encoder_cpl.csv"]:
+    format_cpl(p, meta_override=encoder_meta)
+
+# -------------------------------------------------------------
 # Write BOMs
+# -------------------------------------------------------------
 # 1. Carrier Card
-groups = defaultdict(list)
+carrier_groups = defaultdict(list)
 for ref, (val, fp, lcsc) in main_meta.items():
-    groups[(val, fp, lcsc)].append(ref)
+    carrier_groups[(val, fp, lcsc)].append(ref)
 
-with open("build/jlcpcb/icio500_bom.csv", "w", newline="", encoding="utf-8") as f:
-    w = csv.writer(f)
-    w.writerow(["Comment", "Designator", "Footprint", "LCSC Part #"])
-    for (val, fp, lcsc), refs in groups.items():
-        w.writerow([val, ",".join(refs), fp, lcsc])
+def write_carrier_bom(path):
+    with open(path, "w", newline="", encoding="utf-8") as f:
+        w = csv.writer(f)
+        w.writerow(["Comment", "Designator", "Footprint", "LCSC Part #"])
+        for (val, fp, lcsc), refs in carrier_groups.items():
+            w.writerow([val, ",".join(refs), fp, lcsc])
+
+write_carrier_bom("build/jlcpcb/carrier/carrier_bom.csv")
+write_carrier_bom("build/jlcpcb/carrier_bom.csv")
 
 # 2. Active Faceplate
-with open("build/jlcpcb/faceplate_front_bom.csv", "w", newline="", encoding="utf-8") as f:
-    w = csv.writer(f)
-    w.writerow(["Comment", "Designator", "Footprint", "LCSC Part #"])
-    for row in faceplate_groups:
-        w.writerow(row)
+def write_faceplate_bom(path):
+    with open(path, "w", newline="", encoding="utf-8") as f:
+        w = csv.writer(f)
+        w.writerow(["Comment", "Designator", "Footprint", "LCSC Part #"])
+        for row in faceplate_groups:
+            w.writerow(row)
+
+write_faceplate_bom("build/jlcpcb/faceplate/faceplate_bom.csv")
+write_faceplate_bom("build/jlcpcb/faceplate_bom.csv")
 
 # 3. Encoder Daughtercard
-with open("build/jlcpcb/encoder_board_bom.csv", "w", newline="", encoding="utf-8") as f:
-    w = csv.writer(f)
-    w.writerow(["Comment", "Designator", "Footprint", "LCSC Part #"])
-    for row in encoder_groups:
-        w.writerow(row)
+def write_encoder_bom(path):
+    with open(path, "w", newline="", encoding="utf-8") as f:
+        w = csv.writer(f)
+        w.writerow(["Comment", "Designator", "Footprint", "LCSC Part #"])
+        for row in encoder_groups:
+            w.writerow(row)
 
-# Create standard, intuitive alias filenames (so users and fab can find both faceplate_cpl.csv and faceplate_front_cpl.csv)
-aliases = [
-    ("faceplate_front_cpl.csv", "faceplate_cpl.csv"),
-    ("faceplate_front_bom.csv", "faceplate_bom.csv"),
-    ("faceplate_front_jlcpcb_gerbers.zip", "faceplate_jlcpcb_gerbers.zip"),
-    ("icio500_cpl.csv", "carrier_cpl.csv"),
-    ("icio500_bom.csv", "carrier_bom.csv"),
-    ("icio500_jlcpcb_gerbers.zip", "carrier_jlcpcb_gerbers.zip"),
-    ("encoder_board_cpl.csv", "encoder_cpl.csv"),
-    ("encoder_board_bom.csv", "encoder_bom.csv"),
-    ("encoder_board_jlcpcb_gerbers.zip", "encoder_jlcpcb_gerbers.zip"),
-]
-for src, dst in aliases:
-    s_path = os.path.join("build/jlcpcb", src)
-    d_path = os.path.join("build/jlcpcb", dst)
-    if os.path.exists(s_path):
-        shutil.copyfile(s_path, d_path)
+write_encoder_bom("build/jlcpcb/encoder/encoder_bom.csv")
+write_encoder_bom("build/jlcpcb/encoder_bom.csv")
 
-print("Generated build/jlcpcb production packages with dual standard names successfully!")
+print("Generated clean JLCPCB BOMs and formatted CPLs successfully!")

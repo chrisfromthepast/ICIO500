@@ -149,24 +149,25 @@ def build_faceplate():
     led_nets = [get_or_create_net(f'LED_{i+1}') for i in range(10)]
     led_mid_nets = [get_or_create_net(f'Net-(D{i+1}-Pad2)') for i in range(10)]
 
-    # 4. Load footprints from satellite board template
-    sat_board = pcbnew.LoadBoard('build/icio500/panel_satellite.kicad_pcb')
-    log("Loaded satellite template")
-    sat_fps = {fp.GetReference(): fp for fp in sat_board.GetFootprints()}
-
-    def copy_sat_fp(ref):
-        src = sat_fps[ref]
-        fp = pcbnew.Cast_to_FOOTPRINT(src.Duplicate(False))
+    # 4. Standard KiCad Footprint Loader
+    lib_base = r"C:\Program Files\KiCad\10.0\share\kicad\footprints"
+    def load_fp(pretty_lib, fp_name, ref):
+        lib_path = os.path.join(lib_base, pretty_lib)
+        fp = pcbnew.FootprintLoad(lib_path, fp_name)
+        if not fp:
+            raise RuntimeError(f"Failed to load footprint {fp_name} from {pretty_lib}")
+        fp.SetReference(ref)
         return fp
 
     # 5. Place J1 (2x10 SMD socket mating to carrier U6) on B.Cu
-    j1 = copy_sat_fp('J1')
+    j1 = load_fp("Connector_PinSocket_2.54mm.pretty", "PinSocket_2x10_P2.54mm_Vertical_SMD", "J1")
     j1.SetPosition(pcbnew.VECTOR2I(mm(11.28), mm(75.00)))
     j1.Reference().SetVisible(False)
     for g in j1.GraphicalItems():
         if g.GetLayerName() in ('F.Silkscreen', 'B.Silkscreen', 'F.SilkS', 'B.SilkS'):
             g.SetLayer(pcbnew.Dwgs_User)
     board.Add(j1)
+    j1.Flip(j1.GetPosition(), False) # Ensure on B.Cu
     j1_map = {
         '1': gnd, '2': pwr_in, '3': sda, '4': gnd, '5': scl, '6': gnd,
         '7': gnd, '8': gnd, '9': enc_b, '10': enc_a, '11': gnd, '12': enc_sw,
@@ -179,10 +180,11 @@ def build_faceplate():
     log("J1 placed at (11.28, 75.00) on B.Cu")
 
     # 6. Place U1 (PCA9555PW TSSOP-24) on B.Cu
-    u1 = copy_sat_fp('U1')
+    u1 = load_fp("Package_SO.pretty", "TSSOP-24_4.4x7.8mm_P0.65mm", "U1")
     u1.SetPosition(pcbnew.VECTOR2I(mm(7.50), mm(44.00)))
     u1.Reference().SetVisible(False)
     board.Add(u1)
+    u1.Flip(u1.GetPosition(), False) # Ensure on B.Cu
     u1_map = {
         '1': gnd, '2': gnd, '3': gnd, '12': gnd, '17': gnd, '18': gnd,
         '15': pwr, '16': pwr, '24': pwr,
@@ -198,60 +200,63 @@ def build_faceplate():
     log("U1 placed at (7.50, 44.00) on B.Cu")
 
     # 7. Place Power / Filter components on B.Cu
-    fb1 = copy_sat_fp('FB1')
+    fb1 = load_fp("Inductor_SMD.pretty", "L_0402_1005Metric", "FB1")
     fb1.SetPosition(pcbnew.VECTOR2I(mm(9.00), mm(14.00)))
     fb1.SetOrientation(pcbnew.EDA_ANGLE(90, pcbnew.DEGREES_T))
     fb1.Reference().SetVisible(False)
     board.Add(fb1)
+    fb1.Flip(fb1.GetPosition(), False)
     for p in fb1.Pads():
         p.SetNet(pwr_in if str(p.GetNumber()) == '1' else pwr)
 
-    c1 = copy_sat_fp('C1')
+    c1 = load_fp("Capacitor_SMD.pretty", "C_0402_1005Metric", "C1")
     c1.SetPosition(pcbnew.VECTOR2I(mm(12.00), mm(14.00)))
     c1.SetOrientation(pcbnew.EDA_ANGLE(270, pcbnew.DEGREES_T))
     c1.Reference().SetVisible(False)
     board.Add(c1)
+    c1.Flip(c1.GetPosition(), False)
     for p in c1.Pads():
         p.SetNet(pwr if str(p.GetNumber()) == '1' else gnd)
 
-    c2 = copy_sat_fp('C2')
+    c2 = load_fp("Capacitor_SMD.pretty", "C_0402_1005Metric", "C2")
     c2.SetPosition(pcbnew.VECTOR2I(mm(15.00), mm(14.00)))
     c2.SetOrientation(pcbnew.EDA_ANGLE(270, pcbnew.DEGREES_T))
     c2.Reference().SetVisible(False)
     board.Add(c2)
+    c2.Flip(c2.GetPosition(), False)
     for p in c2.Pads():
         p.SetNet(pwr if str(p.GetNumber()) == '1' else gnd)
 
     # I2C pullups vertically staggered above U1 (zero overlap!):
-    # R11 (SDA pullup) at X = 10.425, Y = 26.00 (Pad 1: 25.490, Pad 2: 26.510)
-    r11 = copy_sat_fp('R11')
+    r11 = load_fp("Resistor_SMD.pretty", "R_0402_1005Metric", "R11")
     r11.SetPosition(pcbnew.VECTOR2I(mm(10.425), mm(26.00)))
     r11.SetOrientation(pcbnew.EDA_ANGLE(270, pcbnew.DEGREES_T))
     r11.Reference().SetVisible(False)
     board.Add(r11)
+    r11.Flip(r11.GetPosition(), False)
     for p in r11.Pads():
         p.SetNet(pwr if str(p.GetNumber()) == '1' else sda)
 
-    # R12 (SCL pullup) at X = 9.775, Y = 30.00 (Pad 1: 29.490, Pad 2: 30.510)
-    r12 = copy_sat_fp('R12')
+    r12 = load_fp("Resistor_SMD.pretty", "R_0402_1005Metric", "R12")
     r12.SetPosition(pcbnew.VECTOR2I(mm(9.775), mm(30.00)))
     r12.SetOrientation(pcbnew.EDA_ANGLE(270, pcbnew.DEGREES_T))
     r12.Reference().SetVisible(False)
     board.Add(r12)
+    r12.Flip(r12.GetPosition(), False)
     for p in r12.Pads():
         p.SetNet(pwr if str(p.GetNumber()) == '1' else scl)
 
     # 8. Place 10 LEDs D1..D10 on B.Cu centered over windows
     for i in range(10):
         wy = 20.0 + 8.0 * i
-        d = copy_sat_fp(f'D{i+1}')
+        d = load_fp("LED_SMD.pretty", "LED_0805_2012Metric", f"D{i+1}")
         d.SetPosition(pcbnew.VECTOR2I(mm(19.05), mm(wy)))
         d.SetOrientation(pcbnew.EDA_ANGLE(90, pcbnew.DEGREES_T))
         board.Add(d)
         d.Flip(d.GetPosition(), False)
         d.Reference().SetVisible(False)
         for g in d.GraphicalItems():
-            if g.GetLayerName() in ('F.Silkscreen', 'B.Silkscreen'):
+            if g.GetLayerName() in ('F.Silkscreen', 'B.Silkscreen', 'F.SilkS', 'B.SilkS'):
                 g.SetLayer(pcbnew.Dwgs_User)
         for p in d.Pads():
             if str(p.GetNumber()) == '1':
@@ -263,16 +268,18 @@ def build_faceplate():
     # 9. Place 10 Resistors R1..R10 on B.Cu at X = 27.50 mm (ori = 180 deg)
     for i in range(10):
         wy = 20.0 + 8.0 * i
-        r = copy_sat_fp(f'R{i+1}')
+        r = load_fp("Resistor_SMD.pretty", "R_0402_1005Metric", f"R{i+1}")
         r.SetPosition(pcbnew.VECTOR2I(mm(27.50), mm(wy)))
         r.SetOrientation(pcbnew.EDA_ANGLE(180, pcbnew.DEGREES_T))
         board.Add(r)
+        r.Flip(r.GetPosition(), False)
         r.Reference().SetVisible(False)
         for p in r.Pads():
             if str(p.GetNumber()) == '1':
                 p.SetNet(led_nets[i])
             else:
                 p.SetNet(led_mid_nets[i])
+    log("10 Resistors placed on B.Cu at X = 27.50 mm (ori=180)")
     log("10 Resistors placed on B.Cu at X = 27.50 mm (ori=180)")
 
     # 10. Place J2 (1x5 female SMD mezzanine socket) on B.Cu

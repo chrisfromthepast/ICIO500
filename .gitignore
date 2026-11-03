@@ -47,6 +47,12 @@ __pycache__/
 # Large files and archives
 *.jar
 *.zip
+!build/jlcpcb/*.zip
+
+# Raw unpacked gerber files (keep build/jlcpcb clean: zip archives only)
+build/jlcpcb/*/*.gbr
+build/jlcpcb/*/*.drl
+build/jlcpcb/*/*.gbrjob
 
 # Logs and text output
 *.log
