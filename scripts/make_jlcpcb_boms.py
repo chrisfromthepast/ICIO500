@@ -1,5 +1,6 @@
 import csv
 import os
+import shutil
 from collections import defaultdict
 
 # -------------------------------------------------------------
@@ -167,4 +168,22 @@ with open("build/jlcpcb/encoder_board_bom.csv", "w", newline="", encoding="utf-8
     for row in encoder_groups:
         w.writerow(row)
 
-print("Generated build/jlcpcb/icio500_bom.csv, faceplate_front_bom.csv, and encoder_board_bom.csv successfully!")
+# Create standard, intuitive alias filenames (so users and fab can find both faceplate_cpl.csv and faceplate_front_cpl.csv)
+aliases = [
+    ("faceplate_front_cpl.csv", "faceplate_cpl.csv"),
+    ("faceplate_front_bom.csv", "faceplate_bom.csv"),
+    ("faceplate_front_jlcpcb_gerbers.zip", "faceplate_jlcpcb_gerbers.zip"),
+    ("icio500_cpl.csv", "carrier_cpl.csv"),
+    ("icio500_bom.csv", "carrier_bom.csv"),
+    ("icio500_jlcpcb_gerbers.zip", "carrier_jlcpcb_gerbers.zip"),
+    ("encoder_board_cpl.csv", "encoder_cpl.csv"),
+    ("encoder_board_bom.csv", "encoder_bom.csv"),
+    ("encoder_board_jlcpcb_gerbers.zip", "encoder_jlcpcb_gerbers.zip"),
+]
+for src, dst in aliases:
+    s_path = os.path.join("build/jlcpcb", src)
+    d_path = os.path.join("build/jlcpcb", dst)
+    if os.path.exists(s_path):
+        shutil.copyfile(s_path, d_path)
+
+print("Generated build/jlcpcb production packages with dual standard names successfully!")

@@ -17,6 +17,7 @@ build/icio500/faceplate_front.kicad_pcb
 - Fully routed with Manhattan architecture: 0 electrical violations, 0 unconnected nets
 """
 
+import math
 import os
 import pcbnew
 import sys
@@ -47,24 +48,24 @@ def build_faceplate():
         layer = item.GetLayerName()
         shape = item.GetShapeStr() if hasattr(item, 'GetShapeStr') else ''
         
-        # Resize 19mm encoder cutout on F.Mask and B.Mask to 7.5mm (radius 3.75mm)
+        # Resize 19mm encoder cutout on F.Mask and B.Mask to 7.60 mm (radius 3.80mm, +0.2mm mask clearance for M7 bushing)
         if layer in ('F.Mask', 'B.Mask') and shape in ('circle', 'Circle'):
             pos = item.GetPosition()
             if abs(pos.x / MM - 19.05) < 0.5 and abs(pos.y / MM - 109.35) < 0.5:
-                item.SetEnd(pcbnew.VECTOR2I(mm(19.05 + 3.75), mm(109.35)))
-                log(f"Resized {layer} circle to radius 3.75mm")
+                item.SetEnd(pcbnew.VECTOR2I(mm(19.05 + 3.80), mm(109.35)))
+                log(f"Resized {layer} circle to radius 3.80mm (dia 7.60mm)")
                 
         if layer == 'Edge.Cuts':
             # Remove LED rectangular through-cutouts (preserve solid FR4 core!)
             if shape in ('rect', 'Rect'):
                 item.SetLayer(pcbnew.Dwgs_User)
                 continue
-            # Resize 19mm knob cutout to 7.50 mm M7 bushing hole
+            # Resize 19mm knob cutout to 7.20 mm M7 bushing hole (radius 3.60mm)
             if shape in ('circle', 'Circle'):
                 pos = item.GetPosition()
                 if abs(pos.x / MM - 19.05) < 0.5 and abs(pos.y / MM - 109.35) < 0.5:
-                    item.SetEnd(pcbnew.VECTOR2I(mm(19.05 + 3.75), mm(109.35)))
-                    log("Resized Edge.Cuts encoder shaft hole to 7.5mm dia (radius 3.75mm)")
+                    item.SetEnd(pcbnew.VECTOR2I(mm(19.05 + 3.60), mm(109.35)))
+                    log("Resized Edge.Cuts encoder shaft hole to 7.20mm dia (radius 3.60mm)")
                 elif abs(pos.x / MM - 11.55) < 0.5 and abs(pos.y / MM - 109.35) < 0.5:
                     has_anti_rot = True
     
@@ -78,6 +79,54 @@ def build_faceplate():
         c_anti.SetWidth(mm(0.10))
         board.Add(c_anti)
         log("Added anti-rotation hole on Edge.Cuts")
+
+    # 2b. Remove vestigial 20mm EncoderGraphicGeometric (which created the giant 20mm mask void)
+    cx, cy = 19.05, 109.35
+    anti_x, anti_y = 11.55, 109.35
+    anti_r = 1.10
+    fps_to_remove = []
+    for fp in board.GetFootprints():
+        if 'Encoder' in fp.GetFPIDAsString():
+            fps_to_remove.append(fp)
+    for fp in fps_to_remove:
+        board.Remove(fp)
+    log(f"Removed vestigial {len(fps_to_remove)} encoder graphic footprints")
+
+    # 2c. Add precision pro-audio 24-detent dial on F.SilkS
+    # Matches the 24 detents of Bourns PEC11R encoder (15 deg per detent click).
+    # M7 washer outer dia is 10.5 mm (radius 5.25 mm). Ticks start at r = 6.00 mm (clearing washer).
+    # Omits the 180 deg tick (9 o'clock) where the anti-rotation pin hole is located.
+    for i in range(24):
+        deg = i * 15.0
+        rad = math.radians(deg)
+        cos_a = math.cos(rad)
+        sin_a = math.sin(rad)
+        
+        is_major = (i % 3 == 0) # every 45 deg (0, 45, 90, 135, 180, 225, 270, 315)
+        r_inner = 6.00 if is_major else 6.30
+        r_outer = 8.50 if is_major else 7.70
+        w = 0.25 if is_major else 0.15
+        
+        sx = cx + r_inner * cos_a
+        sy = cy + r_inner * sin_a
+        ex = cx + r_outer * cos_a
+        ey = cy + r_outer * sin_a
+        
+        # Omit any tick within 1.5mm of anti-rotation hole center (11.55, 109.35)
+        d_start = math.hypot(sx - anti_x, sy - anti_y)
+        d_end = math.hypot(ex - anti_x, ey - anti_y)
+        if d_start < (anti_r + 0.40) or d_end < (anti_r + 0.40):
+            log(f"Omitted tick at {deg} deg (clearing anti-rotation hole)")
+            continue
+            
+        line = pcbnew.PCB_SHAPE(board)
+        line.SetShape(pcbnew.SHAPE_T_SEGMENT)
+        line.SetLayer(pcbnew.F_SilkS)
+        line.SetWidth(mm(w))
+        line.SetStart(pcbnew.VECTOR2I(mm(sx), mm(sy)))
+        line.SetEnd(pcbnew.VECTOR2I(mm(ex), mm(ey)))
+        board.Add(line)
+    log("Added high-precision 24-detent audio dial on F.SilkS")
 
     # 3. Setup Nets
     netinfo = board.GetNetInfo()
@@ -114,6 +163,9 @@ def build_faceplate():
     j1 = copy_sat_fp('J1')
     j1.SetPosition(pcbnew.VECTOR2I(mm(11.28), mm(75.00)))
     j1.Reference().SetVisible(False)
+    for g in j1.GraphicalItems():
+        if g.GetLayerName() in ('F.Silkscreen', 'B.Silkscreen', 'F.SilkS', 'B.SilkS'):
+            g.SetLayer(pcbnew.Dwgs_User)
     board.Add(j1)
     j1_map = {
         '1': gnd, '2': pwr_in, '3': sda, '4': gnd, '5': scl, '6': gnd,

@@ -7,6 +7,15 @@ KICAD_CLI = r"C:\Program Files\KiCad\10.0\bin\kicad-cli.exe"
 OUT_ROOT = "build/jlcpcb"
 os.makedirs(OUT_ROOT, exist_ok=True)
 
+# Clean up obsolete 3-board files
+for old_f in ["panel_satellite_bom.csv", "panel_satellite_cpl.csv", "panel_satellite_jlcpcb_gerbers.zip"]:
+    p = os.path.join(OUT_ROOT, old_f)
+    if os.path.exists(p):
+        os.remove(p)
+old_dir = os.path.join(OUT_ROOT, "panel_satellite")
+if os.path.exists(old_dir):
+    shutil.rmtree(old_dir)
+
 boards = [
     ("icio500", "build/icio500/icio500.kicad_pcb", "F.Cu,In1.Cu,In2.Cu,B.Cu,F.Paste,B.Paste,F.SilkS,B.SilkS,F.Mask,B.Mask,Edge.Cuts"),
     ("faceplate_front", "build/icio500/faceplate_front.kicad_pcb", "F.Cu,B.Cu,F.Paste,B.Paste,F.SilkS,B.SilkS,F.Mask,B.Mask,Dwgs.User,Cmts.User,Edge.Cuts"),
@@ -70,3 +79,5 @@ for name, pcb_path, layers in boards:
             if os.path.isfile(full):
                 zf.write(full, arcname=fn)
     print(f"Exported {zip_path} ({os.path.getsize(zip_path)} bytes) and {pos_csv}")
+
+print("JLCPCB raw exports completed.")
