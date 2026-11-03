@@ -4,7 +4,7 @@ import Diode from "generics/diodes.ato"
 
 component SwitchingRegulator5V:
     # Traco Power TSR 1-2450 (or Recom R-78 series) drop-in buck converter
-    footprint = "Package_TO_SOT_THT:TO-220-3_Vertical"
+    footprint = "Converter_DCDC:Converter_DCDC_TRACO_TSR-1_THT"
     mpn = "TSR1-2450"
     signal Vin ~ pin 1
     signal GND ~ pin 2

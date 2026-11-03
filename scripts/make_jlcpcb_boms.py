@@ -48,7 +48,7 @@ main_meta = {
     "D8": ("1N4148W", "D_SOD-123", "C81598"),
     "D9": ("1N4148W", "D_SOD-123", "C81598"),
     "D10": ("1N4148W", "D_SOD-123", "C81598"),
-    "U1": ("TSR 1-2450", "TO-220-3_Vertical", "C6886877"),
+    "U1": ("TSR 1-2450", "Converter_DCDC_TRACO_TSR-1_THT", "C6886877"),
     "U2": ("1200S08-U", "SOIC-8_3.9x4.9mm_P1.27mm", "C3202799"),
     "U3": ("TL072CDT", "SOIC-8_3.9x4.9mm_P1.27mm", "C6961"),
     "U4": ("THAT1646S08-U", "SOIC-8_3.9x4.9mm_P1.27mm", "C5290156"),
@@ -60,7 +60,7 @@ main_meta = {
 # Override (Mid X, Mid Y, Rotation) to match JLCPCB/EasyEDA component center and orientation:
 main_pos_override = {
     "U1": ("163.307000", "-145.485500", "180.000000"),
-    "U5": ("102.620000", "-114.130000", "90.000000"),
+    "U5": ("102.620000", "-114.130000", "270.000000"),
     "U6": ("66.730000", "-111.175000", "90.000000"),
 }
 
@@ -83,9 +83,10 @@ def convert_cpl_to_jlcpcb(cpl_path, meta_override=None, pos_override=None, exclu
             if not ref or ref in exclude_refs:
                 continue
             val = r.get("Val", "")
+            pkg = r.get("Package", "")
             if meta_override and ref in meta_override:
                 val = meta_override[ref][0]
-            pkg = r.get("Package", "")
+                pkg = meta_override[ref][1]
             pos_x = r.get("PosX") or r.get("Mid X", "")
             pos_y = r.get("PosY") or r.get("Mid Y", "")
             rot = r.get("Rot") or r.get("Rotation", "")
@@ -117,11 +118,11 @@ with open("build/jlcpcb/icio500_bom.csv", "w", newline="", encoding="utf-8") as 
 
 # 3. Write build/jlcpcb/panel_satellite_bom.csv
 sat_groups = [
-    ("WP-SMRA-M3 (Wuerth 7466303)", "BR1,BR2", "Mounting_Wuerth_WP-SMRA-M3_L7mm_7466303_Horizontal", "C5523891"),
+    ("WP-SMRA-M3", "BR1,BR2", "Mounting_Wuerth_WP-SMRA-M3_L7mm_7466303_Horizontal", "C5523891"),
     ("10uF", "C1", "C_0402_1005Metric", "C15525"),
     ("100nF", "C2", "C_0402_1005Metric", "C1525"),
     ("BLM15AX601SN1D", "FB1", "L_0402_1005Metric", "C76886"),
-    ("PinSocket_2x10_P2.54mm_Vertical_SMD", "J1", "PinSocket_2x10_P2.54mm_Vertical_SMD", "C41427539"),
+    ("Conn_02x10_Odd_Even", "J1", "PinSocket_2x10_P2.54mm_Vertical_SMD", "C41427539"),
     ("33R", "R1,R2,R3,R4,R5,R6,R7,R8,R9,R10", "R_0402_1005Metric", "C25105"),
     ("4.7k", "R11,R12", "R_0402_1005Metric", "C25900"),
     ("PCA9555PW", "U1", "TSSOP-24_4.4x7.8mm_P0.65mm", "C128392"),
@@ -130,6 +131,13 @@ sat_groups = [
     ("LED_GRN", "D4,D5,D6,D7,D8,D9,D10", "LED_0805_2012Metric", "C2297"),
     ("EC11E", "ENC1", "RotaryEncoder_Alps_EC11E-Switch_Vertical_H20mm", "C255515"),
 ]
+sat_meta = {}
+for comment, refs_str, fp, lcsc in sat_groups:
+    for r in refs_str.split(","):
+        sat_meta[r.strip()] = (comment, fp, lcsc)
+
+convert_cpl_to_jlcpcb("build/jlcpcb/panel_satellite_cpl.csv", meta_override=sat_meta, pos_override=sat_pos_override)
+
 with open("build/jlcpcb/panel_satellite_bom.csv", "w", newline="", encoding="utf-8") as f:
     w = csv.writer(f)
     w.writerow(["Comment", "Designator", "Footprint", "LCSC Part #"])

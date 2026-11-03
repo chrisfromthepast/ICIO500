@@ -1,12 +1,12 @@
 G04 #@! TF.GenerationSoftware,KiCad,Pcbnew,10.0.5*
-G04 #@! TF.CreationDate,2026-11-02T16:01:35-05:00*
+G04 #@! TF.CreationDate,2026-11-02T19:30:10-05:00*
 G04 #@! TF.ProjectId,icio500,6963696f-3530-4302-9e6b-696361645f70,rev?*
 G04 #@! TF.SameCoordinates,Original*
 G04 #@! TF.FileFunction,Copper,L3,Inr*
 G04 #@! TF.FilePolarity,Positive*
 %FSLAX46Y46*%
 G04 Gerber Fmt 4.6, Leading zero omitted, Abs format (unit mm)*
-G04 Created by KiCad (PCBNEW 10.0.5) date 2026-11-02 16:01:35*
+G04 Created by KiCad (PCBNEW 10.0.5) date 2026-11-02 19:30:10*
 %MOMM*%
 %LPD*%
 G01*
@@ -42,10 +42,10 @@ G04 #@! TA.AperFunction,ComponentPad*
 %ADD13C,1.500000*%
 G04 #@! TD*
 G04 #@! TA.AperFunction,ComponentPad*
-%ADD14O,1.905000X2.000000*%
+%ADD14R,1.905000X2.000000*%
 G04 #@! TD*
 G04 #@! TA.AperFunction,ComponentPad*
-%ADD15R,1.905000X2.000000*%
+%ADD15O,1.905000X2.000000*%
 G04 #@! TD*
 G04 #@! TA.AperFunction,ViaPad*
 %ADD16C,0.800000*%
@@ -167,15 +167,14 @@ G04 #@! TO.N,p20*
 X65460000Y-99745000D03*
 G04 #@! TD*
 D14*
-G04 #@! TO.N,daisy_5v_power*
-G04 #@! TO.C,U1*
-X160767000Y-145485500D03*
-D15*
 G04 #@! TO.N,v_plus*
+G04 #@! TO.C,U1*
 X165847000Y-145485500D03*
-D14*
+D15*
 G04 #@! TO.N,gnd*
 X163307000Y-145485500D03*
+G04 #@! TO.N,daisy_5v_power*
+X160767000Y-145485500D03*
 G04 #@! TD*
 D16*
 G04 #@! TO.N,v_minus*
