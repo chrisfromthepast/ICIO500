@@ -1,5 +1,10 @@
 import csv
+import os
+from collections import defaultdict
 
+# -------------------------------------------------------------
+# 1. Carrier Card (icio500) Metadata & Position Overrides
+# -------------------------------------------------------------
 main_meta = {
     "C1": ("220uF", "CP_Elec_6.3x5.4", "C4747974"),
     "C3": ("220uF", "CP_Elec_6.3x5.4", "C4747974"),
@@ -56,23 +61,54 @@ main_meta = {
     "U6": ("2541WR-2x10P", "PinHeader_2x10_P2.54mm_Horizontal", "C5383093"),
 }
 
-# THT components in KiCad use Pin 1 as their origin rather than the geometric center.
-# Override (Mid X, Mid Y, Rotation) to match JLCPCB/EasyEDA component center and orientation:
 main_pos_override = {
     "U1": ("163.307000", "-145.485500", "180.000000"),
     "U5": ("102.620000", "-114.130000", "270.000000"),
     "U6": ("66.730000", "-111.175000", "90.000000"),
 }
 
-sat_pos_override = {
-    "ENC1": ("118.800000", "-209.350000", "270.000000"),
-    "J1": ("111.280000", "-175.000000", "90.000000"),
-    "U1": ("107.500000", "-144.000000", "0.000000"),
-}
+# -------------------------------------------------------------
+# 2. Active 2.0 mm Faceplate Metadata
+# -------------------------------------------------------------
+faceplate_groups = [
+    ("WP-SMRA-M3", "BR1,BR2", "Mounting_Wuerth_WP-SMRA-M3_L7mm_7466303_Horizontal", "C5523891"),
+    ("10uF", "C1", "C_0402_1005Metric", "C15525"),
+    ("100nF", "C2", "C_0402_1005Metric", "C1525"),
+    ("BLM15AX601SN1D", "FB1", "L_0402_1005Metric", "C76886"),
+    ("Conn_02x10_Odd_Even", "J1", "PinSocket_2x10_P2.54mm_Vertical_SMD", "C41427539"),
+    ("Conn_01x05_Female", "J2", "PinSocket_1x05_P2.54mm_Vertical_SMD_Pin1Left", "C2898748"),
+    ("33R", "R1,R2,R3,R4,R5,R6,R7,R8,R9,R10", "R_0402_1005Metric", "C25105"),
+    ("4.7k", "R11,R12", "R_0402_1005Metric", "C25900"),
+    ("PCA9555PW", "U1", "TSSOP-24_4.4x7.8mm_P0.65mm", "C128392"),
+    ("LED_RED", "D1", "LED_0805_2012Metric", "C2295"),
+    ("LED_YLW", "D2,D3", "LED_0805_2012Metric", "C2296"),
+    ("LED_GRN", "D4,D5,D6,D7,D8,D9,D10", "LED_0805_2012Metric", "C2297"),
+]
 
-# 1. Convert CPL files to official JLCPCB CPL format:
-#    Designator,Val,Package,Mid X,Mid Y,Rotation,Layer
+faceplate_meta = {}
+for comment, refs_str, fp, lcsc in faceplate_groups:
+    for r in refs_str.split(","):
+        faceplate_meta[r.strip()] = (comment, fp, lcsc)
+
+# -------------------------------------------------------------
+# 3. Encoder Daughtercard Metadata
+# -------------------------------------------------------------
+encoder_groups = [
+    ("PEC11R-4020F-S0024", "ENC1", "RotaryEncoder_Alps_EC11E-Switch_Vertical_H20mm", "C255515"),
+    ("Conn_01x05_Male", "P1", "PinHeader_1x05_P2.54mm_Vertical_SMD_Pin1Left", "C224368"),
+]
+
+encoder_meta = {}
+for comment, refs_str, fp, lcsc in encoder_groups:
+    for r in refs_str.split(","):
+        encoder_meta[r.strip()] = (comment, fp, lcsc)
+
+# -------------------------------------------------------------
+# CPL Conversion Function
+# -------------------------------------------------------------
 def convert_cpl_to_jlcpcb(cpl_path, meta_override=None, pos_override=None, exclude_refs=None):
+    if not os.path.exists(cpl_path):
+        return
     exclude_refs = exclude_refs or set()
     pos_override = pos_override or {}
     rows = []
@@ -100,12 +136,13 @@ def convert_cpl_to_jlcpcb(cpl_path, meta_override=None, pos_override=None, exclu
         for ref, val, pkg, pos_x, pos_y, rot, side in rows:
             f.write(f"{ref},{val},{pkg},{pos_x},{pos_y},{rot},{side}\n")
 
+# Process CPLs
 convert_cpl_to_jlcpcb("build/jlcpcb/icio500_cpl.csv", meta_override=main_meta, pos_override=main_pos_override, exclude_refs={"J1"})
-convert_cpl_to_jlcpcb("build/jlcpcb/panel_satellite_cpl.csv", pos_override=sat_pos_override)
-convert_cpl_to_jlcpcb("build/jlcpcb/faceplate_front_cpl.csv")
+convert_cpl_to_jlcpcb("build/jlcpcb/faceplate_front_cpl.csv", meta_override=faceplate_meta)
+convert_cpl_to_jlcpcb("build/jlcpcb/encoder_board_cpl.csv", meta_override=encoder_meta)
 
-# 2. Write build/jlcpcb/icio500_bom.csv grouped by (Comment, Footprint, LCSC Part #)
-from collections import defaultdict
+# Write BOMs
+# 1. Carrier Card
 groups = defaultdict(list)
 for ref, (val, fp, lcsc) in main_meta.items():
     groups[(val, fp, lcsc)].append(ref)
@@ -116,32 +153,18 @@ with open("build/jlcpcb/icio500_bom.csv", "w", newline="", encoding="utf-8") as 
     for (val, fp, lcsc), refs in groups.items():
         w.writerow([val, ",".join(refs), fp, lcsc])
 
-# 3. Write build/jlcpcb/panel_satellite_bom.csv
-sat_groups = [
-    ("WP-SMRA-M3", "BR1,BR2", "Mounting_Wuerth_WP-SMRA-M3_L7mm_7466303_Horizontal", "C5523891"),
-    ("10uF", "C1", "C_0402_1005Metric", "C15525"),
-    ("100nF", "C2", "C_0402_1005Metric", "C1525"),
-    ("BLM15AX601SN1D", "FB1", "L_0402_1005Metric", "C76886"),
-    ("Conn_02x10_Odd_Even", "J1", "PinSocket_2x10_P2.54mm_Vertical_SMD", "C41427539"),
-    ("33R", "R1,R2,R3,R4,R5,R6,R7,R8,R9,R10", "R_0402_1005Metric", "C25105"),
-    ("4.7k", "R11,R12", "R_0402_1005Metric", "C25900"),
-    ("PCA9555PW", "U1", "TSSOP-24_4.4x7.8mm_P0.65mm", "C128392"),
-    ("LED_RED", "D1", "LED_0805_2012Metric", "C2295"),
-    ("LED_YLW", "D2,D3", "LED_0805_2012Metric", "C2296"),
-    ("LED_GRN", "D4,D5,D6,D7,D8,D9,D10", "LED_0805_2012Metric", "C2297"),
-    ("EC11E", "ENC1", "RotaryEncoder_Alps_EC11E-Switch_Vertical_H20mm", "C255515"),
-]
-sat_meta = {}
-for comment, refs_str, fp, lcsc in sat_groups:
-    for r in refs_str.split(","):
-        sat_meta[r.strip()] = (comment, fp, lcsc)
-
-convert_cpl_to_jlcpcb("build/jlcpcb/panel_satellite_cpl.csv", meta_override=sat_meta, pos_override=sat_pos_override)
-
-with open("build/jlcpcb/panel_satellite_bom.csv", "w", newline="", encoding="utf-8") as f:
+# 2. Active Faceplate
+with open("build/jlcpcb/faceplate_front_bom.csv", "w", newline="", encoding="utf-8") as f:
     w = csv.writer(f)
     w.writerow(["Comment", "Designator", "Footprint", "LCSC Part #"])
-    for row in sat_groups:
+    for row in faceplate_groups:
         w.writerow(row)
 
-print("Generated build/jlcpcb/icio500_bom.csv and build/jlcpcb/panel_satellite_bom.csv")
+# 3. Encoder Daughtercard
+with open("build/jlcpcb/encoder_board_bom.csv", "w", newline="", encoding="utf-8") as f:
+    w = csv.writer(f)
+    w.writerow(["Comment", "Designator", "Footprint", "LCSC Part #"])
+    for row in encoder_groups:
+        w.writerow(row)
+
+print("Generated build/jlcpcb/icio500_bom.csv, faceplate_front_bom.csv, and encoder_board_bom.csv successfully!")

@@ -3,23 +3,28 @@ import uuid as uuid_mod
 import shutil
 
 def gen_assembly():
-    fpx = 55.39
+    fpx = 54.175
     fpy = 102.85  # Exactly centered on carrier card (Y in [45.70, 160.00])
     
-    # Satellite and Faceplate overhang evenly top and bottom by 9.525 mm (0.375")
-    # Top edge: Y = 36.175 mm (9.525 mm above carrier top Y=45.70)
-    # Bottom edge: Y = 169.525 mm (9.525 mm below carrier bottom Y=160.00)
-    # Chassis rail screw holes MH1 (Y=40.135) and MH2 (Y=165.565) extend symmetrically
-    # above and below the card to screw directly into the 500-series chassis rails!
-    sat_off = (-0.08, 166.675, -108.74)
-    sat_rot = (0, 90, 0)
-    
-    fp_off = (-1.68, 66.675, -8.74)
+    # 2.0 mm Heavy-Duty Active Faceplate (38.10 x 133.35 mm)
+    # Faceplate spans Y in [36.175, 169.525] mm (overhangs 9.525 mm top & bottom)
+    # Mounted to carrier ears via Wurth WP-SMRA-M3 right-angle brackets
+    # Rear face sits directly against carrier ears at X = 54.175 mm
+    # Front face at X = 52.175 mm
+    # Overall module depth = 203.000 - 52.175 = 150.825 mm = 5.938" (exact VPR-500 standard)
+    fp_off = (-2.00, 66.675, -8.74)
     fp_rot = (0, 90, 0)
+    
+    # Encoder Daughtercard (22.0 x 29.0 mm)
+    # Mated to faceplate rear (J2) via 1x5 SMD mezzanine connector (P1)
+    # Clamped to faceplate via Bourns PEC11R threaded M7 bushing and nut
+    # Standoff: 7.5 mm behind faceplate B.Cu (X = 61.675 mm)
+    enc_off = (7.50, -31.675, -8.74)
+    enc_rot = (0, 90, 0)
         
     step_dir = os.path.abspath('build/icio500').replace('\\', '/')
-    sat_step = f"{step_dir}/panel_satellite.step"
     fp_step = f"{step_dir}/faceplate_front.step"
+    enc_step = f"{step_dir}/encoder_board.step"
     fp_uuid = str(uuid_mod.uuid4())
     
     pcb_template = f'''
@@ -28,15 +33,15 @@ def gen_assembly():
 \t\t(uuid "{fp_uuid}")
 \t\t(at {fpx} {fpy})
 \t\t(attr exclude_from_pos_files exclude_from_bom)
-\t\t(model "{sat_step}"
-\t\t\t(offset (xyz {sat_off[0]} {sat_off[1]} {sat_off[2]}))
-\t\t\t(scale (xyz 1 1 1))
-\t\t\t(rotate (xyz {sat_rot[0]} {sat_rot[1]} {sat_rot[2]}))
-\t\t)
 \t\t(model "{fp_step}"
 \t\t\t(offset (xyz {fp_off[0]} {fp_off[1]} {fp_off[2]}))
 \t\t\t(scale (xyz 1 1 1))
 \t\t\t(rotate (xyz {fp_rot[0]} {fp_rot[1]} {fp_rot[2]}))
+\t\t)
+\t\t(model "{enc_step}"
+\t\t\t(offset (xyz {enc_off[0]} {enc_off[1]} {enc_off[2]}))
+\t\t\t(scale (xyz 1 1 1))
+\t\t\t(rotate (xyz {enc_rot[0]} {enc_rot[1]} {enc_rot[2]}))
 \t\t)
 \t)
 '''

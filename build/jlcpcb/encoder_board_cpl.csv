@@ -1,0 +1,3 @@
+Designator,Val,Package,Mid X,Mid Y,Rotation,Layer
+ENC1,PEC11R-4020F-S0024,RotaryEncoder_Alps_EC11E-Switch_Vertical_H20mm,3.500000,-8.500000,0.000000,top
+P1,Conn_01x05_Male,PinHeader_1x05_P2.54mm_Vertical_SMD_Pin1Left,11.000000,-23.500000,90.000000,top
