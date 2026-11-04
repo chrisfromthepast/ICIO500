@@ -25527,7 +25527,7 @@
 
 	(footprint "DUMMY"
 		(layer "F.Cu")
-		(uuid "5762182d-5f57-4901-8b67-476bb46e3d5b")
+		(uuid "bf85e2b0-6d31-4586-8803-08f2ac0cd845")
 		(at 54.175 102.85)
 		(attr exclude_from_pos_files exclude_from_bom)
 		(model "C:/Users/Chris Williams/Documents/GitHub/ICIO500/build/icio500/faceplate_front.step"

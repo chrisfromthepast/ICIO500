@@ -75,13 +75,15 @@ main_pos_override = {
 # -------------------------------------------------------------
 faceplate_groups = [
     ("WP-SMRA-M3", "BR1,BR2", "Mounting_Wuerth_WP-SMRA-M3_L7mm_7466303_Horizontal", "C5523891"),
-    ("10uF", "C1", "C_0402_1005Metric", "C15525"),
-    ("100nF", "C2", "C_0402_1005Metric", "C1525"),
+    ("100nF", "C1", "C_0402_1005Metric", "C1525"),
+    ("10uF", "C2", "C_0402_1005Metric", "C15525"),
     ("BLM15AX601SN1D", "FB1", "L_0402_1005Metric", "C76886"),
     ("Conn_02x10_Odd_Even", "J1", "PinSocket_2x10_P2.54mm_Vertical_SMD", "C41427539"),
     ("Conn_01x05_Female", "J2", "PinSocket_1x05_P2.54mm_Vertical_SMD_Pin1Left", "C2898748"),
     ("33R", "R1,R2,R3,R4,R5,R6,R7,R8,R9,R10", "R_0402_1005Metric", "C25105"),
-    ("4.7k", "R11,R12", "R_0402_1005Metric", "C25900"),
+    ("4.7k", "R11", "R_0402_1005Metric", "C25900"),
+    ("4.7k", "R12", "R_0805_2012Metric", "C17673"),
+    ("0R", "R13,R14,R15", "R_0805_2012Metric", "C17414"),
     ("PCA9555PW", "U1", "TSSOP-24_4.4x7.8mm_P0.65mm", "C128392"),
     ("LED_RED", "D1", "LED_0805_2012Metric", "C2295"),
     ("LED_YLW", "D2,D3", "LED_0805_2012Metric", "C2296"),
