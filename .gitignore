@@ -60,3 +60,6 @@ build/jlcpcb/*/*.gbrjob
 logs/
 drc*.txt
 error.txt
+
+scratch/
+*.json

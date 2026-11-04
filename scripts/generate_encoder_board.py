@@ -1,32 +1,22 @@
-"""
-generate_encoder_board.py
-
-Generates build/icio500/encoder_board.kicad_pcb:
-- 2-layer FR4, 1.6 mm thickness
-- Outline: 22.0 mm wide x 29.0 mm high
-- Encoder center at (11.0, 11.0)
-- Components:
-  ENC1: Bourns PEC11R-4020F-S0024 vertical rotary encoder (through-hole)
-  P1: 1x5 SMD male mezzanine header (F.Cu) at Y = 23.5 mm, rotated 90 deg
-- Routed cleanly with 0 electrical violations and 0 unconnected items
-"""
-
-import os
 import pcbnew
+import os
 
 MM = 1e6
 def mm(v): return int(round(v * MM))
 
-def create_encoder_board():
+def build_encoder_board():
     board = pcbnew.BOARD()
     
-    W_min, W_max, H = 1.0, 21.0, 29.0
+    W = 20.0
+    H = 26.0
     
     ds = board.GetDesignSettings()
     ds.SetBoardThickness(mm(1.6))
+    ds.m_CopperEdgeClearance = mm(0.35)
+    ds.m_TrackClearance = mm(0.20)
     
-    # Add Edge.Cuts (1.0 to 21.0 in X, 0.0 to 29.0 in Y -> 20.0 mm wide x 29.0 mm high)
-    pts = [(W_min, 0.0), (W_max, 0.0), (W_max, H), (W_min, H)]
+    # Edge.Cuts
+    pts = [(0.0, 0.0), (W, 0.0), (W, H), (0.0, H)]
     for i in range(4):
         p1 = pts[i]
         p2 = pts[(i+1)%4]
@@ -52,56 +42,54 @@ def create_encoder_board():
     enc_sw = N("ENC_SW")
     
     enc_lib = r'C:\Program Files\KiCad\10.0\share\kicad\footprints\Rotary_Encoder.pretty'
-    hdr_lib = r'C:\Program Files\KiCad\10.0\share\kicad\footprints\Connector_PinHeader_2.54mm.pretty'
+    hdr_lib = r'C:\Program Files\KiCad\10.0\share\kicad\footprints\Connector_PinSocket_2.54mm.pretty'
     
-    # 1. ENC1 (Bourns PEC11R vertical)
+    # ENC1 at x0=2.5, y0=7.5 -> Shaft center at (10.0, 10.0)
     enc_fp = pcbnew.FootprintLoad(enc_lib, 'RotaryEncoder_Alps_EC11E-Switch_Vertical_H20mm')
     enc_fp.SetReference('ENC1')
     enc_fp.SetValue('PEC11R-4020F-S0024')
-    enc_fp.SetPosition(pcbnew.VECTOR2I(mm(3.5), mm(8.5)))
-    enc_fp.SetOrientation(pcbnew.EDA_ANGLE(0, pcbnew.DEGREES_T))
+    enc_fp.SetPosition(pcbnew.VECTOR2I(mm(2.5), mm(7.5)))
     if enc_fp.Models():
-        enc_fp.Models()[0].m_Filename = os.path.abspath('build/icio500/RotaryEncoder_Alps_EC11E-Switch_Vertical_H20mm.step')
+        step_path = os.path.abspath('build/icio500/RotaryEncoder_Alps_EC11E-Switch_Vertical_H20mm.step')
+        if os.path.exists(step_path):
+            enc_fp.Models()[0].m_Filename = step_path
     board.Add(enc_fp)
     
     for pad in enc_fp.Pads():
         num = str(pad.GetNumber())
-        if num == 'A' or num == '1':
+        if num in ('A', '1'):
             pad.SetNet(enc_a)
-        elif num == 'B' or num == '3':
+        elif num in ('B', '3'):
             pad.SetNet(enc_b)
-        elif num == 'C' or num == '2':
+        elif num in ('C', '2'):
             pad.SetNet(gnd)
-            pad.SetLocalZoneConnection(pcbnew.ZONE_CONNECTION_FULL)
-        elif num == 'S1' or num == '4':
+        elif num in ('S1', '4'):
             pad.SetNet(enc_sw)
-        elif num == 'S2' or num == '5':
+        elif num in ('S2', '5'):
             pad.SetNet(gnd)
-            pad.SetLocalZoneConnection(pcbnew.ZONE_CONNECTION_FULL)
         elif 'MP' in num:
             pad.SetNet(gnd)
-            pad.SetLocalZoneConnection(pcbnew.ZONE_CONNECTION_FULL)
             
-    # 2. P1 (1x5 SMD male header on F.Cu)
-    p1_fp = pcbnew.FootprintLoad(hdr_lib, 'PinHeader_1x05_P2.54mm_Vertical_SMD_Pin1Left')
+    # P1: 1x5 Horizontal female socket at bottom (Y = 22.5 mm)
+    # Origin is Pad 1. Set at X = 4.5 mm, Y = 22.5 mm, orientation 90 deg (horizontal)
+    # Pads 1..5 will be at X = 4.50, 7.04, 9.58, 12.12, 14.66 mm (all perfectly centered with > 5mm margin!)
+    p1_fp = pcbnew.FootprintLoad(hdr_lib, 'PinSocket_1x05_P2.54mm_Vertical')
     p1_fp.SetReference('P1')
-    p1_fp.SetValue('Conn_01x05_Male')
-    p1_fp.SetPosition(pcbnew.VECTOR2I(mm(11.0), mm(23.5)))
+    p1_fp.SetValue('Conn_01x05_Female')
+    p1_fp.SetPosition(pcbnew.VECTOR2I(mm(4.5), mm(22.5)))
     p1_fp.SetOrientation(pcbnew.EDA_ANGLE(90, pcbnew.DEGREES_T))
     board.Add(p1_fp)
     
-    p1_map = {'1': enc_a, '2': gnd, '3': enc_b, '4': enc_sw, '5': gnd}
+    p1_map = {'1': enc_a, '2': enc_b, '3': gnd, '4': enc_sw, '5': gnd}
     for pad in p1_fp.Pads():
         num = str(pad.GetNumber())
         if num in p1_map:
             pad.SetNet(p1_map[num])
-        if p1_map.get(num) == gnd:
-            pad.SetLocalZoneConnection(pcbnew.ZONE_CONNECTION_FULL)
-            
+
     pads_enc = {str(p.GetNumber()): (p.GetPosition().x/MM, p.GetPosition().y/MM) for p in enc_fp.Pads()}
     pads_p1 = {str(p.GetNumber()): (p.GetPosition().x/MM, p.GetPosition().y/MM) for p in p1_fp.Pads()}
-    
-    def add_track(x1, y1, x2, y2, layer, net, width=0.3):
+
+    def add_track(x1, y1, x2, y2, layer, net, width=0.25):
         t = pcbnew.PCB_TRACK(board)
         t.SetStart(pcbnew.VECTOR2I(mm(x1), mm(y1)))
         t.SetEnd(pcbnew.VECTOR2I(mm(x2), mm(y2)))
@@ -110,84 +98,51 @@ def create_encoder_board():
         t.SetWidth(mm(width))
         board.Add(t)
 
-    def add_via(x, y, net):
-        v = pcbnew.PCB_VIA(board)
-        v.SetPosition(pcbnew.VECTOR2I(mm(x), mm(y)))
-        v.SetNet(net)
-        v.SetWidth(mm(0.6))
-        v.SetDrill(mm(0.3))
-        board.Add(v)
-
-    # Route ENC_A: from pad A (3.5, 8.5) down left corridor X=1.8 on B.Cu to P1 pad 1 (5.92, 25.155)
+    # Route ENC_A: from pad A (2.5, 7.5) to P1 pad 1 (4.5, 22.5) along X = 0.9 mm corridor
     pa = pads_enc['A']
     p1_1 = pads_p1['1']
-    add_track(pa[0], pa[1], 1.8, pa[1], pcbnew.B_Cu, enc_a)
-    add_track(1.8, pa[1], 1.8, 22.0, pcbnew.B_Cu, enc_a)
-    add_track(1.8, 22.0, p1_1[0], 22.0, pcbnew.B_Cu, enc_a)
-    add_via(p1_1[0], 22.0, enc_a)
-    add_track(p1_1[0], 22.0, p1_1[0], p1_1[1], pcbnew.F_Cu, enc_a)
+    add_track(pa[0], pa[1], 0.9, pa[1], pcbnew.B_Cu, enc_a)
+    add_track(0.9, pa[1], 0.9, 19.5, pcbnew.B_Cu, enc_a)
+    add_track(0.9, 19.5, p1_1[0], 19.5, pcbnew.B_Cu, enc_a)
+    add_track(p1_1[0], 19.5, p1_1[0], p1_1[1], pcbnew.B_Cu, enc_a)
 
-    # Route ENC_B: from pad B (3.5, 13.5) on B.Cu, drop down at X=4.0 to Y=20.5 (safely below MP pad at Y=16.6), then cross to X=11.0
+    # Route ENC_B: from pad B (2.5, 12.5) to P1 pad 2 (7.04, 22.5)
     pb = pads_enc['B']
-    p1_3 = pads_p1['3']
-    add_track(pb[0], pb[1], 4.0, pb[1], pcbnew.B_Cu, enc_b)
-    add_track(4.0, pb[1], 4.0, 20.5, pcbnew.B_Cu, enc_b)
-    add_track(4.0, 20.5, p1_3[0], 20.5, pcbnew.B_Cu, enc_b)
-    add_via(p1_3[0], 20.5, enc_b)
-    add_track(p1_3[0], 20.5, p1_3[0], p1_3[1], pcbnew.F_Cu, enc_b)
+    p1_2 = pads_p1['2']
+    add_track(pb[0], pb[1], 3.5, pb[1], pcbnew.B_Cu, enc_b)
+    add_track(3.5, pb[1], 3.5, 18.0, pcbnew.B_Cu, enc_b)
+    add_track(3.5, 18.0, p1_2[0], 18.0, pcbnew.B_Cu, enc_b)
+    add_track(p1_2[0], 18.0, p1_2[0], p1_2[1], pcbnew.B_Cu, enc_b)
 
-    # Route ENC_SW: from S1 (18.0, 13.5) along right corridor X=20.2 on B.Cu to P1 pad 4 (13.54, 21.845)
+    # Route ENC_SW: from pad S1 (17.0, 12.5) to P1 pad 4 (12.12, 22.5)
     psw = pads_enc['S1']
     p1_4 = pads_p1['4']
-    add_track(psw[0], psw[1], 20.2, psw[1], pcbnew.B_Cu, enc_sw)
-    add_track(20.2, psw[1], 20.2, 19.5, pcbnew.B_Cu, enc_sw)
-    add_track(20.2, 19.5, p1_4[0], 19.5, pcbnew.B_Cu, enc_sw)
-    add_via(p1_4[0], 19.5, enc_sw)
-    add_track(p1_4[0], 19.5, p1_4[0], p1_4[1], pcbnew.F_Cu, enc_sw)
+    add_track(psw[0], psw[1], 18.8, psw[1], pcbnew.B_Cu, enc_sw)
+    add_track(18.8, psw[1], 18.8, 19.5, pcbnew.B_Cu, enc_sw)
+    add_track(18.8, 19.5, p1_4[0], 19.5, pcbnew.B_Cu, enc_sw)
+    add_track(p1_4[0], 19.5, p1_4[0], p1_4[1], pcbnew.B_Cu, enc_sw)
 
-    # Ground connections:
-    p1_2 = pads_p1['2']
-    add_via(p1_2[0], 18.0, gnd)
-    add_track(p1_2[0], 18.0, p1_2[0], p1_2[1], pcbnew.F_Cu, gnd)
-    
-    p1_5 = pads_p1['5']
-    add_via(p1_5[0], 22.0, gnd)
-    add_track(p1_5[0], 22.0, p1_5[0], p1_5[1], pcbnew.F_Cu, gnd)
-
-    # Add Ground planes on F.Cu and B.Cu
+    # Ground planes on F.Cu and B.Cu
     for layer in [pcbnew.F_Cu, pcbnew.B_Cu]:
         zone = pcbnew.ZONE(board)
         zone.SetLayer(layer)
         zone.SetNet(gnd)
         outline = zone.Outline()
         outline.NewOutline()
-        for x, y in [(W_min + 0.2, 0.2), (W_max - 0.2, 0.2), (W_max - 0.2, H - 0.2), (W_min + 0.2, H - 0.2)]:
-            outline.Append(mm(x), mm(y))
-        zone.SetMinThickness(mm(0.2))
+        outline.Append(mm(0.35), mm(0.35))
+        outline.Append(mm(W - 0.35), mm(0.35))
+        outline.Append(mm(W - 0.35), mm(H - 0.35))
+        outline.Append(mm(0.35), mm(H - 0.35))
+        zone.SetMinThickness(mm(0.20))
+        zone.SetThermalReliefGap(mm(0.25))
+        zone.SetThermalReliefSpokeWidth(mm(0.25))
         board.Add(zone)
         
     pcbnew.ZONE_FILLER(board).Fill(board.Zones())
-
-    # Silkscreen and Fab text
-    txt_fab = pcbnew.PCB_TEXT(board)
-    txt_fab.SetText("ICIO-500 ENCODER DAUGHTERCARD\nPCB THICKNESS: 1.6mm FR4")
-    txt_fab.SetLayer(pcbnew.Cmts_User)
-    txt_fab.SetPosition(pcbnew.VECTOR2I(mm(1.0), mm(32.0)))
-    txt_fab.SetTextSize(pcbnew.VECTOR2I(mm(1.0), mm(1.0)))
-    board.Add(txt_fab)
-
-    txt_silk = pcbnew.PCB_TEXT(board)
-    txt_silk.SetText("ICIO-500 ENC v2.0")
-    txt_silk.SetLayer(pcbnew.B_SilkS)
-    txt_silk.SetPosition(pcbnew.VECTOR2I(mm(11.0), mm(2.5)))
-    txt_silk.SetTextSize(pcbnew.VECTOR2I(mm(0.8), mm(0.8)))
-    txt_silk.SetHorizJustify(pcbnew.GR_TEXT_H_ALIGN_CENTER)
-    txt_silk.SetMirrored(True)
-    board.Add(txt_silk)
     
     out_path = 'build/icio500/encoder_board.kicad_pcb'
     board.Save(out_path)
     print(f"Saved {out_path} successfully!")
 
 if __name__ == '__main__':
-    create_encoder_board()
+    build_encoder_board()

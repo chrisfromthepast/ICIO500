@@ -24,7 +24,8 @@ def run():
                 depth += lines[j].count('(') - lines[j].count(')')
                 j += 1
             block_str = '\n'.join(block)
-            if 'layer "Edge.Cuts"' in block_str or '(layer "Edge.Cuts")' in block_str:
+            if 'layer "Edge.Cuts"' in block_str or '(layer "Edge.Cuts")' in block_str or \
+               'layer "B.Mask"' in block_str or '(layer "B.Mask")' in block_str:
                 i = j
                 continue
             else:
@@ -124,9 +125,6 @@ def run():
     sda_in = get_or_create_net('SDA_IN')
     sda = get_or_create_net('SDA')
     scl = get_or_create_net('SCL')
-    enc_a = get_or_create_net('ENC_A')
-    enc_b = get_or_create_net('ENC_B')
-    enc_sw = get_or_create_net('ENC_SW')
 
     led_nets = [get_or_create_net(f'LED_{i+1}') for i in range(10)]
     led_mid_nets = [get_or_create_net(f'Net-(D{i+1}-Pad2)') for i in range(10)]
@@ -150,28 +148,38 @@ def run():
 
     j1_map = {
         '1': gnd, '2': pwr_in_jump, '3': sda_in, '4': gnd, '5': scl, '6': gnd,
-        '7': gnd, '8': gnd, '9': enc_b, '10': enc_a, '11': gnd, '12': enc_sw,
+        '7': gnd, '8': gnd, '9': gnd, '10': gnd, '11': gnd, '12': gnd,
         '13': gnd, '14': gnd, '15': gnd, '16': gnd, '17': gnd, '18': gnd,
         '19': gnd, '20': gnd
     }
     for pad in j1.Pads():
         pad.SetNet(j1_map.get(str(pad.GetNumber()), gnd))
 
-    # J2 at (19.050, 121.850) on B.Cu
-    j2 = load_fp("Connector_PinSocket_2.54mm.pretty", "PinSocket_1x05_P2.54mm_Vertical_SMD_Pin1Left", "J2")
-    j2.SetValue('Conn_01x05_Female')
-    j2.SetPosition(pcbnew.VECTOR2I(mm(19.050), mm(121.850)))
-    j2.SetOrientation(pcbnew.EDA_ANGLE(90, pcbnew.DEGREES_T))
-    j2.Reference().SetVisible(False)
-    for g in j2.GraphicalItems():
+    # BR1 at (10.310, 14.525) on B.Cu (Würth WP-SMRA-M3, mates with carrier MH1)
+    br1 = load_fp("Mounting_Wuerth.pretty", "Mounting_Wuerth_WP-SMRA-M3_L7mm_7466303_Horizontal", "BR1")
+    br1.SetValue("WP-SMRA-M3")
+    br1.SetPosition(pcbnew.VECTOR2I(mm(10.310), mm(14.525)))
+    board.Add(br1)
+    br1.Flip(br1.GetPosition(), False)
+    br1.Reference().SetVisible(False)
+    for g in br1.GraphicalItems():
         if g.GetLayerName() in ('F.Silkscreen', 'B.Silkscreen', 'F.SilkS', 'B.SilkS'):
             g.SetLayer(pcbnew.Dwgs_User)
-    board.Add(j2)
-    j2.Flip(j2.GetPosition(), False)
-    j2_map = {'1': enc_a, '2': gnd, '3': enc_b, '4': enc_sw, '5': gnd}
-    for p in j2.Pads():
-        if str(p.GetNumber()) in j2_map:
-            p.SetNet(j2_map[str(p.GetNumber())])
+    for p in br1.Pads():
+        p.SetNet(gnd)
+
+    # BR2 at (10.310, 118.825) on B.Cu (Würth WP-SMRA-M3, mates with carrier MH2)
+    br2 = load_fp("Mounting_Wuerth.pretty", "Mounting_Wuerth_WP-SMRA-M3_L7mm_7466303_Horizontal", "BR2")
+    br2.SetValue("WP-SMRA-M3")
+    br2.SetPosition(pcbnew.VECTOR2I(mm(10.310), mm(118.825)))
+    board.Add(br2)
+    br2.Flip(br2.GetPosition(), False)
+    br2.Reference().SetVisible(False)
+    for g in br2.GraphicalItems():
+        if g.GetLayerName() in ('F.Silkscreen', 'B.Silkscreen', 'F.SilkS', 'B.SilkS'):
+            g.SetLayer(pcbnew.Dwgs_User)
+    for p in br2.Pads():
+        p.SetNet(gnd)
 
     # 10 LEDs D1..D10 centered at (19.050, wy) on B.Cu
     for i in range(10):
@@ -234,7 +242,6 @@ def run():
 
     # Passives:
     # FB1: L_0402_1005Metric vertical orientation 270 deg at (36.800, 2.800)
-    # Pad 1 (+3V3_IN) at North (36.800, 2.315), Pad 2 (+3V3) at South (36.800, 3.285)
     fb1 = load_fp("Inductor_SMD.pretty", "L_0402_1005Metric", "FB1")
     fb1.SetPosition(pcbnew.VECTOR2I(mm(36.800), mm(2.800)))
     fb1.SetOrientation(pcbnew.EDA_ANGLE(270, pcbnew.DEGREES_T))
@@ -248,7 +255,6 @@ def run():
         p.SetNet(pwr_in if str(p.GetNumber()) == '1' else pwr)
 
     # C1 (bypass cap 0.1uF for +3V3): C_0402_1005Metric horizontal at (36.800, 4.200)
-    # Pad 1 (+3V3) at West (36.320, 4.200), Pad 2 (GND) at East (37.280, 4.200)
     c1 = load_fp("Capacitor_SMD.pretty", "C_0402_1005Metric", "C1")
     c1.SetPosition(pcbnew.VECTOR2I(mm(36.800), mm(4.200)))
     c1.Reference().SetVisible(False)
@@ -262,7 +268,6 @@ def run():
         p.SetNet(pwr if str(p.GetNumber()) == '1' else gnd)
 
     # C2 (bulk bypass 10uF for +3V3): C_0402_1005Metric horizontal at (36.800, 5.400)
-    # Pad 1 (+3V3) at West (36.320, 5.400), Pad 2 (GND) at East (37.280, 5.400)
     c2 = load_fp("Capacitor_SMD.pretty", "C_0402_1005Metric", "C2")
     c2.SetPosition(pcbnew.VECTOR2I(mm(36.800), mm(5.400)))
     c2.Reference().SetVisible(False)
@@ -276,7 +281,6 @@ def run():
         p.SetNet(pwr if str(p.GetNumber()) == '1' else gnd)
 
     # R11 (SDA pullup to +3V3): R_0402_1005Metric horizontal at (36.200, 8.800)
-    # Orientation 180 deg: Pad 2 (SDA) at West (35.690, 8.800), Pad 1 (+3V3) at East (36.710, 8.800)
     r11 = load_fp("Resistor_SMD.pretty", "R_0402_1005Metric", "R11")
     r11.SetPosition(pcbnew.VECTOR2I(mm(36.200), mm(8.800)))
     r11.Reference().SetVisible(False)
@@ -290,7 +294,6 @@ def run():
         p.SetNet(pwr if str(p.GetNumber()) == '1' else sda)
 
     # R12 (SCL pullup to +3V3): R_0805_2012Metric horizontal straddling SDA at (35.425, 10.600)
-    # Pad 1 (SCL) at West (34.513, 10.600), Pad 2 (+3V3) at East (36.337, 10.600)
     r12 = load_fp("Resistor_SMD.pretty", "R_0805_2012Metric", "R12")
     r12.SetPosition(pcbnew.VECTOR2I(mm(35.425), mm(10.600)))
     r12.Reference().SetVisible(False)
@@ -383,108 +386,66 @@ def run():
         track(ux, wy, 27.510, wy, net)
 
     # 3. Concentric Non-Crossing Control & Power Routing:
-    # Top highway: SDA at Y=6.400, SCL at Y=7.400 (both strictly below MH1 keepout 6.06!)
-    # SDA: from J1 Pad 3 (8.760, 66.110) west to R13, then north along X=2.000:
     r13_p1 = [p for p in r13.Pads() if p.GetPosition().x/1e6 > 4.000][0]
     r13_p2 = [p for p in r13.Pads() if p.GetPosition().x/1e6 < 4.000][0]
     track(8.760, 66.110, r13_p1.GetPosition().x/1e6, 66.110, sda_in)
     track(r13_p2.GetPosition().x/1e6, 66.110, 2.000, 66.110, sda)
     track(2.000, 66.110, 2.000, 6.400, sda)
     track(2.000, 6.400, 35.425, 6.400, sda)
-    track(35.425, 6.400, 35.425, 13.138, sda) # Enters U1 Pin 23, passing through R12 center at Y=10.600!
-    # Stub to R11 Pad 2 at (35.690, 8.800):
+    track(35.425, 6.400, 35.425, 13.138, sda)
     r11_p2 = [p for p in r11.Pads() if str(p.GetNumber()) == '2'][0]
     track(35.425, 8.800, r11_p2.GetPosition().x/1e6, 8.800, sda)
 
-    # SCL: J1 Pad 5 (8.760, 68.650) -> west to X=4.000 -> north along X=4.000 to Y=7.400:
     track(8.760, 68.650, 4.000, 68.650, scl)
     track(4.000, 68.650, 4.000, 7.400, scl)
     track(4.000, 7.400, 34.775, 7.400, scl)
-    track(34.775, 7.400, 34.775, 13.138, scl) # Enters U1 Pad 22 at (34.775, 13.138)
-    # Stub to R12 Pad 1 at (34.513, 10.600):
+    track(34.775, 7.400, 34.775, 13.138, scl)
     r12_p1 = [p for p in r12.Pads() if p.GetPosition().x/1e6 < 35.425][0]
     track(34.775, 10.600, r12_p1.GetPosition().x/1e6, 10.600, scl)
 
-    # +3V3_IN_JUMP: from J1 Pad 2 (13.800, 63.570):
     r14_p1 = [p for p in r14.Pads() if p.GetPosition().x/1e6 > 4.000][0]
     r14_p2 = [p for p in r14.Pads() if p.GetPosition().x/1e6 < 4.000][0]
     track(13.800, 63.570, 13.800, 62.400, pwr_in_jump)
     track(13.800, 62.400, r14_p1.GetPosition().x/1e6, 62.400, pwr_in_jump)
 
-    # +3V3_IN_MID: from R14 Pad 2 (3.088, 62.400) to R15 Pad 1 (2.912, 58.000):
     r15_p1 = [p for p in r15.Pads() if p.GetPosition().x/1e6 > 2.000][0]
     r15_p2 = [p for p in r15.Pads() if p.GetPosition().x/1e6 < 2.000][0]
     track(r14_p2.GetPosition().x/1e6, 62.400, 2.500, 62.400, pwr_in_mid)
     track(2.500, 62.400, 2.500, 58.000, pwr_in_mid)
     track(2.500, 58.000, r15_p1.GetPosition().x/1e6, 58.000, pwr_in_mid)
 
-    # +3V3_IN: from R15 Pad 2 (1.088, 58.000) west to X=1.000, north along X=1.000 to Y=1.100:
     track(r15_p2.GetPosition().x/1e6, 58.000, 1.000, 58.000, pwr_in)
     track(1.000, 58.000, 1.000, 1.100, pwr_in)
-    # Along Y=1.100 across top of board (completely above MH1!) to X=36.800:
     fb1_p1 = [p for p in fb1.Pads() if str(p.GetNumber()) == '1'][0]
     fb1_p2 = [p for p in fb1.Pads() if str(p.GetNumber()) == '2'][0]
     track(1.000, 1.100, 36.800, 1.100, pwr_in)
     track(36.800, 1.100, 36.800, fb1_p1.GetPosition().y/1e6, pwr_in)
 
-    # +3V3 Power distribution from FB1 Pad 2 at (36.800, 3.285):
-    # Spine along X=36.330 from Y=3.285 down to Y=12.500:
     track(36.800, fb1_p2.GetPosition().y/1e6, 36.330, fb1_p2.GetPosition().y/1e6, pwr)
     track(36.330, fb1_p2.GetPosition().y/1e6, 36.330, 12.500, pwr)
-    # Stubs to +3V3 pads:
-    # C1 Pad 1 at (36.320, 4.200):
     c1_p1 = [p for p in c1.Pads() if str(p.GetNumber()) == '1'][0]
     track(36.330, 4.200, c1_p1.GetPosition().x/1e6, 4.200, pwr)
-    # C2 Pad 1 at (36.320, 5.400):
     c2_p1 = [p for p in c2.Pads() if str(p.GetNumber()) == '1'][0]
     track(36.330, 5.400, c2_p1.GetPosition().x/1e6, 5.400, pwr)
-    # R11 Pad 1 at (36.710, 8.800):
     r11_p1 = [p for p in r11.Pads() if str(p.GetNumber()) == '1'][0]
     track(36.330, 8.800, r11_p1.GetPosition().x/1e6, 8.800, pwr)
-    # R12 Pad 2 at (36.337, 10.600):
     r12_p2 = [p for p in r12.Pads() if p.GetPosition().x/1e6 > 35.425][0]
     track(36.330, 10.600, r12_p2.GetPosition().x/1e6, 10.600, pwr)
-    # Feed U1 Pad 24 at (36.075, 13.138):
     track(36.330, 12.500, 36.075, 12.500, pwr)
     track(36.075, 12.500, 36.075, 13.138, pwr)
 
-    # 4. Encoder Routing:
-    track(13.800, 76.270, 11.280, 76.270, enc_sw)
-    track(11.280, 76.270, 11.280, 88.000, enc_sw)
-    track(11.280, 88.000, 3.800, 88.000, enc_sw)
-    track(3.800, 88.000, 3.800, 117.000, enc_sw)
-    track(3.800, 117.000, 16.510, 117.000, enc_sw)
-    track(16.510, 117.000, 16.510, 120.200, enc_sw)
-
-    track(8.760, 73.730, 2.800, 73.730, enc_b)
-    track(2.800, 73.730, 2.800, 125.000, enc_b)
-    track(2.800, 125.000, 19.050, 125.000, enc_b)
-    track(19.050, 125.000, 19.050, 123.500, enc_b)
-
-    track(13.800, 73.730, 16.000, 73.730, enc_a)
-    track(16.000, 73.730, 16.000, 96.000, enc_a)
-    track(16.000, 96.000, 24.130, 96.000, enc_a)
-    track(24.130, 96.000, 24.130, 123.500, enc_a)
-
-    # 5. Ground Connections:
-    track(21.590, 120.200, 21.590, 118.000, gnd)
-    track(13.970, 123.500, 12.000, 123.500, gnd)
-
-    # U1 North GND rail: Pins 13..21
+    # Ground Connections:
     track(27.500, 13.138, 34.125, 13.138, gnd)
-    # Connect U1 North GND to South GND via West corridor of U1:
     track(27.500, 13.138, 27.500, 18.863, gnd)
-    track(27.500, 18.863, 28.925, 18.863, gnd) # Ties into Pin 12 GND!
+    track(27.500, 18.863, 28.925, 18.863, gnd)
 
-    # East ground spine connecting C1 Pad 2 (37.280, 4.200) and C2 Pad 2 (37.280, 5.400) to main ground:
     c1_p2 = [p for p in c1.Pads() if str(p.GetNumber()) == '2'][0]
     c2_p2 = [p for p in c2.Pads() if str(p.GetNumber()) == '2'][0]
     track(c1_p2.GetPosition().x/1e6, 4.200, 37.280, 4.200, gnd)
     track(c2_p2.GetPosition().x/1e6, 5.400, 37.280, 5.400, gnd)
     track(37.280, 4.200, 37.280, 18.863, gnd)
-    track(37.280, 18.863, 36.075, 18.863, gnd) # Ties into U1 South Pin 1 GND!
+    track(37.280, 18.863, 36.075, 18.863, gnd)
 
-    # LED Ground spine:
     for k in range(9):
         wy_a = 20.000 + 8.000 * k
         wy_b = 20.000 + 8.000 * (k + 1)
@@ -492,10 +453,15 @@ def run():
 
     track(13.800, 68.650, 18.113, 68.650, gnd)
 
+    # Ensure all dial scale graphics are on F.Silkscreen, NOT F.Cu or F.Mask:
+    for fp in board.Footprints():
+        for g in fp.GraphicalItems():
+            if g.GetLayerName() in ('F.Cu', 'F.Mask'):
+                g.SetLayer(pcbnew.F_SilkS)
+
     # Step 4: Copper Zones
     W, H = 38.10, 133.35
 
-    # Front Zone: Cosmetic Floating Copper Shield on F.Cu
     zone_f = pcbnew.ZONE(board)
     lset_f = pcbnew.LSET()
     lset_f.AddLayer(pcbnew.F_Cu)
@@ -517,11 +483,16 @@ def run():
         out_f.Append(mm(wx2), mm(wy1))
         out_f.Append(mm(wx2), mm(wy2))
         out_f.Append(mm(wx1), mm(wy2))
+    # Cutout around encoder dial bushing and anti-rotation hole:
+    out_f.NewHole()
+    out_f.Append(mm(8.5), mm(104.5))
+    out_f.Append(mm(24.0), mm(104.5))
+    out_f.Append(mm(24.0), mm(114.5))
+    out_f.Append(mm(8.5), mm(114.5))
     zone_f.SetMinThickness(mm(0.20))
     zone_f.SetIslandRemovalMode(pcbnew.ISLAND_REMOVAL_MODE_ALWAYS)
     board.Add(zone_f)
 
-    # Rear Zone: GND Copper Zone on B.Cu covering the circuit area
     zone_b = pcbnew.ZONE(board)
     lset_b = pcbnew.LSET()
     lset_b.AddLayer(pcbnew.B_Cu)
@@ -530,7 +501,7 @@ def run():
     zone_b.SetNet(gnd)
     out_b = zone_b.Outline()
     out_b.NewOutline()
-    out_b.Append(mm(0.5), mm(13.0)) # Starts below North routing highway!
+    out_b.Append(mm(0.5), mm(13.0))
     out_b.Append(mm(W-0.5), mm(13.0))
     out_b.Append(mm(W-0.5), mm(H-0.5))
     out_b.Append(mm(0.5), mm(H-0.5))
@@ -543,6 +514,12 @@ def run():
         out_b.Append(mm(wx2), mm(wy1))
         out_b.Append(mm(wx2), mm(wy2))
         out_b.Append(mm(wx1), mm(wy2))
+    # Cutout around encoder dial bushing and anti-rotation hole:
+    out_b.NewHole()
+    out_b.Append(mm(8.5), mm(104.5))
+    out_b.Append(mm(24.0), mm(104.5))
+    out_b.Append(mm(24.0), mm(114.5))
+    out_b.Append(mm(8.5), mm(114.5))
     zone_b.SetMinThickness(mm(0.20))
     zone_b.SetThermalReliefGap(mm(0.25))
     zone_b.SetThermalReliefSpokeWidth(mm(0.25))

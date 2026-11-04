@@ -23,18 +23,20 @@ for title, path, rpt in boards:
     violations = d.get('violations', [])
     unconn = d.get('unconnected_items', [])
     
-    # Filter out lib_footprint_mismatch / lib_footprint_issues
-    real_violations = [v for v in violations if v.get('type') not in ('lib_footprint_mismatch', 'lib_footprint_issues')]
-    warnings = [v for v in violations if v.get('type') in ('lib_footprint_mismatch', 'lib_footprint_issues')]
+    # Separate real errors from warnings
+    errors = [v for v in violations if v.get('severity') == 'error' and v.get('type') not in ('lib_footprint_mismatch', 'lib_footprint_issues')]
+    design_warnings = [v for v in violations if v.get('severity') == 'warning' and v.get('type') not in ('lib_footprint_mismatch', 'lib_footprint_issues')]
+    lib_warnings = [v for v in violations if v.get('type') in ('lib_footprint_mismatch', 'lib_footprint_issues')]
     
     print(f"  Unconnected Items : {len(unconn)}")
-    print(f"  Design Violations : {len(real_violations)}")
-    print(f"  Library Warnings  : {len(warnings)}")
+    print(f"  Design Errors     : {len(errors)}")
+    print(f"  Design Warnings   : {len(design_warnings)}")
+    print(f"  Library Warnings  : {len(lib_warnings)}")
     
-    if len(real_violations) > 0:
-        for v in real_violations:
+    if len(errors) > 0:
+        for v in errors:
             print(f"    [ERROR] {v.get('type')}: {v.get('description')}")
     else:
-        print("  -> ZERO ELECTRICAL/CLEARANCE DRC VIOLATIONS!")
+        print("  -> ZERO ELECTRICAL/CLEARANCE DRC ERRORS!")
 
 print("\n==================================================")

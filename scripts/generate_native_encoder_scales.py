@@ -2,12 +2,13 @@ import os
 import math
 
 def build_geometric_scale(out_file):
+    os.makedirs(os.path.dirname(out_file), exist_ok=True)
     name = os.path.basename(out_file).replace('.kicad_mod', '')
     with open(out_file, 'w') as f:
-        f.write(f'(footprint "{name}" (layer "F.Cu")\n')
+        f.write(f'(footprint "{name}" (layer "F.Silkscreen")\n')
         f.write('  (attr board_only)\n')
         
-        layers = ['F.Cu', 'F.Mask']
+        layers = ['F.Silkscreen']
         
         for layer in layers:
             # Concentric circles
@@ -57,12 +58,13 @@ def build_geometric_scale(out_file):
     print("Generated", out_file)
 
 def build_studio_scale(out_file):
+    os.makedirs(os.path.dirname(out_file), exist_ok=True)
     name = os.path.basename(out_file).replace('.kicad_mod', '')
     with open(out_file, 'w') as f:
-        f.write(f'(footprint "{name}" (layer "F.Cu")\n')
+        f.write(f'(footprint "{name}" (layer "F.Silkscreen")\n')
         f.write('  (attr board_only)\n')
         
-        layers = ['F.Cu', 'F.Mask']
+        layers = ['F.Silkscreen']
         
         for layer in layers:
             num_ticks = 21
