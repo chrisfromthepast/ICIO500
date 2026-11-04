@@ -20,13 +20,13 @@ def mm(v): return int(round(v * MM))
 def create_encoder_board():
     board = pcbnew.BOARD()
     
-    W, H = 22.0, 29.0
+    W_min, W_max, H = 1.0, 21.0, 29.0
     
     ds = board.GetDesignSettings()
     ds.SetBoardThickness(mm(1.6))
     
-    # Add Edge.Cuts
-    pts = [(0.0, 0.0), (W, 0.0), (W, H), (0.0, H)]
+    # Add Edge.Cuts (1.0 to 21.0 in X, 0.0 to 29.0 in Y -> 20.0 mm wide x 29.0 mm high)
+    pts = [(W_min, 0.0), (W_max, 0.0), (W_max, H), (W_min, H)]
     for i in range(4):
         p1 = pts[i]
         p2 = pts[(i+1)%4]
@@ -161,7 +161,7 @@ def create_encoder_board():
         zone.SetNet(gnd)
         outline = zone.Outline()
         outline.NewOutline()
-        for x, y in [(0.5, 0.5), (W-0.5, 0.5), (W-0.5, H-0.5), (0.5, H-0.5)]:
+        for x, y in [(W_min + 0.2, 0.2), (W_max - 0.2, 0.2), (W_max - 0.2, H - 0.2), (W_min + 0.2, H - 0.2)]:
             outline.Append(mm(x), mm(y))
         zone.SetMinThickness(mm(0.2))
         board.Add(zone)
