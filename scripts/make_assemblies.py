@@ -12,7 +12,7 @@ def gen_assembly():
     # Rear face sits directly against carrier ears at X = 54.175 mm
     # Front face at X = 52.175 mm
     # Overall module depth = 203.000 - 52.175 = 150.825 mm = 5.938" (exact VPR-500 standard)
-    fp_off = (-2.00, 66.675, -8.74)
+    fp_off = (0.675, 66.675, -8.74)
     fp_rot = (0, 90, 0)
     
     # Encoder Daughtercard (18.0 x 26.0 mm)
@@ -20,7 +20,7 @@ def gen_assembly():
     # Concentric with faceplate dial hole at Y_c = 145.525 mm (Y_fp = 109.350 mm)
     # Standoff: 4.5 mm behind faceplate B.Cu (X_c = 58.675 mm)
     # 0.000 mm mismatch on all 5 mating connector pins!
-    enc_off = (4.500, -32.675, 0.240)
+    enc_off = (7.175, -32.675, 0.240)
     enc_rot = (0, 90, 0)
         
     step_dir = os.path.abspath('build/icio500').replace('\\', '/')

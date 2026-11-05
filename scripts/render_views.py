@@ -17,6 +17,9 @@ renders = [
     (FP_PCB, "views/v18_faceplate_front.png", '--side top --zoom 0.95'),
     (FP_PCB, "views/v18_faceplate_rear.png", '--side bottom --zoom 0.95'),
     (ENC_PCB, "views/v18_encoder_hero.png", '--rotate "-30,0,135" --zoom 0.9'),
+    (ASSY_PCB, "views/v18_bottom_top_check.png", '--side top --zoom 4.0 --pivot "-8.5,-4.8,0"'),
+    (ASSY_PCB, "views/v18_bottom_underside_check.png", '--side bottom --zoom 4.0 --pivot "-8.5,-4.8,0"'),
+    (ASSY_PCB, "views/v18_bracket2_screw_clearance.png", '--rotate "-35,0,-45" --zoom 2.8 --pivot "-5.5,-4.5,0"'),
 ]
 
 for pcb, out, flags in renders:
@@ -25,17 +28,22 @@ for pcb, out, flags in renders:
     subprocess.run(cmd, shell=True, check=True)
     print(f"Rendered: {out}")
 
-# Autocrop all views and copy to artifacts dir
-for base in ['v18_iso_hero', 'v18_iso_brackets', 'v18_top_full', 'v18_faceplate_front', 'v18_faceplate_rear', 'v18_encoder_hero']:
+crop_list = [
+    'v18_iso_hero', 'v18_iso_brackets', 'v18_top_full', 'v18_faceplate_front',
+    'v18_faceplate_rear', 'v18_encoder_hero', 'v18_bottom_top_check',
+    'v18_bottom_underside_check', 'v18_bracket2_screw_clearance'
+]
+for base in crop_list:
     src = f"views/{base}.png"
-    im = Image.open(src)
-    bbox = im.getbbox()
-    if bbox:
-        cropped = im.crop(bbox)
-        crop_path = f"views/{base}_crop.png"
-        cropped.save(crop_path)
-        art_path = os.path.join(ART_DIR, f"{base}.png")
-        cropped.save(art_path)
-        print(f"Updated artifact: {art_path}")
+    if os.path.exists(src):
+        im = Image.open(src)
+        bbox = im.getbbox()
+        if bbox:
+            cropped = im.crop(bbox)
+            crop_path = f"views/{base}_crop.png"
+            cropped.save(crop_path)
+            art_path = os.path.join(ART_DIR, f"{base}.png")
+            cropped.save(art_path)
+            print(f"Updated artifact: {art_path}")
 
-print("All v18 renders generated successfully!")
+print("All v18 verification renders generated successfully!")
