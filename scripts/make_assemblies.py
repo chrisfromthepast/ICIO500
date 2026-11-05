@@ -15,11 +15,12 @@ def gen_assembly():
     fp_off = (-2.00, 66.675, -8.74)
     fp_rot = (0, 90, 0)
     
-    # Encoder Daughtercard (22.0 x 29.0 mm)
-    # Mated to faceplate rear (J2) via 1x5 SMD mezzanine connector (P1)
-    # Clamped to faceplate via Bourns PEC11R threaded M7 bushing and nut
-    # Standoff: 7.5 mm behind faceplate B.Cu (X = 61.675 mm)
-    enc_off = (7.50, -31.675, -8.74)
+    # Encoder Daughtercard (18.0 x 26.0 mm)
+    # Mated to carrier card right-angle header J_ENC at X = 72.000 mm via rear socket P1
+    # Concentric with faceplate dial hole at Y_c = 145.525 mm (Y_fp = 109.350 mm)
+    # Standoff: 4.5 mm behind faceplate B.Cu (X_c = 58.675 mm)
+    # 0.000 mm mismatch on all 5 mating connector pins!
+    enc_off = (4.500, -32.675, 0.240)
     enc_rot = (0, 90, 0)
         
     step_dir = os.path.abspath('build/icio500').replace('\\', '/')
