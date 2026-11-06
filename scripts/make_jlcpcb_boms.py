@@ -62,6 +62,7 @@ main_meta = {
     "U4": ("THAT1646S08-U", "SOIC-8_3.9x4.9mm_P1.27mm", "C5290156"),
     "U5": ("Daisy_Seed_Socket", "DIP-40_W15.24mm_Socket", "C2332"),
     "U6": ("2541WR-2x10P", "PinHeader_2x10_P2.54mm_Horizontal", "C5383093"),
+    "J_ENC": ("Conn_01x05_Male", "PinHeader_1x05_P2.54mm_Horizontal", "C124376"),
 }
 
 main_pos_override = {
@@ -79,7 +80,6 @@ faceplate_groups = [
     ("10uF", "C2", "C_0402_1005Metric", "C15525"),
     ("BLM15AX601SN1D", "FB1", "L_0402_1005Metric", "C76886"),
     ("Conn_02x10_Odd_Even", "J1", "PinSocket_2x10_P2.54mm_Vertical_SMD", "C41427539"),
-    ("Conn_01x05_Female", "J2", "PinSocket_1x05_P2.54mm_Vertical_SMD_Pin1Left", "C2898748"),
     ("33R", "R1,R2,R3,R4,R5,R6,R7,R8,R9,R10", "R_0402_1005Metric", "C25105"),
     ("4.7k", "R11", "R_0402_1005Metric", "C25900"),
     ("4.7k", "R12", "R_0805_2012Metric", "C17673"),
@@ -100,7 +100,7 @@ for comment, refs_str, fp, lcsc in faceplate_groups:
 # -------------------------------------------------------------
 encoder_groups = [
     ("PEC11R-4020F-S0024", "ENC1", "RotaryEncoder_Alps_EC11E-Switch_Vertical_H20mm", "C255515"),
-    ("Conn_01x05_Male", "P1", "PinHeader_1x05_P2.54mm_Vertical_SMD_Pin1Left", "C224368"),
+    ("Conn_01x05_Female", "P1", "PinSocket_1x05_P2.54mm_Vertical", "C22550"),
 ]
 
 encoder_meta = {}

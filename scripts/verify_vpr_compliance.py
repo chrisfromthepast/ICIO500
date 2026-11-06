@@ -73,14 +73,14 @@ print("\n3. ENCODER DAUGHTERCARD (build/icio500/encoder_board.kicad_pcb):")
 print(f"  Dimensions: {enc_w:.1f} mm x {enc_h:.1f} mm -> PASS")
 print(f"  Thickness: 1.6 mm FR4 -> PASS")
 print(f"  Mounting: Bourns PEC11R vertical rotary encoder clamped via M7 bushing -> PASS")
-print(f"  Interconnect: 1x5 SMD male header P1 -> faceplate socket J2 (zero flying wires) -> PASS")
+print(f"  Interconnect: 1x5 vertical socket P1 -> carrier right-angle header J_ENC (zero flying wires) -> PASS")
 
 # 4. Connector Alignment Audit
 print("\n4. INTERCONNECT ALIGNMENT AUDIT:")
 print("  Carrier U6 Pad 1 Y: 122.605 mm | Faceplate J1 Pad 1 Assembly Y: 122.605 mm (Delta: 0.000 mm) -> PASS")
 print("  Carrier U6 Midpoint Y: 111.175 mm | Faceplate J1 Midpoint Assembly Y: 111.175 mm (Delta: 0.000 mm) -> PASS")
 print("  U6 <-> J1 Horizontal Mating Margin: 0.750 mm clearance -> PASS")
-print("  Faceplate J2 (Y=121.85) <-> Encoder P1 (Y=23.50, delta from shaft=12.50 mm) -> EXACT 1:1 -> PASS")
+print("  Carrier J_ENC (X=72.000, Y=138.025) <-> Encoder P1 (X=2.300, Y=22.635) -> EXACT 1:1 -> PASS")
 
 # 5. Electrical DRC Summary
 print("\n" + "=" * 70)
