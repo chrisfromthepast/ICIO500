@@ -13,8 +13,8 @@ os.makedirs(OUT_ROOT, exist_ok=True)
 
 boards = [
     ("carrier", "build/icio500/icio500.kicad_pcb", "F.Cu,In1.Cu,In2.Cu,B.Cu,F.Paste,B.Paste,F.SilkS,B.SilkS,F.Mask,B.Mask,Edge.Cuts"),
-    ("faceplate", "build/icio500/faceplate_front.kicad_pcb", "F.Cu,B.Cu,F.Paste,B.Paste,F.SilkS,B.SilkS,F.Mask,B.Mask,Dwgs.User,Cmts.User,Edge.Cuts"),
-    ("encoder", "build/icio500/encoder_board.kicad_pcb", "F.Cu,B.Cu,F.Paste,B.Paste,F.SilkS,B.SilkS,F.Mask,B.Mask,Dwgs.User,Cmts.User,Edge.Cuts"),
+    ("faceplate", "build/icio500/faceplate_front.kicad_pcb", "F.Cu,B.Cu,F.Paste,B.Paste,F.SilkS,B.SilkS,F.Mask,B.Mask,Edge.Cuts"),
+    ("encoder", "build/icio500/encoder_board.kicad_pcb", "F.Cu,B.Cu,F.Paste,B.Paste,F.SilkS,B.SilkS,F.Mask,B.Mask,Edge.Cuts"),
 ]
 
 for name, pcb_path, layers in boards:
@@ -86,4 +86,6 @@ for name, pcb_path, layers in boards:
 
     print(f"Exported {name}: {zip_path} and {pos_csv}")
 
-print("JLCPCB exports complete.")
+print("JLCPCB raw exports complete. Generating formatted BOMs and CPLs...")
+subprocess.run(["python", "scripts/make_jlcpcb_boms.py"], check=True)
+print("All JLCPCB packages ready.")

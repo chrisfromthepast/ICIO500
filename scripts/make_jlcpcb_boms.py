@@ -21,7 +21,8 @@ main_meta = {
     "C6": ("100nF", "C0603", "C14663"),
     "C7": ("100nF", "C0603", "C14663"),
     "C8": ("100nF", "C0603", "C14663"),
-    "C15": ("100nF", "C0603", "C14663"),
+    "C11_BYP": ("100nF", "C0603", "C14663"),
+    "C15": ("100pF", "C0603", "C1644"),
     "C16": ("100nF", "C0603", "C14663"),
     "C23": ("100nF", "C0603", "C14663"),
     "C24": ("100nF", "C0603", "C14663"),
@@ -46,6 +47,7 @@ main_meta = {
     "R7": ("10k", "R0603", "C25804"),
     "R9": ("10R", "R0603", "C22859"),
     "R10": ("10R", "R0603", "C22859"),
+    "R11": ("1k", "R0603", "C21190"),
     "D1": ("SS14", "D_SMA", "C2480"),
     "D2": ("SS14", "D_SMA", "C2480"),
     "D3": ("1N4148W", "D_SOD-123", "C81598"),
@@ -56,19 +58,21 @@ main_meta = {
     "D8": ("1N4148W", "D_SOD-123", "C81598"),
     "D9": ("1N4148W", "D_SOD-123", "C81598"),
     "D10": ("1N4148W", "D_SOD-123", "C81598"),
+    "D11": ("BAT54S", "SOT-23", "C2145"),
     "U1": ("TSR 1-2450", "Converter_DCDC_TRACO_TSR-1_THT", "C6886877"),
     "U2": ("1200S08-U", "SOIC-8_3.9x4.9mm_P1.27mm", "C3202799"),
     "U3": ("TL072CDT", "SOIC-8_3.9x4.9mm_P1.27mm", "C6961"),
     "U4": ("THAT1646S08-U", "SOIC-8_3.9x4.9mm_P1.27mm", "C5290156"),
     "U5": ("Daisy_Seed_Socket", "DIP-40_W15.24mm_Socket", "C2332"),
     "U6": ("2541WR-2x10P", "PinHeader_2x10_P2.54mm_Horizontal", "C5383093"),
-    "J_ENC": ("Conn_01x05_Male", "PinHeader_1x05_P2.54mm_Horizontal", "C124376"),
+    "J_ENC": ("Conn_01x05_Male", "PinHeader_1x05_P2.54mm_Horizontal", "C18213727"),
 }
 
 main_pos_override = {
     "U1": ("163.307000", "-145.485500", "180.000000"),
     "U5": ("102.620000", "-114.130000", "270.000000"),
-    "U6": ("66.730000", "-111.175000", "90.000000"),
+    "U6": ("68.730000", "-111.175000", "90.000000"),
+    "J_ENC": ("72.000000", "-132.945000", "90.000000"),
 }
 
 # -------------------------------------------------------------
@@ -107,6 +111,10 @@ encoder_meta = {}
 for comment, refs_str, fp, lcsc in encoder_groups:
     for r in refs_str.split(","):
         encoder_meta[r.strip()] = (comment, fp, lcsc)
+
+encoder_pos_override = {
+    "ENC1": ("8.500000", "-10.000000", "180.000000"),
+}
 
 # -------------------------------------------------------------
 # Helper: Format CPL to exact JLCPCB standard
@@ -149,7 +157,7 @@ for p in ["build/jlcpcb/faceplate/faceplate_cpl.csv", "build/jlcpcb/faceplate_cp
     format_cpl(p, meta_override=faceplate_meta)
 
 for p in ["build/jlcpcb/encoder/encoder_cpl.csv", "build/jlcpcb/encoder_cpl.csv"]:
-    format_cpl(p, meta_override=encoder_meta)
+    format_cpl(p, meta_override=encoder_meta, pos_override=encoder_pos_override)
 
 # -------------------------------------------------------------
 # Write BOMs

@@ -1,0 +1,4 @@
+(sym_lib_table
+  (version 7)
+  (lib (name "icio500")(type "KiCad")(uri "${KIPRJMOD}/build/icio500/icio500.kicad_sym")(options "")(descr "ICIO500 Local Symbols"))
+)

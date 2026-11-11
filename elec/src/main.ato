@@ -13,49 +13,47 @@ component SPST_Switch:
     signal pin1 ~ pin 1
     signal pin2 ~ pin 2
 
-# Daisy Seed footprint (assuming 2x20 header or specific module footprint)
+# Electro-Smith Daisy Seed (DIP-40 0.6" socket footprint)
+# Pin numbers match official Electro-Smith hardware pinout
 component DaisySeed:
     footprint = "Package_DIP:DIP-40_W15.24mm_Socket"
-    # Mapping typical Daisy Seed pins. Assuming standard zig-zag numbering for a 2x20:
-    # We only explicitly map the pins we need for this project.
-    signal Audio_Out_L ~ pin 35
-    signal Audio_Out_R ~ pin 36
-    signal Audio_In_L ~ pin 37
-    signal Audio_In_R ~ pin 38
-    signal D13 ~ pin 15
-    signal D14 ~ pin 16
-    signal AGND ~ pin 39
-    signal DGND ~ pin 40
-    signal VIN ~ pin 39 # Pin 39 is VIN on daisy. Wait, pinout of Daisy:
-    # Actually, Daisy seed pinout:
-    # Pin 39 = VIN, Pin 40 = DGND, Pin 31 = Audio In L, Pin 32 = Audio In R, etc.
-    # Let's just map generically and I can update pads if needed.
-    # Pin 31 = Audio Out L, Pin 32 = Audio Out R, Pin 33 = Audio In L, Pin 34 = Audio In R
-    # Pin 38 = 3v3 analog, Pin 39 = VIN, Pin 40 = DGND.
-    # We will just map the nets to the component signals.
-    signal VIN_5V ~ pin 39
-    signal GND_Digital ~ DGND
+    
+    # Power and Grounds
+    signal VIN_5V ~ pin 39        # 5V Main Power Input (from TSR 1-2450)
+    signal DGND ~ pin 40          # Digital Ground
+    signal AGND ~ pin 20          # Dedicated Audio/Analog Ground (MUST connect to Audio Ground)
+    signal VOUT_3V3A ~ pin 21     # 3.3V Analog Reference
+    signal VOUT_3V3D ~ pin 38     # 3.3V Digital Output Rail (to Faceplate logic)
+    
+    # Dedicated Onboard Codec Audio Pins (Pins 16-19)
+    signal Audio_In_L ~ pin 16    # Audio Input Left (AC-coupled codec)
+    signal Audio_In_R ~ pin 17    # Audio Input Right (AC-coupled codec)
+    signal Audio_Out_L ~ pin 18   # Audio Output Left (DAC/codec)
+    signal Audio_Out_R ~ pin 19   # Audio Output Right (DAC/codec)
+    
+    # Primary Audio Convenience Aliases
     signal Audio_In ~ Audio_In_L
     signal Audio_Out ~ Audio_Out_L
+    signal GND_Digital ~ DGND
+    signal GND_Analog ~ AGND
     
-    # 3.3V Digital Output (to power faceplate logic)
-    signal VOUT_3V3 ~ pin 38
+    # I2C1 Bus (Faceplate LED Driver & Peripherals)
+    signal I2C1_SCL ~ pin 12      # STM32 PB8 / Arduino D11
+    signal I2C1_SDA ~ pin 13      # STM32 PB9 / Arduino D12
     
-    # Faceplate Digital Interconnect
-    signal I2C1_SCL ~ pin 11
-    signal I2C1_SDA ~ pin 12
-    signal GPIO_CAP_INT ~ pin 15
-    signal GPIO_ENC_A ~ pin 16
-    signal GPIO_ENC_B ~ pin 17
-    signal GPIO_ENC_SW ~ pin 18
+    # SPI1 Bus (Expansion / Display)
+    signal SPI1_NSS ~ pin 8       # STM32 PG10 / Arduino D7
+    signal SPI1_SCK ~ pin 9       # STM32 PG11 / Arduino D8
+    signal SPI1_MISO ~ pin 10     # STM32 PB4 / Arduino D9
+    signal SPI1_MOSI ~ pin 11     # STM32 PB5 / Arduino D10
+    signal GPIO_DISP_DC ~ pin 6   # STM32 PD2 / Arduino D5
+    signal GPIO_DISP_RES ~ pin 5  # STM32 PC8 / Arduino D4
     
-    # SPI Expansion (For future OLED screens)
-    signal SPI1_SCK ~ pin 8
-    signal SPI1_MISO ~ pin 9
-    signal SPI1_MOSI ~ pin 10
-    signal SPI1_CS ~ pin 7
-    signal GPIO_DISP_DC ~ pin 6
-    signal GPIO_DISP_RES ~ pin 5
+    # Rotary Encoder Dedicated GPIOs (Pins 22-24, safe from Audio lines)
+    signal GPIO_ENC_A ~ pin 22    # STM32 PC0 / Arduino D15 (A0)
+    signal GPIO_ENC_B ~ pin 23    # STM32 PA3 / Arduino D16 (A1)
+    signal GPIO_ENC_SW ~ pin 24   # STM32 PB1 / Arduino D17 (A2)
+    signal GPIO_CAP_INT ~ pin 25  # STM32 PA7 / Arduino D18 (A3)
 
 module VprCarrier500:
     # 1. Instantiate all hardware sub-modules
@@ -65,16 +63,16 @@ module VprCarrier500:
     scaling = new DaisyActiveScaling
     driver = new That1646Stage
     
-    # The Dual-Footprint Architecture (Now just Daisy Seed)
+    # Embedded Daisy Seed DSP Module
     daisy = new DaisySeed
 
     # 2. Route VPR Power from Edge to PowerSupply
     edge.V_PLUS_16V ~ power.V_Plus_16V_In
     edge.V_MINUS_16V ~ power.V_Minus_16V_In
     edge.AUDIO_GND ~ power.GND_Audio
-    edge.POWER_GND ~ power.GND_Audio # Tie power and audio ground together on the card
+    edge.POWER_GND ~ power.GND_Audio # Star-ground tie on carrier
 
-    # 3. Distribute Clean Analog Rails to the Silicon
+    # 3. Distribute Clean Analog Rails to Silicon
     power.V_Plus_Analog ~ receiver.V_Plus
     power.V_Minus_Analog ~ receiver.V_Minus
     power.GND_Audio ~ receiver.GND
@@ -83,86 +81,98 @@ module VprCarrier500:
     power.V_Plus_Analog ~ scaling.V_Plus
     power.V_Minus_Analog ~ scaling.V_Minus
     power.GND_Audio ~ scaling.GND
+    daisy.VOUT_3V3D ~ scaling.V_3V3_Clamp
 
     power.V_Plus_Analog ~ driver.V_Plus
     power.V_Minus_Analog ~ driver.V_Minus
     power.GND_Audio ~ driver.GND
 
-    # 4. Route the Full Audio Signal Path
-    # Rack Edge -> THAT 1200 Input
+    # 4. Route Full Audio Signal Path
+    # Rack Edge (+4 dBu balanced in) -> THAT 1200 Input
     edge.IN_PLUS_4dBu ~ receiver.Audio_In_Plus
     edge.IN_MINUS_4dBu ~ receiver.Audio_In_Minus
 
-    # THAT 1200 Output -> Op-Amp Attenuator (Half A)
+    # THAT 1200 Output -> Op-Amp Attenuator & Overvoltage Clamping Stage (Half A)
     receiver.Audio_Out ~ scaling.Audio_In_From_1200
 
-    # Op-Amp Attenuator (Half A) -> Dual Footprint Inputs
+    # Attenuated & Clamped Output -> Daisy Codec Audio In (Pin 16)
     signal Daisy_Audio_In
     scaling.Audio_Out_To_Daisy ~ Daisy_Audio_In
     Daisy_Audio_In ~ daisy.Audio_In
     
-    # Daisy Seed Analog Output Routing (Direct)
+    # Daisy Seed Analog Ground Tied to Audio Ground
+    power.GND_Audio ~ daisy.GND_Analog
+    power.GND_Audio ~ daisy.GND_Digital
+
+    # Daisy Seed Audio Output (Pin 18) -> Op-Amp Boost & Level Restorer (Half B)
     daisy.Audio_Out ~ scaling.Audio_In_From_Daisy_Plus
     power.GND_Audio ~ scaling.Audio_In_From_Daisy_Minus
 
-    # Op-Amp Boost (Half B) -> THAT 1646 Input
+    # Op-Amp Boost (Half B) -> THAT 1646 Balanced Driver Input
     scaling.Audio_Out_To_1646 ~ driver.Audio_In
 
-    # THAT 1646 Output -> Rack Edge
+    # THAT 1646 Output (+4 dBu balanced out) -> Rack Edge
     driver.Line_Out_Plus ~ edge.OUT_PLUS_4dBu
     driver.Line_Out_Minus ~ edge.OUT_MINUS
 
-    # 5. Expose Power for the Dual-Footprint logic
+    # 5. Supply 5V Buck Power to Daisy Seed VIN
     signal Daisy_5V_Power
     power.V_Plus_5V ~ Daisy_5V_Power
-    
     Daisy_5V_Power ~ daisy.VIN_5V
-    
-    power.GND_Audio ~ daisy.GND_Digital
 
-    # -----------------------------------
-    # Interconnect to Faceplate Daughterboard
-    # -----------------------------------
+    # -------------------------------------------------------------
+    # Interconnect to Active Faceplate (U6 2x10 Header)
+    # Physically mapped 1:1 to Faceplate J1 female socket:
+    # J1-1 (GND)    mates with U6-19 (GND)
+    # J1-2 (+3.3V)  mates with U6-20 (+3.3V)
+    # J1-3 (SDA)    mates with U6-17 (SDA)
+    # J1-4 (GND)    mates with U6-18 (GND)
+    # J1-5 (SCL)    mates with U6-15 (SCL)
+    # J1-6 (GND)    mates with U6-16 (GND)
+    # -------------------------------------------------------------
     faceplate_conn = new RibbonHeader20
     
-    # Noise Mitigated Interleaved Pinout
-    power.V_Plus_5V ~ faceplate_conn.P1
-    daisy.VOUT_3V3 ~ faceplate_conn.P2
-    
-    power.GND_Audio ~ faceplate_conn.P3  # GND Barrier
-    daisy.I2C1_SDA ~ faceplate_conn.P4
-    power.GND_Audio ~ faceplate_conn.P5  # GND Barrier
-    daisy.I2C1_SCL ~ faceplate_conn.P6
-    power.GND_Audio ~ faceplate_conn.P7  # GND Barrier
-    daisy.GPIO_CAP_INT ~ faceplate_conn.P8
-    
-    daisy.GPIO_ENC_A ~ faceplate_conn.P9
-    daisy.GPIO_ENC_B ~ faceplate_conn.P10
-    daisy.GPIO_ENC_SW ~ faceplate_conn.P11
-    
-    # Future Expansion / SPI Bus
-    daisy.SPI1_MOSI ~ faceplate_conn.P12
-    daisy.SPI1_MISO ~ faceplate_conn.P13
-    daisy.SPI1_SCK ~ faceplate_conn.P14
-    daisy.SPI1_CS ~ faceplate_conn.P15
-    daisy.GPIO_DISP_DC ~ faceplate_conn.P16
-    daisy.GPIO_DISP_RES ~ faceplate_conn.P17
+    # Mated Power & I2C Bus
+    daisy.VOUT_3V3D ~ faceplate_conn.P20
+    power.GND_Audio ~ faceplate_conn.P19
+    daisy.I2C1_SDA ~ faceplate_conn.P17
+    power.GND_Audio ~ faceplate_conn.P18
+    daisy.I2C1_SCL ~ faceplate_conn.P15
+    power.GND_Audio ~ faceplate_conn.P16
 
-    # 8. Bulk Capacitance for Digital and Analog Rails
-    # c27: 220uF Bulk for Daisy Seed VIN
+    # Ground Barriers / Shielding on all remaining pins
+    power.GND_Audio ~ faceplate_conn.P1
+    power.GND_Audio ~ faceplate_conn.P2
+    power.GND_Audio ~ faceplate_conn.P3
+    power.GND_Audio ~ faceplate_conn.P4
+    power.GND_Audio ~ faceplate_conn.P5
+    power.GND_Audio ~ faceplate_conn.P6
+    power.GND_Audio ~ faceplate_conn.P7
+    power.GND_Audio ~ faceplate_conn.P8
+    power.GND_Audio ~ faceplate_conn.P9
+    power.GND_Audio ~ faceplate_conn.P10
+    power.GND_Audio ~ faceplate_conn.P11
+    power.GND_Audio ~ faceplate_conn.P12
+    power.GND_Audio ~ faceplate_conn.P13
+    power.GND_Audio ~ faceplate_conn.P14
+
+    # -------------------------------------------------------------
+    # Bulk Capacitance for Digital and Analog Rails
+    # -------------------------------------------------------------
+    # C27: 220uF Bulk for Daisy Seed VIN (5V)
     c27 = new Capacitor; c27.value = 220uF
     c27.footprint = "Capacitor_SMD:CP_Elec_6.3x5.4"
-    c27.mpn = "C72494"
+    c27.mpn = "C4747974"
     Daisy_5V_Power ~ c27.p1; c27.p2 ~ power.GND_Audio
 
-    # c28: 220uF Bulk for +16V Analog
-    c28 = new Capacitor; c28.value = 220uF
-    c28.footprint = "Capacitor_SMD:CP_Elec_6.3x5.4"
-    c28.mpn = "C72494"
-    power.V_Plus_Analog ~ c28.p1; c28.p2 ~ power.GND_Audio
+    # C25: 220uF Bulk for +16V Analog
+    c25 = new Capacitor; c25.value = 220uF
+    c25.footprint = "Capacitor_SMD:CP_Elec_6.3x5.4"
+    c25.mpn = "C4747974"
+    power.V_Plus_Analog ~ c25.p1; c25.p2 ~ power.GND_Audio
 
-    # c29: 220uF Bulk for -16V Analog
-    c29 = new Capacitor; c29.value = 220uF
-    c29.footprint = "Capacitor_SMD:CP_Elec_6.3x5.4"
-    c29.mpn = "C72494"
-    power.V_Minus_Analog ~ c29.p1; c29.p2 ~ power.GND_Audio
+    # C26: 220uF Bulk for -16V Analog
+    c26 = new Capacitor; c26.value = 220uF
+    c26.footprint = "Capacitor_SMD:CP_Elec_6.3x5.4"
+    c26.mpn = "C4747974"
+    power.V_Minus_Analog ~ c26.p1; c26.p2 ~ power.GND_Audio

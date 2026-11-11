@@ -24,11 +24,11 @@ module That1646Stage:
     signal V_Minus
     signal GND
 
-    c_bypass_p = new Capacitor; c_bypass_p.value = 1uF
+    c_bypass_p = new Capacitor; c_bypass_p.value = 1uF; c_bypass_p.designator = "C19"
     V_Plus ~ c_bypass_p.p1; c_bypass_p.p2 ~ GND
     V_Plus ~ ic.V_Plus
 
-    c_bypass_m = new Capacitor; c_bypass_m.value = 1uF
+    c_bypass_m = new Capacitor; c_bypass_m.value = 1uF; c_bypass_m.designator = "C20"
     V_Minus ~ c_bypass_m.p1; c_bypass_m.p2 ~ GND
     V_Minus ~ ic.V_Minus
 
@@ -37,38 +37,40 @@ module That1646Stage:
     # THAT1646 datasheet: 10uF bipolar (non-polarized) electrolytic, servo feedback caps
     c_ext_plus = new Capacitor; c_ext_plus.value = 10uF
     c_ext_plus.footprint = "Capacitor_SMD:CP_Elec_5x5.4"
-    c_ext_plus.mpn = "UWT1C100MCL1GS"
+    c_ext_plus.mpn = "UUP1E100MCL1GS" # 10uF 25V Bipolar / Non-Polarized (LCSC C1984751)
+    c_ext_plus.designator = "C21"
     ic.Out_Plus ~ c_ext_plus.p1; c_ext_plus.p2 ~ ic.Sense_Plus
 
     c_ext_minus = new Capacitor; c_ext_minus.value = 10uF
     c_ext_minus.footprint = "Capacitor_SMD:CP_Elec_5x5.4"
-    c_ext_minus.mpn = "UWT1C100MCL1GS"
+    c_ext_minus.mpn = "UUP1E100MCL1GS" # 10uF 25V Bipolar / Non-Polarized (LCSC C1984751)
+    c_ext_minus.designator = "C22"
     ic.Out_Minus ~ c_ext_minus.p1; c_ext_minus.p2 ~ ic.Sense_Minus
 
-    r_zobel_plus = new Resistor; r_zobel_plus.value = 10ohm
-    c_zobel_plus = new Capacitor; c_zobel_plus.value = 100nF
+    r_zobel_plus = new Resistor; r_zobel_plus.value = 10ohm; r_zobel_plus.designator = "R9"
+    c_zobel_plus = new Capacitor; c_zobel_plus.value = 100nF; c_zobel_plus.designator = "C23"
     ic.Out_Plus ~ r_zobel_plus.p1; r_zobel_plus.p2 ~ c_zobel_plus.p1; c_zobel_plus.p2 ~ GND
 
-    r_zobel_minus = new Resistor; r_zobel_minus.value = 10ohm
-    c_zobel_minus = new Capacitor; c_zobel_minus.value = 100nF
+    r_zobel_minus = new Resistor; r_zobel_minus.value = 10ohm; r_zobel_minus.designator = "R10"
+    c_zobel_minus = new Capacitor; c_zobel_minus.value = 100nF; c_zobel_minus.designator = "C24"
     ic.Out_Minus ~ r_zobel_minus.p1; r_zobel_minus.p2 ~ c_zobel_minus.p1; c_zobel_minus.p2 ~ GND
 
     # Phantom Power Output Protection
     d_clamp_out_p_vplus = new Diode
     d_clamp_out_p_vplus.footprint = "Diode_SMD:D_SOD-123"
-    d_clamp_out_p_vplus.mpn = "C57759"
+    d_clamp_out_p_vplus.mpn = "C81598"
     d_clamp_out_p_vplus.designator = "D7"
     d_clamp_out_p_vminus = new Diode
     d_clamp_out_p_vminus.footprint = "Diode_SMD:D_SOD-123"
-    d_clamp_out_p_vminus.mpn = "C57759"
+    d_clamp_out_p_vminus.mpn = "C81598"
     d_clamp_out_p_vminus.designator = "D8"
     d_clamp_out_m_vplus = new Diode
     d_clamp_out_m_vplus.footprint = "Diode_SMD:D_SOD-123"
-    d_clamp_out_m_vplus.mpn = "C57759"
+    d_clamp_out_m_vplus.mpn = "C81598"
     d_clamp_out_m_vplus.designator = "D9"
     d_clamp_out_m_vminus = new Diode
     d_clamp_out_m_vminus.footprint = "Diode_SMD:D_SOD-123"
-    d_clamp_out_m_vminus.mpn = "C57759"
+    d_clamp_out_m_vminus.mpn = "C81598"
     d_clamp_out_m_vminus.designator = "D10"
 
     Line_Out_Plus ~ d_clamp_out_p_vplus.anode; d_clamp_out_p_vplus.cathode ~ V_Plus

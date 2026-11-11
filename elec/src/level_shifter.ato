@@ -1,6 +1,13 @@
 import Capacitor from "generics/capacitors.ato"
 import Resistor from "generics/resistors.ato"
 
+component Bat54s:
+    footprint = "Package_TO_SOT_SMD:SOT-23"
+    mpn = "BAT54S"
+    signal Anode_1 ~ pin 1
+    signal Cathode_2 ~ pin 2
+    signal Common ~ pin 3
+
 component Tl072:
     footprint = "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm"
     mpn = "TL072CDT"
@@ -24,6 +31,7 @@ module DaisyActiveScaling:
     signal V_Plus
     signal V_Minus
     signal GND
+    signal V_3V3_Clamp
 
     c_bypass_p = new Capacitor; c_bypass_p.value = 100nF
     c_bypass_m = new Capacitor; c_bypass_m.value = 100nF
@@ -35,18 +43,31 @@ module DaisyActiveScaling:
     # Half A: Active Input Attenuation (Inverting)
     r_in_series = new Resistor; r_in_series.value = 22kohm; r_in_series.package = "0603"; r_in_series.designator = "R3"
     r_in_feedback = new Resistor; r_in_feedback.value = 10kohm; r_in_feedback.package = "0603"; r_in_feedback.designator = "R4"
-    c_in_filter = new Capacitor; c_in_filter.value = 47pF
+    c_in_filter = new Capacitor; c_in_filter.value = 47pF; c_in_filter.package = "0603"; c_in_filter.designator = "C17"
 
     Audio_In_From_1200 ~ r_in_series.p1; r_in_series.p2 ~ ic.In_Minus_1
     ic.Out_1 ~ r_in_feedback.p1; r_in_feedback.p2 ~ ic.In_Minus_1
     ic.Out_1 ~ c_in_filter.p1; c_in_filter.p2 ~ ic.In_Minus_1
     GND ~ ic.In_Plus_1
-    ic.Out_1 ~ Audio_Out_To_Daisy
+
+    # Overvoltage Protection & Current Limiting to protect Daisy Codec
+    r_clamp_prot = new Resistor; r_clamp_prot.value = 1kohm; r_clamp_prot.package = "0603"; r_clamp_prot.designator = "R11"
+    ic.Out_1 ~ r_clamp_prot.p1
+    r_clamp_prot.p2 ~ Audio_Out_To_Daisy
+
+    d_clamp = new Bat54s
+    d_clamp.designator = "D11"
+    GND ~ d_clamp.Anode_1
+    V_3V3_Clamp ~ d_clamp.Cathode_2
+    Audio_Out_To_Daisy ~ d_clamp.Common
+
+    c_clamp_filt = new Capacitor; c_clamp_filt.value = 100pF; c_clamp_filt.package = "0603"; c_clamp_filt.designator = "C15"
+    Audio_Out_To_Daisy ~ c_clamp_filt.p1; c_clamp_filt.p2 ~ GND
 
     # Half B: Output Gain Stage (True Differential Receiver)
     r_out_series_m = new Resistor; r_out_series_m.value = 10kohm; r_out_series_m.package = "0603"; r_out_series_m.designator = "R5"
     r_out_feedback = new Resistor; r_out_feedback.value = 22kohm; r_out_feedback.package = "0603"; r_out_feedback.designator = "R6"
-    c_out_filter = new Capacitor; c_out_filter.value = 47pF
+    c_out_filter = new Capacitor; c_out_filter.value = 47pF; c_out_filter.package = "0603"; c_out_filter.designator = "C18"
     
     r_out_series_p = new Resistor; r_out_series_p.value = 10kohm; r_out_series_p.package = "0603"; r_out_series_p.designator = "R7"
     r_out_bias = new Resistor; r_out_bias.value = 22kohm; r_out_bias.package = "0603"; r_out_bias.designator = "R8"

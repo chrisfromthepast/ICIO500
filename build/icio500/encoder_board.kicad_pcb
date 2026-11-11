@@ -89,7 +89,7 @@
 	)
 	(footprint "RotaryEncoder_Alps_EC11E-Switch_Vertical_H20mm"
 		(layer "F.Cu")
-		(uuid "8edff6a3-9d1c-430d-8877-762d0d6b0a0c")
+		(uuid "62c7d28c-901c-4c9c-8c5b-ad5a9bdaf481")
 		(at 11 2.5 -90)
 		(descr "Alps rotary encoder, EC11E... with switch, vertical shaft, http://www.alps.com/prod/info/E/HTML/Encoder/Incremental/EC11/EC11E15204A3.html")
 		(tags "rotary encoder")
@@ -97,7 +97,7 @@
 			(at 2.8 -4.7 270)
 			(layer "F.SilkS")
 			(hide yes)
-			(uuid "e9cf5271-b8c1-4ef9-b3c3-134d1c6d3f87")
+			(uuid "937fc99e-ced6-4bd3-975b-972d29be2a5a")
 			(effects
 				(font
 					(size 1 1)
@@ -109,7 +109,7 @@
 			(at 7.5 10.4 270)
 			(layer "F.Fab")
 			(hide yes)
-			(uuid "5a5b1fa4-3d59-424b-b4ea-e55594597261")
+			(uuid "1503b14d-3c05-400f-b5b9-093b55770aea")
 			(effects
 				(font
 					(size 1 1)
@@ -122,7 +122,7 @@
 			(unlocked yes)
 			(layer "F.Fab")
 			(hide yes)
-			(uuid "2e614aba-9308-46ef-9cc6-d4323607d74e")
+			(uuid "0de4f679-44cf-419a-8d87-e79a045701aa")
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -135,7 +135,7 @@
 			(unlocked yes)
 			(layer "F.Fab")
 			(hide yes)
-			(uuid "42339046-c072-491c-badb-aa01013c2cec")
+			(uuid "13fe5670-6545-43e5-9337-4ba76410386e")
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -152,7 +152,7 @@
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
 			(net "ENC_A")
-			(uuid "8266c1ce-7d07-475e-aa73-7cbc7afc7a1b")
+			(uuid "b57e51fc-408e-459a-9d7f-db049873b3b9")
 		)
 		(pad "B" thru_hole circle
 			(at 0 5 270)
@@ -161,7 +161,7 @@
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
 			(net "ENC_B")
-			(uuid "8ad2af3f-af96-48b0-b0f4-33d7e68ae53c")
+			(uuid "c970ff6d-9399-4e8c-b933-1bfdec3559fe")
 		)
 		(pad "C" thru_hole circle
 			(at 0 2.5 270)
@@ -170,7 +170,7 @@
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
 			(net "GND")
-			(uuid "6792367e-cb2c-4b91-bcac-cd22763d3636")
+			(uuid "b25f6f43-cbb0-42d7-9557-2c68b07b5871")
 		)
 		(pad "MP" thru_hole rect
 			(at 7.5 -3.1 270)
@@ -179,7 +179,7 @@
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
 			(net "GND")
-			(uuid "26fd89c0-bb39-4ea5-9cd0-efa3e46b73b1")
+			(uuid "80e3cf30-3767-473b-87f9-3ca4bfbd13da")
 		)
 		(pad "MP" thru_hole rect
 			(at 7.5 8.1 270)
@@ -188,7 +188,7 @@
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
 			(net "GND")
-			(uuid "febadc26-2ff2-4638-9d5a-ab1a39576a39")
+			(uuid "95125b0e-256e-4ff8-b72d-e2d4312ddafa")
 		)
 		(pad "S1" thru_hole circle
 			(at 14.5 5 270)
@@ -197,7 +197,7 @@
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
 			(net "ENC_SW")
-			(uuid "b4bab541-806d-4732-b96d-9c18b253c7aa")
+			(uuid "1c361dd8-ab59-4f41-95e1-f7d749cde520")
 		)
 		(pad "S2" thru_hole circle
 			(at 14.5 0 270)
@@ -206,7 +206,7 @@
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
 			(net "GND")
-			(uuid "f3c43ee7-dff9-4b7f-911c-aebd428af1d9")
+			(uuid "fca47296-b4bc-4af9-bcd4-edc2d2c98e3b")
 		)
 		(embedded_fonts no)
 		(model "C:\\Users\\Chris Williams\\Documents\\GitHub\\ICIO500\\build\\icio500\\RotaryEncoder_Alps_EC11E-Switch_Vertical_H20mm.step"
@@ -223,7 +223,7 @@
 	)
 	(footprint "PinSocket_1x05_P2.54mm_Vertical"
 		(layer "B.Cu")
-		(uuid "a1a9aca0-dd44-4584-ba2d-8f854dfcaa99")
+		(uuid "84eab13e-ef9a-4701-81d3-2e97fa9b8996")
 		(at 2.3 2.5)
 		(descr "Through hole straight socket strip, 1x05, 2.54mm pitch, single row (from Kicad 4.0.7), script generated")
 		(tags "Through hole socket strip THT 1x05 2.54mm single row")
@@ -231,7 +231,7 @@
 			(at 0 2.77 0)
 			(layer "B.SilkS")
 			(hide yes)
-			(uuid "4abbb3b0-03b7-47bd-9e23-fb8e5c284aa4")
+			(uuid "640934b7-736f-4df2-a883-d42067453c63")
 			(effects
 				(font
 					(size 1 1)
@@ -244,7 +244,7 @@
 			(at 0 -12.93 0)
 			(layer "B.Fab")
 			(hide yes)
-			(uuid "1428c9c5-50e9-40d1-a754-de2c0bd0465a")
+			(uuid "8b145ee6-df9b-4c7f-880c-b724f31aaeff")
 			(effects
 				(font
 					(size 1 1)
@@ -257,7 +257,7 @@
 			(at 0 0 0)
 			(layer "B.Fab")
 			(hide yes)
-			(uuid "f401c652-886a-4fc4-aa73-1a6cc69cb06d")
+			(uuid "ad8d6466-c4bd-42c8-a465-42c5c9a69880")
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -269,7 +269,7 @@
 			(at 0 0 0)
 			(layer "B.Fab")
 			(hide yes)
-			(uuid "f56e7efc-2a26-4460-b75b-5f8fe803815f")
+			(uuid "c9310ab2-01dd-4da9-809d-0dfeb18eb4bc")
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -281,7 +281,7 @@
 			(at 0 0 0)
 			(layer "B.SilkS")
 			(hide yes)
-			(uuid "49e3f840-9d9b-4b5e-a21b-e67b0c38d44d")
+			(uuid "ca541d50-8d04-49ed-80e4-294fc6c76f91")
 			(effects
 				(font
 					(size 1 1)
@@ -299,7 +299,7 @@
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
 			(net "ENC_SW")
-			(uuid "b0d7d436-e31f-4263-8f58-2a4b66e4f2b6")
+			(uuid "4887c450-450f-40d3-9b57-b0d923e10856")
 		)
 		(pad "2" thru_hole circle
 			(at 0 -2.54)
@@ -308,7 +308,7 @@
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
 			(net "GND")
-			(uuid "245c136e-69f6-42a0-bc3e-8640d738efaf")
+			(uuid "ed22eb9e-d70d-4998-b111-8ba0770efcea")
 		)
 		(pad "3" thru_hole circle
 			(at 0 -5.08)
@@ -317,7 +317,7 @@
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
 			(net "ENC_B")
-			(uuid "ada68b42-4ee0-4801-bc0f-2fbb5c2173f5")
+			(uuid "144bb3e0-0141-4103-a409-9912cf4b6987")
 		)
 		(pad "4" thru_hole circle
 			(at 0 -7.62)
@@ -326,7 +326,7 @@
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
 			(net "GND")
-			(uuid "69354b5c-db9a-4d81-820d-446e3b5663c6")
+			(uuid "792460a1-a42a-4251-a58d-b6b4fe786407")
 		)
 		(pad "5" thru_hole circle
 			(at 0 -10.16)
@@ -335,7 +335,7 @@
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
 			(net "ENC_A")
-			(uuid "97255ec1-5336-4da7-8e93-ef87b1e4e220")
+			(uuid "22ab8b20-4a4a-4e2d-a353-e6b5cf8820a3")
 		)
 		(embedded_fonts no)
 		(model "${KICAD10_3DMODEL_DIR}/Connector_PinSocket_2.54mm.3dshapes/PinSocket_1x05_P2.54mm_Vertical.step"
@@ -350,6 +350,28 @@
 			)
 		)
 	)
+	(gr_circle
+		(center 11 0.5)
+		(end 11.45 0.5)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(fill yes)
+		(layer "F.SilkS")
+		(uuid "a153dc3e-f84f-4920-a7f7-1d28176a0314")
+	)
+	(gr_circle
+		(center 4.2 2.5)
+		(end 4.65 2.5)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(fill yes)
+		(layer "B.SilkS")
+		(uuid "2dedb693-52bf-4bd8-a96b-c7aaed0dab94")
+	)
 	(gr_line
 		(start 0 -9)
 		(end 18 -9)
@@ -358,7 +380,7 @@
 			(type default)
 		)
 		(layer "Edge.Cuts")
-		(uuid "adcfd05d-2607-4352-94c6-9ea67cb1a6e2")
+		(uuid "b404f11e-f9a8-482a-92bf-691bfcf5a58e")
 	)
 	(gr_line
 		(start 0 13.2)
@@ -368,7 +390,7 @@
 			(type default)
 		)
 		(layer "Edge.Cuts")
-		(uuid "4f6f2f1f-e865-497e-ad51-e09a2f7b6bfe")
+		(uuid "40443e88-769e-4eda-995b-780cb3c4ca8f")
 	)
 	(gr_line
 		(start 4.4 13.2)
@@ -378,7 +400,7 @@
 			(type default)
 		)
 		(layer "Edge.Cuts")
-		(uuid "942f2922-354d-4266-bc03-724f054ffc1b")
+		(uuid "3cedc5ac-182c-49c1-bef7-c2385b937f6c")
 	)
 	(gr_line
 		(start 4.4 18.4)
@@ -388,7 +410,7 @@
 			(type default)
 		)
 		(layer "Edge.Cuts")
-		(uuid "b3da7604-d515-4d7c-a249-f1a6e474ccea")
+		(uuid "8a7e1e18-9dfa-4aaa-9ea2-92ae657c5e1d")
 	)
 	(gr_line
 		(start 18 -9)
@@ -398,7 +420,7 @@
 			(type default)
 		)
 		(layer "Edge.Cuts")
-		(uuid "d325ce8c-16d5-42e1-8622-8e31a118a4ec")
+		(uuid "fd9a5c73-1e7c-4aa5-82fd-c7b1bbc1ebe8")
 	)
 	(gr_line
 		(start 18 18.4)
@@ -408,15 +430,30 @@
 			(type default)
 		)
 		(layer "Edge.Cuts")
-		(uuid "db43e516-bbdd-488c-a7f1-affd710e2bbd")
+		(uuid "348201e4-48cb-477f-a274-ea57232a25c8")
 	)
-	(segment
-		(start 11 2.5)
-		(end 11 -7.66)
-		(width 0.25)
-		(layer "F.Cu")
-		(net "ENC_A")
-		(uuid "7854b95c-89b2-4a2d-8fdd-de5805e2bb07")
+	(gr_text "A"
+		(at 11 -0.7 0)
+		(layer "F.SilkS")
+		(uuid "543e48ac-1c29-43bf-b264-311de575860d")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.18)
+			)
+		)
+	)
+	(gr_text "1"
+		(at 4.2 3.8 0)
+		(layer "B.SilkS")
+		(uuid "a651607f-698b-4713-b900-4be9515ffb38")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.18)
+			)
+			(justify mirror)
+		)
 	)
 	(segment
 		(start 11 -7.66)
@@ -424,7 +461,15 @@
 		(width 0.25)
 		(layer "F.Cu")
 		(net "ENC_A")
-		(uuid "fb67739c-4bc7-4439-ab2b-f1811100178b")
+		(uuid "4855208f-4438-4998-a2e3-b6239e6063cf")
+	)
+	(segment
+		(start 11 2.5)
+		(end 11 -7.66)
+		(width 0.25)
+		(layer "F.Cu")
+		(net "ENC_A")
+		(uuid "f14b656d-2f94-47d8-b8dc-65ed1e97ccc6")
 	)
 	(segment
 		(start 6 -2.58)
@@ -432,7 +477,7 @@
 		(width 0.25)
 		(layer "F.Cu")
 		(net "ENC_B")
-		(uuid "da4af9f9-722c-432c-8921-9c9f76b19d6a")
+		(uuid "03e64913-4fb4-411c-b5f3-d185f693c6ca")
 	)
 	(segment
 		(start 6 2.5)
@@ -440,39 +485,7 @@
 		(width 0.25)
 		(layer "F.Cu")
 		(net "ENC_B")
-		(uuid "f7ec7fd5-d09d-46bf-ac03-e28516e43870")
-	)
-	(segment
-		(start 5.4 10.9)
-		(end 5 6)
-		(width 0.25)
-		(layer "F.Cu")
-		(net "ENC_SW")
-		(uuid "362a0430-6ef0-473e-91a6-9170d2c8eb7a")
-	)
-	(segment
-		(start 5 6)
-		(end 3.2 4.5)
-		(width 0.25)
-		(layer "F.Cu")
-		(net "ENC_SW")
-		(uuid "73ad1af9-7dcf-45cd-ae21-9660eeff6824")
-	)
-	(segment
-		(start 5.4 16.4)
-		(end 5.4 10.9)
-		(width 0.25)
-		(layer "F.Cu")
-		(net "ENC_SW")
-		(uuid "7541af7d-0a44-4eb9-8345-8998e8dd0177")
-	)
-	(segment
-		(start 6 17)
-		(end 5.4 16.4)
-		(width 0.25)
-		(layer "F.Cu")
-		(net "ENC_SW")
-		(uuid "885c9291-a7bb-4711-bcfd-a25e2704356a")
+		(uuid "29779ad6-ca75-4cb3-8c86-e7c49f74aad2")
 	)
 	(segment
 		(start 3.2 4.5)
@@ -480,12 +493,44 @@
 		(width 0.25)
 		(layer "F.Cu")
 		(net "ENC_SW")
-		(uuid "8a343199-4386-4f8a-8493-3e45f67483e1")
+		(uuid "3657e779-430f-482e-9bb2-c91cadff93ff")
+	)
+	(segment
+		(start 5 6)
+		(end 3.2 4.5)
+		(width 0.25)
+		(layer "F.Cu")
+		(net "ENC_SW")
+		(uuid "40cbd3dd-4ab0-4cd5-8bd8-d16551c84ac5")
+	)
+	(segment
+		(start 5.4 10.9)
+		(end 5 6)
+		(width 0.25)
+		(layer "F.Cu")
+		(net "ENC_SW")
+		(uuid "4187b9bb-0bc7-4c0d-967b-1fb309a7549d")
+	)
+	(segment
+		(start 6 17)
+		(end 5.4 16.4)
+		(width 0.25)
+		(layer "F.Cu")
+		(net "ENC_SW")
+		(uuid "4f496345-9f49-4223-b37c-ea4328ed43e7")
+	)
+	(segment
+		(start 5.4 16.4)
+		(end 5.4 10.9)
+		(width 0.25)
+		(layer "F.Cu")
+		(net "ENC_SW")
+		(uuid "b4eb818a-f996-49ff-be6d-54dae28f12b4")
 	)
 	(zone
 		(net "GND")
 		(layer "F.Cu")
-		(uuid "0f4dea11-23b6-4e79-9806-51a5c2619e94")
+		(uuid "f8165714-d8f9-45ac-a9e3-af739b0215ff")
 		(hatch edge 0.5)
 		(connect_pads yes
 			(clearance 0.5)
@@ -604,7 +649,7 @@
 	(zone
 		(net "GND")
 		(layer "B.Cu")
-		(uuid "e85d8be8-1c77-49d7-99a3-ad9fd381f999")
+		(uuid "79082406-b555-494e-ae25-345a8019157f")
 		(hatch edge 0.5)
 		(connect_pads yes
 			(clearance 0.5)
