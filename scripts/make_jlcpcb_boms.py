@@ -99,6 +99,10 @@ for comment, refs_str, fp, lcsc in faceplate_groups:
     for r in refs_str.split(","):
         faceplate_meta[r.strip()] = (comment, fp, lcsc)
 
+faceplate_pos_override = {
+    "U1": ("32.500000", "-16.000000", "270.000000"),
+}
+
 # -------------------------------------------------------------
 # 3. Encoder Daughtercard Metadata
 # -------------------------------------------------------------
@@ -154,7 +158,7 @@ for p in ["build/jlcpcb/carrier/carrier_cpl.csv", "build/jlcpcb/carrier_cpl.csv"
     format_cpl(p, meta_override=main_meta, pos_override=main_pos_override, exclude_refs={"J1"})
 
 for p in ["build/jlcpcb/faceplate/faceplate_cpl.csv", "build/jlcpcb/faceplate_cpl.csv"]:
-    format_cpl(p, meta_override=faceplate_meta)
+    format_cpl(p, meta_override=faceplate_meta, pos_override=faceplate_pos_override)
 
 for p in ["build/jlcpcb/encoder/encoder_cpl.csv", "build/jlcpcb/encoder_cpl.csv"]:
     format_cpl(p, meta_override=encoder_meta, pos_override=encoder_pos_override)
