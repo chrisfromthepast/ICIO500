@@ -1,0 +1,12 @@
+ICIO500/
+└── firmware/
+    ├── common/
+    │   └── icio500_hw.h         # Shared Daisy Seed pinout, MCP23017/encoders, LEDs, audio init
+    ├── roomove/                 # Primary Roomove dereverberation firmware
+    ├── cloudseed/               # Alternate 1: CloudSeed Algorithmic Reverb (MIT)
+    │   ├── CloudSeed/           # ValdemarOrn / benjaminvdb MIT DSP engine
+    │   ├── main.cpp
+    │   └── Makefile
+    ├── daisyverb/               # Alternate 2: Dattorro / Zita / FDC / Gardner (MIT)
+    ├── funbox_reverbs/          # Alternate 3: Venus / Earth / Jupiter / Neptune (MIT)
+    └── convol/                  # Alternate 4: Zero-latency Partitioned Convolution
