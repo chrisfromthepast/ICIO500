@@ -1,6 +1,6 @@
 /*
  * MIT License
- * Copyright (c) 2026 Chris Williams / SeaDubs (ICIO500 Hardware & Mode Switcher)
+ * Copyright (c) 2026 Chris Williams / SeaDubs (ICIO500 Hardware & PCA9555 UI Driver)
  */
 #pragma once
 
@@ -26,39 +26,39 @@ inline constexpr float ClampUnit(float v) noexcept {
     return v < 0.0f ? 0.0f : (v > 1.0f ? 1.0f : v);
 }
 
-// Expandable engine list (starts at 0 = Top LED and steps down the line)
+// Expandable engine list: starts at Top LED (D1 = index 0) and steps down D1..D10
 enum class EngineMode : uint8_t {
-    kCloudSeed = 0, // Boot default: Algorithmic Reverb (Top LED 0)
-    kDaisyVerb = 1, // Dattorro Plate Reverb           (LED 1)
-    kFunBox    = 2, // 8x8 FDN + Shimmer Reverb        (LED 2)
-    kConvol    = 3, // Partitioned IR Convolution      (Bottom LED 3)
-    kRoomove   = 4, // Neural Dereverberation          (Page 2, Top LED 0)
+    kCloudSeed = 0, // Boot default: Algorithmic Reverb (Top LED D1)
+    kDaisyVerb = 1, // Dattorro Plate Reverb           (LED D2)
+    kFunBox    = 2, // 8x8 FDN + Shimmer Reverb        (LED D3)
+    kConvol    = 3, // Partitioned IR Convolution      (LED D4)
+    kRoomove   = 4, // Neural Dereverberation          (LED D5)
     kCount     = 5
 };
 
+// 3-bit hardware RGB color for the PCA9555 Encoder RGB pins (P0_1=R, P0_2=G, P0_3=B)
 struct RgbColor {
-    uint8_t r = 0;
-    uint8_t g = 0;
-    uint8_t b = 0;
+    bool r = false;
+    bool g = false;
+    bool b = false;
 };
 
 namespace Palette {
-inline constexpr RgbColor kOff    = {0,   0,   0};
-inline constexpr RgbColor kPurple = {180, 0,   255}; // Mode Select indicator
-inline constexpr RgbColor kCyan   = {0,   220, 255}; // Param 0: Mix / Roomove Level
-inline constexpr RgbColor kGreen  = {0,   255, 60};  // Param 1: Decay / Threshold
-inline constexpr RgbColor kAmber  = {255, 140, 0};   // Param 2: Damping / Reduction
-inline constexpr RgbColor kBlue   = {30,  80,  255}; // Param 3: Mod / Shimmer
+inline constexpr RgbColor kOff    = {false, false, false};
+inline constexpr RgbColor kPurple = {true,  false, true};  // Mode Select: R + B
+inline constexpr RgbColor kCyan   = {false, true,  true};  // Param 0 (Mix / Roomove Level): G + B
+inline constexpr RgbColor kGreen  = {false, true,  false}; // Param 1 (Decay / Threshold): G
+inline constexpr RgbColor kAmber  = {true,  true,  false}; // Param 2 (Damping / Reduction): R + G
+inline constexpr RgbColor kBlue   = {false, false, true};  // Param 3 (Mod / Shimmer): B
 } // namespace Palette
 
 struct Params {
     static constexpr size_t kNumParams = 4;
 
-    // Indexed parameter storage [0..3] per mode so each mode remembers its settings
-    float mix     = 0.45f; // Param 0 (or Roomove dry/wet level)
-    float decay   = 0.78f; // Param 1
-    float damping = 0.35f; // Param 2
-    float mod     = 0.25f; // Param 3
+    float mix     = 0.45f; // Param 0 (Cyan)
+    float decay   = 0.78f; // Param 1 (Green)
+    float damping = 0.35f; // Param 2 (Amber)
+    float mod     = 0.25f; // Param 3 (Blue)
 
     EngineMode mode = EngineMode::kCloudSeed; // Boots into Reverb
 
@@ -90,13 +90,12 @@ struct Params {
         }
     }
 
-    // Roomove only needs 1 primary level parameter (or up to 3); Reverbs use all 4
     static constexpr size_t ParamCountForMode(EngineMode m) noexcept {
         return (m == EngineMode::kRoomove) ? 1U : kNumParams;
     }
 };
 
-// Clickless audio-rate mode switcher (16ms ramp down -> swap -> 16ms ramp up)
+// Clickless audio-rate mode switcher (16ms down -> swap -> 16ms up)
 class ModeCrossfader {
 public:
     void RequestMode(EngineMode target) noexcept {
@@ -132,126 +131,137 @@ private:
     bool       fading_out_ = false;
 };
 
-// Front-panel UI state machine:
-// - 2000ms hold -> Mode Select (Purple LED, top LED 0 down to bottom LED 3)
-// - Short click in Mode Select -> Confirms mode, returns to Perform mode
-// - Short click in Perform mode -> Cycles active parameter (each with dedicated color)
-// - Perform mode LEDs -> Fill from bottom (LED 3) to top (LED 0) showing parameter level
+// UI State Machine for 10-Segment Bar Graph (D1=Top .. D10=Bottom) + Illuminated Encoder
 class ModeUiController {
 public:
-    static constexpr size_t   kNumLeds    = 4;    // LED 0 = Top, LED 3 = Bottom
+    static constexpr size_t   kNumBarLeds = 10;   // D1 (idx 0 = Top) .. D10 (idx 9 = Bottom)
     static constexpr uint32_t kHoldTimeMs = 2000; // 2-second hold for Mode Select
-    static constexpr float    kEncStep    = 0.025f;
+    static constexpr float    kEncStep    = 0.05f;
 
     void Update(uint32_t now_ms,
                 bool     btn_pressed,
                 int32_t  enc_delta,
                 Params&  params) noexcept {
-        // 1. Button press / 2-second hold / short-click detection
+        // 1. 2-Second Hold vs Short Click
         if (btn_pressed && !prev_btn_) {
             btn_down_ms_ = now_ms;
             long_fired_  = false;
         } else if (btn_pressed && !long_fired_ && (now_ms - btn_down_ms_ >= kHoldTimeMs)) {
-            // 2 seconds reached: enter (or exit) Mode Select
             in_select_mode_ = !in_select_mode_;
             staged_mode_    = params.mode;
             long_fired_     = true;
         } else if (!btn_pressed && prev_btn_ && !long_fired_) {
-            // Short click released before 2 seconds
             if (in_select_mode_) {
-                // Confirm staged mode and reset parameter cursor to Param 0
                 params.mode     = staged_mode_;
                 active_param_   = 0;
                 in_select_mode_ = false;
             } else {
-                // Cycle through parameters for the current mode
                 const size_t num_p = Params::ParamCountForMode(params.mode);
                 active_param_      = (active_param_ + 1U) % num_p;
             }
         }
         prev_btn_ = btn_pressed;
 
-        // 2. Encoder rotation handling
+        // 2. Encoder Rotation
         if (enc_delta != 0) {
             if (in_select_mode_) {
-                // Step down the LED line (0 = Top -> 1 -> 2 -> 3 = Bottom ...)
                 const int32_t count = static_cast<int32_t>(EngineMode::kCount);
                 int32_t       next  = static_cast<int32_t>(staged_mode_) + (enc_delta > 0 ? 1 : -1);
                 while (next < 0) next += count;
                 while (next >= count) next -= count;
                 staged_mode_ = static_cast<EngineMode>(next);
             } else {
-                // Adjust active parameter level [0.0 .. 1.0]
                 const float cur  = params.GetByIndex(active_param_);
                 const float next = cur + static_cast<float>(enc_delta) * kEncStep;
                 params.SetByIndex(active_param_, next);
             }
         }
 
-        // 3. Render LEDs (LED 0 = Top, LED 3 = Bottom)
+        // 3. Render 10-LED Bar + Encoder RGB
+        bar_leds_.fill(false);
         if (in_select_mode_) {
-            RenderModeSelectTopToBottom(staged_mode_);
+            enc_rgb_              = Palette::kPurple;
+            under_led_            = true;
+            const size_t top_down = static_cast<size_t>(staged_mode_) % kNumBarLeds;
+            bar_leds_[top_down]   = true; // D1 (index 0) is Top LED, steps down D1 -> D10
         } else {
-            const float    level = params.GetByIndex(active_param_);
-            const RgbColor color = Params::ColorForParam(active_param_);
-            RenderBargraphBottomToTop(level, color);
-        }
-    }
-
-    const std::array<RgbColor, kNumLeds>& Leds() const noexcept { return leds_; }
-    bool   IsInSelectMode() const noexcept { return in_select_mode_; }
-    size_t ActiveParamIndex() const noexcept { return active_param_; }
-
-private:
-    // Mode Select: Purple LED starting at Top (LED 0) and stepping down to Bottom (LED 3)
-    void RenderModeSelectTopToBottom(EngineMode mode) noexcept {
-        leds_.fill(Palette::kOff);
-        const size_t idx      = static_cast<size_t>(mode);
-        const size_t led_slot = idx % kNumLeds; // 0 = Top LED, 3 = Bottom LED
-        leds_[led_slot]       = Palette::kPurple;
-    }
-
-    // Perform Mode: Parameter level shown from Bottom (LED 3) to Top (LED 0)
-    // using the parameter's dedicated color with proportional dimming on the top active LED
-    void RenderBargraphBottomToTop(float level, RgbColor color) noexcept {
-        leds_.fill(Palette::kOff);
-        const float clamped = ClampUnit(level);
-        const float scaled  = clamped * static_cast<float>(kNumLeds); // [0.0 .. 4.0]
-
-        for (size_t step = 0; step < kNumLeds; ++step) {
-            // step 0 = Bottom (LED 3), step 3 = Top (LED 0)
-            const size_t led_idx = (kNumLeds - 1U) - step;
-            const float  cell    = scaled - static_cast<float>(step);
-
-            if (cell >= 1.0f) {
-                leds_[led_idx] = color;
-            } else if (cell > 0.0f) {
-                leds_[led_idx] = {
-                    static_cast<uint8_t>(static_cast<float>(color.r) * cell),
-                    static_cast<uint8_t>(static_cast<float>(color.g) * cell),
-                    static_cast<uint8_t>(static_cast<float>(color.b) * cell),
-                };
+            enc_rgb_   = Params::ColorForParam(active_param_);
+            under_led_ = true;
+            // Fill 10-LED Bar from Bottom (D10 = index 9) to Top (D1 = index 0)
+            const float  level = ClampUnit(params.GetByIndex(active_param_));
+            const size_t lit   = static_cast<size_t>(level * static_cast<float>(kNumBarLeds) + 0.5f);
+            for (size_t step = 0; step < lit && step < kNumBarLeds; ++step) {
+                const size_t bar_idx = (kNumBarLeds - 1U) - step; // 9 (Bottom) down to 0 (Top)
+                bar_leds_[bar_idx]   = true;
             }
         }
     }
 
-    std::array<RgbColor, kNumLeds> leds_{};
-    EngineMode                     staged_mode_    = EngineMode::kCloudSeed;
-    size_t                         active_param_   = 0;
-    uint32_t                       btn_down_ms_    = 0;
-    bool                           prev_btn_       = false;
-    bool                           long_fired_     = false;
-    bool                           in_select_mode_ = false;
+    // Packs active-low 16-bit PCA9555 port registers (Port 0 = low byte, Port 1 = high byte)
+    // matching faceplate.ato:
+    // P0_0 = led_under, P0_1 = ENC_R, P0_2 = ENC_G, P0_3 = ENC_B, P0_4 = D9, P0_5 = D10
+    // P1_0..P1_7 = D1..D8
+    uint16_t PackPca9555ActiveLow() const noexcept {
+        uint8_t port0_active = 0;
+        uint8_t port1_active = 0;
+
+        if (under_led_)  port0_active |= (1U << 0);
+        if (enc_rgb_.r)  port0_active |= (1U << 1);
+        if (enc_rgb_.g)  port0_active |= (1U << 2);
+        if (enc_rgb_.b)  port0_active |= (1U << 3);
+        if (bar_leds_[8]) port0_active |= (1U << 4); // D9 (near bottom)
+        if (bar_leds_[9]) port0_active |= (1U << 5); // D10 (bottom LED)
+
+        for (size_t i = 0; i < 8; ++i) {
+            if (bar_leds_[i]) {
+                port1_active |= static_cast<uint8_t>(1U << i); // D1 (top) .. D8
+            }
+        }
+
+        // Invert because LED anodes are tied to V_5V (0 = ON, 1 = OFF)
+        const uint8_t p0_reg = static_cast<uint8_t>(~port0_active);
+        const uint8_t p1_reg = static_cast<uint8_t>(~port1_active);
+        return static_cast<uint16_t>(p0_reg) | (static_cast<uint16_t>(p1_reg) << 8U);
+    }
+
+private:
+    std::array<bool, kNumBarLeds> bar_leds_{};
+    RgbColor                      enc_rgb_        = Palette::kCyan;
+    bool                          under_led_      = true;
+    EngineMode                    staged_mode_    = EngineMode::kCloudSeed;
+    size_t                        active_param_   = 0;
+    uint32_t                      btn_down_ms_    = 0;
+    bool                          prev_btn_       = false;
+    bool                          long_fired_     = false;
+    bool                          in_select_mode_ = false;
 };
 
 #if defined(DAISY_SEED_H)
 class Hardware {
 public:
+    static constexpr uint8_t kPca9555Addr = 0x20; // 7-bit I2C address with A0=A1=A2=GND
+
     void Init(size_t block_size = 48) {
         seed_.Configure();
         seed_.Init();
         seed_.SetAudioBlockSize(block_size);
         seed_.SetAudioSampleRate(daisy::SaiHandle::Config::SampleRate::SAI_48KHZ);
+
+        // Initialize Quadrature Encoder on D15 (ENC_A), D16 (ENC_B), D17 (ENC_SW)
+        encoder_.Init(daisy::seed::D15, daisy::seed::D16, daisy::seed::D17);
+
+        // Initialize I2C1 on D11 (SCL) and D12 (SDA) for PCA9555 LED Driver
+        daisy::I2CHandle::Config i2c_cfg;
+        i2c_cfg.periph         = daisy::I2CHandle::Config::Peripheral::I2C_1;
+        i2c_cfg.speed          = daisy::I2CHandle::Config::Speed::I2C_400KHZ;
+        i2c_cfg.mode           = daisy::I2CHandle::Config::Mode::I2C_MASTER;
+        i2c_cfg.pin_config.scl = daisy::seed::D11;
+        i2c_cfg.pin_config.sda = daisy::seed::D12;
+        i2c_.Init(i2c_cfg);
+
+        // Configure PCA9555 Port 0 & Port 1 as outputs (Register 0x06 & 0x07 = 0x00)
+        uint8_t cfg_cmd[3] = {0x06, 0x00, 0x00};
+        i2c_.TransmitBlocking(kPca9555Addr, cfg_cmd, 3, 10);
     }
 
     void StartAudio(daisy::AudioHandle::AudioCallback cb) {
@@ -263,19 +273,32 @@ public:
     }
 
     void PollControls(Params& params) noexcept {
-        const uint32_t now_ms = daisy::System::GetNow();
-        // Hook: pass combined button/encoder click and encoder delta into UI controller
-        ui_.Update(now_ms, raw_btn_pressed_, raw_enc_delta_, params);
-        raw_enc_delta_ = 0;
-    }
+        encoder_.Debounce();
+        const uint32_t now_ms      = daisy::System::GetNow();
+        const bool     btn_pressed = encoder_.Pressed();
+        const int32_t  enc_delta   = encoder_.Increment();
 
-    const ModeUiController& Ui() const noexcept { return ui_; }
+        ui_.Update(now_ms, btn_pressed, enc_delta, params);
+
+        // Only transmit I2C frame when LED state changes
+        const uint16_t packed = ui_.PackPca9555ActiveLow();
+        if (packed != prev_leds_) {
+            prev_leds_         = packed;
+            uint8_t out_cmd[3] = {
+                0x02, // PCA9555 Output Port 0 register
+                static_cast<uint8_t>(packed & 0xFFU),
+                static_cast<uint8_t>((packed >> 8U) & 0xFFU)
+            };
+            i2c_.TransmitBlocking(kPca9555Addr, out_cmd, 3, 5);
+        }
+    }
 
 private:
     daisy::DaisySeed seed_;
+    daisy::Encoder   encoder_;
+    daisy::I2CHandle i2c_;
     ModeUiController ui_;
-    bool             raw_btn_pressed_ = false;
-    int32_t          raw_enc_delta_   = 0;
+    uint16_t         prev_leds_ = 0xFFFFU;
 };
 #endif
 
