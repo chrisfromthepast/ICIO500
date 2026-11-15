@@ -198,27 +198,25 @@ public:
     }
 
     // Packs active-low 16-bit PCA9555 port registers (Port 0 = low byte, Port 1 = high byte)
-    // matching faceplate.ato:
-    // P0_0 = led_under, P0_1 = ENC_R, P0_2 = ENC_G, P0_3 = ENC_B, P0_4 = D9, P0_5 = D10
-    // P1_0..P1_7 = D1..D8
+    // Hardware layout (PCA9555 on active faceplate):
+    // Port 0: P0_7..P0_0 = D1..D8 (D1 = bit 7 down to D8 = bit 0)
+    // Port 1: P1_0 = D9 (bit 0), P1_1 = D10 (bit 1)
     uint16_t PackPca9555ActiveLow() const noexcept {
         uint8_t port0_active = 0;
         uint8_t port1_active = 0;
 
-        if (under_led_)  port0_active |= (1U << 0);
-        if (enc_rgb_.r)  port0_active |= (1U << 1);
-        if (enc_rgb_.g)  port0_active |= (1U << 2);
-        if (enc_rgb_.b)  port0_active |= (1U << 3);
-        if (bar_leds_[8]) port0_active |= (1U << 4); // D9 (near bottom)
-        if (bar_leds_[9]) port0_active |= (1U << 5); // D10 (bottom LED)
-
+        // D1 (top, index 0) .. D8 (index 7) on Port 0 (P0_7 down to P0_0)
         for (size_t i = 0; i < 8; ++i) {
             if (bar_leds_[i]) {
-                port1_active |= static_cast<uint8_t>(1U << i); // D1 (top) .. D8
+                port0_active |= static_cast<uint8_t>(1U << (7 - i));
             }
         }
 
-        // Invert because LED anodes are tied to V_5V (0 = ON, 1 = OFF)
+        // D9 (index 8) and D10 (index 9) on Port 1 (P1_0 and P1_1)
+        if (bar_leds_[8]) port1_active |= (1U << 0);
+        if (bar_leds_[9]) port1_active |= (1U << 1);
+
+        // Invert because LED cathodes are driven low by PCA9555 (0 = ON, 1 = OFF)
         const uint8_t p0_reg = static_cast<uint8_t>(~port0_active);
         const uint8_t p1_reg = static_cast<uint8_t>(~port1_active);
         return static_cast<uint16_t>(p0_reg) | (static_cast<uint16_t>(p1_reg) << 8U);

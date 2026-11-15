@@ -359,7 +359,7 @@
 		)
 		(fill yes)
 		(layer "F.SilkS")
-		(uuid "a153dc3e-f84f-4920-a7f7-1d28176a0314")
+		(uuid "44cd5ad9-6897-411a-ad98-cfba526558a4")
 	)
 	(gr_circle
 		(center 4.2 2.5)
@@ -370,7 +370,7 @@
 		)
 		(fill yes)
 		(layer "B.SilkS")
-		(uuid "2dedb693-52bf-4bd8-a96b-c7aaed0dab94")
+		(uuid "741c2bcf-5216-47cf-80de-42dc8f3998ce")
 	)
 	(gr_line
 		(start 0 -9)
@@ -435,7 +435,7 @@
 	(gr_text "A"
 		(at 11 -0.7 0)
 		(layer "F.SilkS")
-		(uuid "543e48ac-1c29-43bf-b264-311de575860d")
+		(uuid "8d4c5446-13e2-40af-9455-1fa737213580")
 		(effects
 			(font
 				(size 1 1)
@@ -446,7 +446,7 @@
 	(gr_text "1"
 		(at 4.2 3.8 0)
 		(layer "B.SilkS")
-		(uuid "a651607f-698b-4713-b900-4be9515ffb38")
+		(uuid "3da88c3f-4aa3-45c9-92ee-47837fae615d")
 		(effects
 			(font
 				(size 1 1)

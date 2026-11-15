@@ -199,9 +199,16 @@ def run():
                 p.SetNet(gnd)
 
     # 10 Resistors R1..R10 placed at (27.000, wy) in the East corridor
+    # Staggered values for brightness balancing: 68R (Red), 82R (Yellow), 100R (Green)
     for i in range(10):
         wy = 20.000 + 8.000 * i
         r = load_fp("Resistor_SMD.pretty", "R_0402_1005Metric", f"R{i+1}")
+        if i == 0:
+            r.SetValue("68R")
+        elif i in (1, 2):
+            r.SetValue("82R")
+        else:
+            r.SetValue("100R")
         r.SetPosition(pcbnew.VECTOR2I(mm(27.000), mm(wy)))
         r.SetOrientation(pcbnew.EDA_ANGLE(180, pcbnew.DEGREES_T))
         r.Reference().SetVisible(False)
@@ -230,15 +237,17 @@ def run():
     u1_map = {
         '11': led_nets[0], '10': led_nets[1], '9': led_nets[2], '8': led_nets[3],
         '7':  led_nets[4], '6':  led_nets[5], '5': led_nets[6], '4': led_nets[7],
-        '3':  led_nets[8], '2':  led_nets[9], '12': gnd, '1': gnd,
-        '24': pwr, '23': sda, '22': scl, '21': gnd, '20': gnd,
-        '19': gnd, '18': gnd, '17': gnd, '16': gnd, '15': gnd,
-        '14': gnd, '13': gnd,
+        '3':  gnd,         '2':  gnd,         '1': gnd,         '12': gnd,
+        '13': led_nets[8], '14': led_nets[9], '15': gnd,        '16': gnd,
+        '17': gnd,         '18': gnd,         '19': gnd,        '20': gnd,
+        '21': gnd,         '22': scl,         '23': sda,        '24': pwr,
     }
     for pad in u1.Pads():
         num = str(pad.GetNumber())
         if num in u1_map:
             pad.SetNet(u1_map[num])
+            if pad.GetNetname() == 'GND':
+                pad.SetLocalZoneConnection(pcbnew.ZONE_CONNECTION_FULL)
 
     # Passives:
     # FB1: L_0402_1005Metric vertical orientation 270 deg at (36.800, 2.800)
@@ -359,31 +368,62 @@ def run():
             p.SetNet(pwr_in)
 
     print("=== STEP 3: ROUTE PLANAR TRACKS ON B.CU ===")
-    def track(x1, y1, x2, y2, net, width=0.20):
+    def track(x1, y1, x2, y2, net, width=0.20, layer=pcbnew.B_Cu):
         if abs(x1-x2) < 1e-4 and abs(y1-y2) < 1e-4:
             return None
         t = pcbnew.PCB_TRACK(board)
         t.SetStart(pcbnew.VECTOR2I(mm(x1), mm(y1)))
         t.SetEnd(pcbnew.VECTOR2I(mm(x2), mm(y2)))
         t.SetWidth(mm(width))
-        t.SetLayer(pcbnew.B_Cu)
+        t.SetLayer(layer)
         t.SetNet(net)
         board.Add(t)
         return t
+
+    def via(x, y, net, size=0.6, drill=0.3):
+        v = pcbnew.PCB_VIA(board)
+        v.SetPosition(pcbnew.VECTOR2I(mm(x), mm(y)))
+        v.SetWidth(mm(size))
+        v.SetDrill(mm(drill))
+        v.SetNet(net)
+        v.SetViaType(pcbnew.VIATYPE_THROUGH)
+        board.Add(v)
+        return v
 
     # 1. Direct Resistor to LED tracks:
     for i in range(10):
         wy = 20.000 + 8.000 * i
         track(26.490, wy, 19.988, wy, led_mid_nets[i])
 
-    # 2. 10 Planar Non-Crossing L-shape LED Tracks from U1 to R1..R10:
-    u1_led_x = [29.575, 30.225, 30.875, 31.525, 32.175, 32.825, 33.475, 34.125, 34.775, 35.425]
-    for i in range(10):
+    # 2. LED Tracks from U1 to R1..R10:
+    # 2a. D1..D8 (Port 0: pins 11..4) to R1..R8:
+    u1_led_x = [29.575, 30.225, 30.875, 31.525, 32.175, 32.825, 33.475, 34.125]
+    for i in range(8):
         ux = u1_led_x[i]
         wy = 20.000 + 8.000 * i
         net = led_nets[i]
         track(ux, 18.863, ux, wy, net)
         track(ux, wy, 27.510, wy, net)
+
+    # 2b. D9 (Port 1 Pin 13 / P1_0 at 28.925, 13.138) to R9 at 27.510, 84.000:
+    via(28.925, 11.500, led_nets[8])
+    via(34.775, 20.800, led_nets[8])
+    track(28.925, 13.138, 28.925, 11.500, led_nets[8], layer=pcbnew.B_Cu)
+    track(28.925, 11.500, 33.775, 11.500, led_nets[8], layer=pcbnew.F_Cu)
+    track(33.775, 11.500, 34.775, 12.500, led_nets[8], layer=pcbnew.F_Cu)
+    track(34.775, 12.500, 34.775, 20.800, led_nets[8], layer=pcbnew.F_Cu)
+    track(34.775, 20.800, 34.775, 84.000, led_nets[8], layer=pcbnew.B_Cu)
+    track(34.775, 84.000, 27.510, 84.000, led_nets[8], layer=pcbnew.B_Cu)
+
+    # 2c. D10 (Port 1 Pin 14 / P1_1 at 29.575, 13.138) to R10 at 27.510, 92.000:
+    via(29.575, 10.200, led_nets[9])
+    via(35.600, 22.000, led_nets[9])
+    track(29.575, 13.138, 29.575, 10.200, led_nets[9], layer=pcbnew.B_Cu)
+    track(29.575, 10.200, 34.600, 10.200, led_nets[9], layer=pcbnew.F_Cu)
+    track(34.600, 10.200, 35.600, 11.200, led_nets[9], layer=pcbnew.F_Cu)
+    track(35.600, 11.200, 35.600, 22.000, led_nets[9], layer=pcbnew.F_Cu)
+    track(35.600, 22.000, 35.600, 92.000, led_nets[9], layer=pcbnew.B_Cu)
+    track(35.600, 92.000, 27.510, 92.000, led_nets[9], layer=pcbnew.B_Cu)
 
     # 3. Concentric Non-Crossing Control & Power Routing:
     r13_p1 = [p for p in r13.Pads() if p.GetPosition().x/1e6 > 4.000][0]
@@ -435,9 +475,12 @@ def run():
     track(36.075, 12.500, 36.075, 13.138, pwr)
 
     # Ground Connections:
-    track(27.500, 13.138, 34.125, 13.138, gnd)
-    track(27.500, 13.138, 27.500, 18.863, gnd)
-    track(27.500, 18.863, 28.925, 18.863, gnd)
+    # 1. South row pins 1 (/INT), 2 (A1), 3 (A2) tied directly to GND:
+    track(37.280, 18.863, 34.775, 18.863, gnd)
+    # 2. North row unused pins 15..20 and pin 21 (A0) tied to GND:
+    track(30.225, 13.138, 34.125, 13.138, gnd)
+    # 3. Pin 12 (VSS) connected to GND:
+    track(28.925, 18.863, 27.500, 18.863, gnd)
 
     c1_p2 = [p for p in c1.Pads() if str(p.GetNumber()) == '2'][0]
     c2_p2 = [p for p in c2.Pads() if str(p.GetNumber()) == '2'][0]
