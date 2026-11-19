@@ -613,6 +613,40 @@ def run():
             if g.GetLayerName() in ('F.Cu', 'F.Mask'):
                 g.SetLayer(pcbnew.F_SilkS)
 
+    # Add prominent B.SilkS Pin 1 / Cathode markers for JLCPCB SMT polarity confirmation
+    def add_bsilk_dot(cx, cy, radius=0.45):
+        dot = pcbnew.PCB_SHAPE(board)
+        dot.SetShape(pcbnew.SHAPE_T_CIRCLE)
+        dot.SetFilled(True)
+        dot.SetCenter(pcbnew.VECTOR2I(mm(cx), mm(cy)))
+        dot.SetRadius(mm(radius))
+        dot.SetLayer(pcbnew.B_SilkS)
+        dot.SetWidth(mm(0.10))
+        board.Add(dot)
+
+    def add_bsilk_text(label, tx, ty):
+        txt = pcbnew.PCB_TEXT(board)
+        txt.SetText(label)
+        txt.SetPosition(pcbnew.VECTOR2I(mm(tx), mm(ty)))
+        txt.SetTextSize(pcbnew.VECTOR2I(mm(1.0), mm(1.0)))
+        txt.SetTextThickness(mm(0.18))
+        txt.SetLayer(pcbnew.B_SilkS)
+        txt.SetMirrored(True)
+        txt.SetHorizJustify(pcbnew.GR_TEXT_H_ALIGN_CENTER)
+        txt.SetVertJustify(pcbnew.GR_TEXT_V_ALIGN_CENTER)
+        board.Add(txt)
+
+    # U1 (PCA9555PW Pin 1 at 36.075, 18.863) & J1 (Pin 1 at 12.55, 63.57)
+    add_bsilk_dot(37.35, 18.863, 0.40)
+    add_bsilk_text("1", 37.35, 20.30)
+    add_bsilk_dot(11.20, 63.57, 0.45)
+    add_bsilk_text("1", 11.20, 62.00)
+    # D1..D10 & D11..D16 Cathode (Pin 1, right pad at x + 0.938) markers
+    for i in range(10):
+        add_bsilk_dot(19.050 + 0.94, 20.000 + 8.000 * i - 1.15, 0.25)
+    for _, _, _, dx, dy in rgb_ring_specs:
+        add_bsilk_dot(dx + 0.94, dy - 1.15, 0.25)
+
     # Step 4: Copper Zones
     W, H = 38.10, 133.35
 
