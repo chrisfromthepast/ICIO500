@@ -129,6 +129,13 @@ def run():
     led_nets = [get_or_create_net(f'LED_{i+1}') for i in range(10)]
     led_mid_nets = [get_or_create_net(f'Net-(D{i+1}-Pad2)') for i in range(10)]
 
+    rgb_nets = {
+        'R': get_or_create_net('RGB_R'),
+        'G': get_or_create_net('RGB_G'),
+        'B': get_or_create_net('RGB_B'),
+    }
+    rgb_mid_nets = [get_or_create_net(f'Net-(D{11+i}-Pad1)') for i in range(6)]
+
     lib_base = r"C:\Program Files\KiCad\10.0\share\kicad\footprints"
     def load_fp(pretty_lib, fp_name, ref):
         fp = pcbnew.FootprintLoad(os.path.join(lib_base, pretty_lib), fp_name)
@@ -223,6 +230,46 @@ def run():
             else:
                 p.SetNet(led_nets[i])
 
+    # 6-LED RGBRGB Ring D11..D16 at R=10.0 mm around encoder (19.050, 109.350) + R16..R21 (100R)
+    # Channels: P1_2=RGB_R (D11, D14), P1_3=RGB_G (D12, D15), P1_4=RGB_B (D13, D16)
+    rgb_ring_specs = [
+        (11, 16, 'R', 19.050,  99.350),  # 270 deg (12 o'clock)
+        (12, 17, 'G', 27.710, 104.350),  # 330 deg (2 o'clock)
+        (13, 18, 'B', 27.710, 114.350),  #  30 deg (4 o'clock)
+        (14, 19, 'R', 19.050, 119.350),  #  90 deg (6 o'clock)
+        (15, 20, 'G', 10.390, 114.350),  # 150 deg (8 o'clock)
+        (16, 21, 'B', 10.390, 104.350),  # 210 deg (10 o'clock)
+    ]
+    for idx, (d_num, r_num, ch, dx, dy) in enumerate(rgb_ring_specs):
+        d = load_fp("LED_SMD.pretty", "LED_0805_2012Metric", f"D{d_num}")
+        d.SetPosition(pcbnew.VECTOR2I(mm(dx), mm(dy)))
+        board.Add(d)
+        d.Flip(d.GetPosition(), False)
+        d.Reference().SetVisible(False)
+        for g in d.GraphicalItems():
+            if g.GetLayerName() in ('F.Silkscreen', 'B.Silkscreen', 'F.SilkS', 'B.SilkS'):
+                g.SetLayer(pcbnew.Dwgs_User)
+        for p in d.Pads():
+            if str(p.GetNumber()) == '1':
+                p.SetNet(rgb_mid_nets[idx])
+            else:
+                p.SetNet(pwr)
+
+        r = load_fp("Resistor_SMD.pretty", "R_0402_1005Metric", f"R{r_num}")
+        r.SetValue("100R")
+        r.SetPosition(pcbnew.VECTOR2I(mm(dx + 2.800), mm(dy)))
+        r.Reference().SetVisible(False)
+        for g in r.GraphicalItems():
+            if g.GetLayerName() in ('F.Silkscreen', 'B.Silkscreen', 'F.SilkS', 'B.SilkS'):
+                g.SetLayer(pcbnew.Dwgs_User)
+        board.Add(r)
+        r.Flip(r.GetPosition(), False)
+        for p in r.Pads():
+            if str(p.GetNumber()) == '1':
+                p.SetNet(rgb_nets[ch])
+            else:
+                p.SetNet(rgb_mid_nets[idx])
+
     # U1 (TSSOP-24) at (32.500, 16.000) on B.Cu, orientation 90 deg
     u1 = load_fp("Package_SO.pretty", "TSSOP-24_4.4x7.8mm_P0.65mm", "U1")
     u1.SetPosition(pcbnew.VECTOR2I(mm(32.500), mm(16.000)))
@@ -238,8 +285,9 @@ def run():
         '11': led_nets[0], '10': led_nets[1], '9': led_nets[2], '8': led_nets[3],
         '7':  led_nets[4], '6':  led_nets[5], '5': led_nets[6], '4': led_nets[7],
         '3':  gnd,         '2':  gnd,         '1': gnd,         '12': gnd,
-        '13': led_nets[8], '14': led_nets[9], '15': gnd,        '16': gnd,
-        '17': gnd,         '18': gnd,         '19': gnd,        '20': gnd,
+        '13': led_nets[8], '14': led_nets[9],
+        '15': rgb_nets['R'], '16': rgb_nets['G'], '17': rgb_nets['B'],
+        '18': gnd,         '19': gnd,         '20': gnd,
         '21': gnd,         '22': scl,         '23': sda,        '24': pwr,
     }
     for pad in u1.Pads():
@@ -417,13 +465,76 @@ def run():
 
     # 2c. D10 (Port 1 Pin 14 / P1_1 at 29.575, 13.138) to R10 at 27.510, 92.000:
     via(29.575, 10.200, led_nets[9])
-    via(35.600, 22.000, led_nets[9])
+    via(35.400, 22.000, led_nets[9])
     track(29.575, 13.138, 29.575, 10.200, led_nets[9], layer=pcbnew.B_Cu)
-    track(29.575, 10.200, 34.600, 10.200, led_nets[9], layer=pcbnew.F_Cu)
-    track(34.600, 10.200, 35.600, 11.200, led_nets[9], layer=pcbnew.F_Cu)
-    track(35.600, 11.200, 35.600, 22.000, led_nets[9], layer=pcbnew.F_Cu)
-    track(35.600, 22.000, 35.600, 92.000, led_nets[9], layer=pcbnew.B_Cu)
-    track(35.600, 92.000, 27.510, 92.000, led_nets[9], layer=pcbnew.B_Cu)
+    track(29.575, 10.200, 34.400, 10.200, led_nets[9], layer=pcbnew.F_Cu)
+    track(34.400, 10.200, 35.400, 11.200, led_nets[9], layer=pcbnew.F_Cu)
+    track(35.400, 11.200, 35.400, 22.000, led_nets[9], layer=pcbnew.F_Cu)
+    track(35.400, 22.000, 35.400, 92.000, led_nets[9], layer=pcbnew.B_Cu)
+    track(35.400, 92.000, 27.510, 92.000, led_nets[9], layer=pcbnew.B_Cu)
+
+    # 2d. RGB_R (P1_2 Pin 15 at 30.225, 13.138), RGB_G (P1_3 Pin 16 at 30.875, 13.138),
+    #     RGB_B (P1_4 Pin 17 at 31.525, 13.138) down East corridor to D11..D16 / R16..R21:
+    # RGB_R -> X=36.025 on B.Cu:
+    via(30.225, 9.500, rgb_nets['R'])
+    via(36.025, 23.000, rgb_nets['R'])
+    track(30.225, 13.138, 30.225, 9.500, rgb_nets['R'], layer=pcbnew.B_Cu)
+    track(30.225, 9.500, 35.025, 9.500, rgb_nets['R'], layer=pcbnew.F_Cu)
+    track(35.025, 9.500, 36.025, 10.500, rgb_nets['R'], layer=pcbnew.F_Cu)
+    track(36.025, 10.500, 36.025, 23.000, rgb_nets['R'], layer=pcbnew.F_Cu)
+    track(36.025, 23.000, 36.025, 119.350, rgb_nets['R'], layer=pcbnew.B_Cu)
+    track(36.025, 99.350, 22.360, 99.350, rgb_nets['R'], layer=pcbnew.B_Cu)   # R16 Pad 1
+    track(36.025, 119.350, 22.360, 119.350, rgb_nets['R'], layer=pcbnew.B_Cu) # R19 Pad 1
+
+    # RGB_G -> X=36.650 on B.Cu:
+    via(30.875, 8.850, rgb_nets['G'])
+    via(36.650, 24.000, rgb_nets['G'])
+    track(30.875, 13.138, 30.875, 8.850, rgb_nets['G'], layer=pcbnew.B_Cu)
+    track(30.875, 8.850, 35.650, 8.850, rgb_nets['G'], layer=pcbnew.F_Cu)
+    track(35.650, 8.850, 36.650, 9.850, rgb_nets['G'], layer=pcbnew.F_Cu)
+    track(36.650, 9.850, 36.650, 24.000, rgb_nets['G'], layer=pcbnew.F_Cu)
+    track(36.650, 24.000, 36.650, 123.200, rgb_nets['G'], layer=pcbnew.B_Cu)
+    # R17 Pad 1 (31.020, 104.350) jumps over RGB_R (X=36.025) on F.Cu:
+    via(35.200, 104.350, rgb_nets['G'])
+    via(36.650, 104.350, rgb_nets['G'])
+    track(36.650, 104.350, 35.200, 104.350, rgb_nets['G'], layer=pcbnew.F_Cu)
+    track(35.200, 104.350, 31.020, 104.350, rgb_nets['G'], layer=pcbnew.B_Cu)
+    # R20 Pad 1 (13.700, 114.350) routes under ring at Y=123.200, X=14.100 on B.Cu:
+    track(36.650, 123.200, 14.100, 123.200, rgb_nets['G'], layer=pcbnew.B_Cu)
+    track(14.100, 123.200, 14.100, 114.350, rgb_nets['G'], layer=pcbnew.B_Cu)
+    track(14.100, 114.350, 13.700, 114.350, rgb_nets['G'], layer=pcbnew.B_Cu)
+
+    # RGB_B -> X=37.275 on B.Cu:
+    via(31.525, 8.200, rgb_nets['B'])
+    via(37.275, 25.000, rgb_nets['B'])
+    track(31.525, 13.138, 31.525, 8.200, rgb_nets['B'], layer=pcbnew.B_Cu)
+    track(31.525, 8.200, 36.275, 8.200, rgb_nets['B'], layer=pcbnew.F_Cu)
+    track(36.275, 8.200, 37.275, 9.200, rgb_nets['B'], layer=pcbnew.F_Cu)
+    track(37.275, 9.200, 37.275, 25.000, rgb_nets['B'], layer=pcbnew.F_Cu)
+    track(37.275, 25.000, 37.275, 122.000, rgb_nets['B'], layer=pcbnew.B_Cu)
+    # R18 Pad 1 (31.020, 114.350) jumps over RGB_R/G on F.Cu:
+    via(35.000, 114.350, rgb_nets['B'])
+    via(37.275, 114.350, rgb_nets['B'])
+    track(37.275, 114.350, 35.000, 114.350, rgb_nets['B'], layer=pcbnew.F_Cu)
+    track(35.000, 114.350, 31.020, 114.350, rgb_nets['B'], layer=pcbnew.B_Cu)
+    # R21 Pad 1 (13.700, 104.350) jumps over RGB_G at Y=122.000 on F.Cu, then runs X=14.800 on B.Cu:
+    via(37.275, 122.000, rgb_nets['B'])
+    via(35.200, 122.000, rgb_nets['B'])
+    track(37.275, 122.000, 35.200, 122.000, rgb_nets['B'], layer=pcbnew.F_Cu)
+    track(35.200, 122.000, 14.800, 122.000, rgb_nets['B'], layer=pcbnew.B_Cu)
+    track(14.800, 122.000, 14.800, 104.350, rgb_nets['B'], layer=pcbnew.B_Cu)
+    track(14.800, 104.350, 13.700, 104.350, rgb_nets['B'], layer=pcbnew.B_Cu)
+
+    # 2e. D11..D16 direct Cathode (Pad 1) to R16..R21 (Pad 2) + Anode (Pad 2) to +3V3 via F.Cu:
+    via(36.330, 3.400, pwr)
+    track(36.330, 3.400, 26.000, 3.400, pwr, layer=pcbnew.F_Cu)
+    track(26.000, 3.400, 26.000, 119.350, pwr, layer=pcbnew.F_Cu)
+    for idx, (d_num, r_num, ch, dx, dy) in enumerate(rgb_ring_specs):
+        track(dx + 0.938, dy, dx + 2.290, dy, rgb_mid_nets[idx], layer=pcbnew.B_Cu)
+        vx = dx - 1.900
+        via(vx, dy, pwr)
+        track(vx, dy, dx - 0.938, dy, pwr, layer=pcbnew.B_Cu)
+        track(vx, dy, 26.000, dy, pwr, layer=pcbnew.F_Cu)
 
     # 3. Concentric Non-Crossing Control & Power Routing:
     r13_p1 = [p for p in r13.Pads() if p.GetPosition().x/1e6 > 4.000][0]
@@ -477,8 +588,8 @@ def run():
     # Ground Connections:
     # 1. South row pins 1 (/INT), 2 (A1), 3 (A2) tied directly to GND:
     track(37.280, 18.863, 34.775, 18.863, gnd)
-    # 2. North row unused pins 15..20 and pin 21 (A0) tied to GND:
-    track(30.225, 13.138, 34.125, 13.138, gnd)
+    # 2. North row unused pins 18..20 and pin 21 (A0) tied to GND:
+    track(32.175, 13.138, 34.125, 13.138, gnd)
     # 3. Pin 12 (VSS) connected to GND:
     track(28.925, 18.863, 27.500, 18.863, gnd)
 
@@ -532,6 +643,12 @@ def run():
     out_f.Append(mm(24.0), mm(104.5))
     out_f.Append(mm(24.0), mm(114.5))
     out_f.Append(mm(8.5), mm(114.5))
+    for _, _, _, dx, dy in rgb_ring_specs:
+        out_f.NewHole()
+        out_f.Append(mm(dx - 2.0), mm(dy - 2.0))
+        out_f.Append(mm(dx + 2.0), mm(dy - 2.0))
+        out_f.Append(mm(dx + 2.0), mm(dy + 2.0))
+        out_f.Append(mm(dx - 2.0), mm(dy + 2.0))
     zone_f.SetMinThickness(mm(0.20))
     zone_f.SetIslandRemovalMode(pcbnew.ISLAND_REMOVAL_MODE_ALWAYS)
     board.Add(zone_f)
@@ -563,6 +680,12 @@ def run():
     out_b.Append(mm(24.0), mm(104.5))
     out_b.Append(mm(24.0), mm(114.5))
     out_b.Append(mm(8.5), mm(114.5))
+    for _, _, _, dx, dy in rgb_ring_specs:
+        out_b.NewHole()
+        out_b.Append(mm(dx - 2.0), mm(dy - 2.0))
+        out_b.Append(mm(dx + 2.0), mm(dy - 2.0))
+        out_b.Append(mm(dx + 2.0), mm(dy + 2.0))
+        out_b.Append(mm(dx - 2.0), mm(dy + 2.0))
     zone_b.SetMinThickness(mm(0.20))
     zone_b.SetThermalReliefGap(mm(0.25))
     zone_b.SetThermalReliefSpokeWidth(mm(0.25))
