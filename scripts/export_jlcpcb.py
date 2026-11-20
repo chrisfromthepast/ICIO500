@@ -6,14 +6,20 @@ import zipfile
 KICAD_CLI = r"C:\Program Files\KiCad\10.0\bin\kicad-cli.exe"
 OUT_ROOT = "build/jlcpcb"
 
-# Clear out any previous files in OUT_ROOT
-if os.path.exists(OUT_ROOT):
-    shutil.rmtree(OUT_ROOT)
+# Clear out previous board outputs in OUT_ROOT while preserving non-board subdirs (e.g., knob/)
 os.makedirs(OUT_ROOT, exist_ok=True)
+for sub in ("carrier", "faceplate", "encoder"):
+    sub_path = os.path.join(OUT_ROOT, sub)
+    if os.path.exists(sub_path):
+        shutil.rmtree(sub_path)
+for fn in os.listdir(OUT_ROOT):
+    fp = os.path.join(OUT_ROOT, fn)
+    if os.path.isfile(fp):
+        os.remove(fp)
 
 boards = [
     ("carrier", "build/icio500/icio500.kicad_pcb", "F.Cu,In1.Cu,In2.Cu,B.Cu,F.Paste,B.Paste,F.SilkS,B.SilkS,F.Mask,B.Mask,Edge.Cuts"),
-    ("faceplate", "build/icio500/faceplate_front.kicad_pcb", "F.Cu,B.Cu,F.Paste,B.Paste,F.SilkS,B.SilkS,F.Mask,B.Mask,Edge.Cuts"),
+    ("faceplate", "build/icio500/faceplate_front.kicad_pcb", "F.Cu,B.Cu,F.Paste,B.Paste,F.SilkS,B.SilkS,F.Mask,B.Mask,Edge.Cuts,User.1,Cmts.User"),
     ("encoder", "build/icio500/encoder_board.kicad_pcb", "F.Cu,B.Cu,F.Paste,B.Paste,F.SilkS,B.SilkS,F.Mask,B.Mask,Edge.Cuts"),
 ]
 
@@ -68,6 +74,13 @@ for name, pcb_path, layers in boards:
     cpl_text = cpl_text.replace("Ref,Val,Package,PosX,PosY,Rot,Side", "Designator,Val,Package,Mid X,Mid Y,Rotation,Layer", 1)
     with open(pos_csv, "w", encoding="utf-8", newline="") as f:
         f.write(cpl_text)
+
+    # Rename User.1 Gerber for faceplate to explicit blind-slot manufacturing layer
+    if name == "faceplate":
+        old_u1 = os.path.join(stage_dir, "faceplate_front-User_1.gbr")
+        new_u1 = os.path.join(stage_dir, "faceplate_front-Bottom_Blind_Slots_Depth_1.3mm.gbr")
+        if os.path.exists(old_u1):
+            os.replace(old_u1, new_u1)
 
     # Zip Gerbers + Drills into clean package
     zip_path = os.path.join(board_dir, f"{name}_gerbers.zip")

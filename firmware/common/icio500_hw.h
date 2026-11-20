@@ -36,7 +36,7 @@ enum class EngineMode : uint8_t {
     kCount     = 5
 };
 
-// 3-bit hardware RGB color for the PCA9555 Encoder RGBRGB ring (P1_2=R, P1_3=G, P1_4=B)
+// 3-bit hardware RGB color for the PCA9555 Encoder RGBRGB ring (P1_2=G, P1_3=B, P1_4=R)
 struct RgbColor {
     bool r = false;
     bool g = false;
@@ -200,7 +200,7 @@ public:
     // Packs active-low 16-bit PCA9555 port registers (Port 0 = low byte, Port 1 = high byte)
     // Hardware layout (PCA9555 on active faceplate):
     // Port 0: P0_7..P0_0 = D1..D8 (D1 = bit 7 down to D8 = bit 0)
-    // Port 1: P1_0 = D9 (bit 0), P1_1 = D10 (bit 1), P1_2 = RGB_R (bit 2), P1_3 = RGB_G (bit 3), P1_4 = RGB_B (bit 4)
+    // Port 1: P1_0 = D9 (bit 0), P1_1 = D10 (bit 1), P1_2 = RGB_G (bit 2), P1_3 = RGB_B (bit 3), P1_4 = RGB_R (bit 4)
     uint16_t PackPca9555ActiveLow() const noexcept {
         uint8_t port0_active = 0;
         uint8_t port1_active = 0;
@@ -216,10 +216,10 @@ public:
         if (bar_leds_[8]) port1_active |= (1U << 0);
         if (bar_leds_[9]) port1_active |= (1U << 1);
 
-        // 6-LED RGBRGB Ring on Port 1 (P1_2=R, P1_3=G, P1_4=B)
-        if (enc_rgb_.r) port1_active |= (1U << 2);
-        if (enc_rgb_.g) port1_active |= (1U << 3);
-        if (enc_rgb_.b) port1_active |= (1U << 4);
+        // 6-LED RGBRGB Ring on Port 1 (P1_2=G, P1_3=B, P1_4=R)
+        if (enc_rgb_.g) port1_active |= (1U << 2);
+        if (enc_rgb_.b) port1_active |= (1U << 3);
+        if (enc_rgb_.r) port1_active |= (1U << 4);
 
         // Invert because LED cathodes are driven low by PCA9555 (0 = ON, 1 = OFF)
         const uint8_t p0_reg = static_cast<uint8_t>(~port0_active);

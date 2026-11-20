@@ -89,7 +89,7 @@ faceplate_groups = [
     ("100R", "R4,R5,R6,R7,R8,R9,R10,R16,R17,R18,R19,R20,R21", "R_0402_1005Metric", "C25076"),
     ("4.7k", "R11", "R_0402_1005Metric", "C25900"),
     ("4.7k", "R12", "R_0805_2012Metric", "C17673"),
-    ("0R", "R13,R14,R15", "R_0805_2012Metric", "C17414"),
+    ("0R", "R13,R14,R15,R22,R23,R24,R25", "R_0805_2012Metric", "C17414"),
     ("PCA9555PW", "U1", "TSSOP-24_4.4x7.8mm_P0.65mm", "C128392"),
     ("XL-3216SURC-FB", "D1,D11,D14", "LED_1206_3216Metric_ReverseMount_Hole1.8x2.4mm", "C3646938"),
     ("XL-3216UYC-FB", "D2,D3", "LED_1206_3216Metric_ReverseMount_Hole1.8x2.4mm", "C3646939"),
@@ -103,7 +103,7 @@ for comment, refs_str, fp, lcsc in faceplate_groups:
         faceplate_meta[r.strip()] = (comment, fp, lcsc)
 
 faceplate_pos_override = {
-    "U1": ("32.500000", "-16.000000", "270.000000"),
+    "U1": ("30.500000", "-16.000000", "270.000000"),
 }
 
 # -------------------------------------------------------------
