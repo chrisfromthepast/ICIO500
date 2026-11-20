@@ -91,10 +91,10 @@ faceplate_groups = [
     ("4.7k", "R12", "R_0805_2012Metric", "C17673"),
     ("0R", "R13,R14,R15", "R_0805_2012Metric", "C17414"),
     ("PCA9555PW", "U1", "TSSOP-24_4.4x7.8mm_P0.65mm", "C128392"),
-    ("LED_RED", "D1,D11,D14", "LED_0805_2012Metric", "C2295"),
-    ("LED_YLW", "D2,D3", "LED_0805_2012Metric", "C2296"),
-    ("LED_GRN", "D4,D5,D6,D7,D8,D9,D10,D12,D15", "LED_0805_2012Metric", "C2297"),
-    ("LED_BLU", "D13,D16", "LED_0805_2012Metric", "C2293"),
+    ("XL-3216SURC-FB", "D1,D11,D14", "LED_1206_3216Metric_ReverseMount_Hole1.8x2.4mm", "C3646938"),
+    ("XL-3216UYC-FB", "D2,D3", "LED_1206_3216Metric_ReverseMount_Hole1.8x2.4mm", "C3646939"),
+    ("XL-3216UGC-FB", "D4,D5,D6,D7,D8,D9,D10,D12,D15", "LED_1206_3216Metric_ReverseMount_Hole1.8x2.4mm", "C3646937"),
+    ("XL-3216UBC-FB", "D13,D16", "LED_1206_3216Metric_ReverseMount_Hole1.8x2.4mm", "C3646941"),
 ]
 
 faceplate_meta = {}

@@ -109,6 +109,7 @@ def run():
         f.write(prepared_text)
 
     board = pcbnew.LoadBoard("temp_perfect_base.kicad_pcb")
+    board.GetDesignSettings().m_CopperEdgeClearance = mm(0.35)
 
     def get_or_create_net(name):
         net = board.FindNet(name)
@@ -188,10 +189,23 @@ def run():
     for p in br2.Pads():
         p.SetNet(gnd)
 
-    # 10 LEDs D1..D10 centered at (19.050, wy) on B.Cu
+    def tune_rev_led_pads(fp):
+        for p in fp.Pads():
+            if p.GetAttribute() == pcbnew.PAD_ATTRIB_NPTH:
+                p.SetSize(pcbnew.VECTOR2I(mm(1.50), mm(2.10)))
+                p.SetDrillSize(pcbnew.VECTOR2I(mm(1.50), mm(2.10)))
+            elif str(p.GetNumber()) == '1':
+                p.SetPos(pcbnew.VECTOR2I(mm(-1.60), 0))
+                p.SetSize(pcbnew.VECTOR2I(mm(0.90), mm(1.75)))
+            elif str(p.GetNumber()) == '2':
+                p.SetPos(pcbnew.VECTOR2I(mm(1.60), 0))
+                p.SetSize(pcbnew.VECTOR2I(mm(0.90), mm(1.75)))
+
+    # 10 Reverse-Mount Gull-Wing 1206 LEDs D1..D10 centered at (19.050, wy) on B.Cu
     for i in range(10):
         wy = 20.000 + 8.000 * i
-        d = load_fp("LED_SMD.pretty", "LED_0805_2012Metric", f"D{i+1}")
+        d = load_fp("LED_SMD.pretty", "LED_1206_3216Metric_ReverseMount_Hole1.8x2.4mm", f"D{i+1}")
+        tune_rev_led_pads(d)
         d.SetPosition(pcbnew.VECTOR2I(mm(19.050), mm(wy)))
         board.Add(d)
         d.Flip(d.GetPosition(), False)
@@ -202,8 +216,8 @@ def run():
         for p in d.Pads():
             if str(p.GetNumber()) == '1':
                 p.SetNet(led_mid_nets[i])
-            else:
-                p.SetNet(gnd)
+            elif str(p.GetNumber()) == '2':
+                p.SetNet(pwr)
 
     # 10 Resistors R1..R10 placed at (27.000, wy) in the East corridor
     # Staggered values for brightness balancing: 68R (Red), 82R (Yellow), 100R (Green)
@@ -241,7 +255,8 @@ def run():
         (16, 21, 'B', 10.390, 104.350),  # 210 deg (10 o'clock)
     ]
     for idx, (d_num, r_num, ch, dx, dy) in enumerate(rgb_ring_specs):
-        d = load_fp("LED_SMD.pretty", "LED_0805_2012Metric", f"D{d_num}")
+        d = load_fp("LED_SMD.pretty", "LED_1206_3216Metric_ReverseMount_Hole1.8x2.4mm", f"D{d_num}")
+        tune_rev_led_pads(d)
         d.SetPosition(pcbnew.VECTOR2I(mm(dx), mm(dy)))
         board.Add(d)
         d.Flip(d.GetPosition(), False)
@@ -252,12 +267,12 @@ def run():
         for p in d.Pads():
             if str(p.GetNumber()) == '1':
                 p.SetNet(rgb_mid_nets[idx])
-            else:
+            elif str(p.GetNumber()) == '2':
                 p.SetNet(pwr)
 
         r = load_fp("Resistor_SMD.pretty", "R_0402_1005Metric", f"R{r_num}")
         r.SetValue("100R")
-        r.SetPosition(pcbnew.VECTOR2I(mm(dx + 2.800), mm(dy)))
+        r.SetPosition(pcbnew.VECTOR2I(mm(dx + 3.400), mm(dy)))
         r.Reference().SetVisible(False)
         for g in r.GraphicalItems():
             if g.GetLayerName() in ('F.Silkscreen', 'B.Silkscreen', 'F.SilkS', 'B.SilkS'):
@@ -438,10 +453,10 @@ def run():
         board.Add(v)
         return v
 
-    # 1. Direct Resistor to LED tracks:
+    # 1. Direct Resistor to LED tracks (Pad 1 at 19.050 + 1.600 = 20.650):
     for i in range(10):
         wy = 20.000 + 8.000 * i
-        track(26.490, wy, 19.988, wy, led_mid_nets[i])
+        track(26.490, wy, 20.650, wy, led_mid_nets[i])
 
     # 2. LED Tracks from U1 to R1..R10:
     # 2a. D1..D8 (Port 0: pins 11..4) to R1..R8:
@@ -483,8 +498,8 @@ def run():
     track(35.025, 9.500, 36.025, 10.500, rgb_nets['R'], layer=pcbnew.F_Cu)
     track(36.025, 10.500, 36.025, 23.000, rgb_nets['R'], layer=pcbnew.F_Cu)
     track(36.025, 23.000, 36.025, 119.350, rgb_nets['R'], layer=pcbnew.B_Cu)
-    track(36.025, 99.350, 22.360, 99.350, rgb_nets['R'], layer=pcbnew.B_Cu)   # R16 Pad 1
-    track(36.025, 119.350, 22.360, 119.350, rgb_nets['R'], layer=pcbnew.B_Cu) # R19 Pad 1
+    track(36.025, 99.350, 22.960, 99.350, rgb_nets['R'], layer=pcbnew.B_Cu)   # R16 Pad 1
+    track(36.025, 119.350, 22.960, 119.350, rgb_nets['R'], layer=pcbnew.B_Cu) # R19 Pad 1
 
     # RGB_G -> X=36.650 on B.Cu:
     via(30.875, 8.850, rgb_nets['G'])
@@ -494,15 +509,15 @@ def run():
     track(35.650, 8.850, 36.650, 9.850, rgb_nets['G'], layer=pcbnew.F_Cu)
     track(36.650, 9.850, 36.650, 24.000, rgb_nets['G'], layer=pcbnew.F_Cu)
     track(36.650, 24.000, 36.650, 123.200, rgb_nets['G'], layer=pcbnew.B_Cu)
-    # R17 Pad 1 (31.020, 104.350) jumps over RGB_R (X=36.025) on F.Cu:
+    # R17 Pad 1 (31.620, 104.350) jumps over RGB_R (X=36.025) on F.Cu:
     via(35.200, 104.350, rgb_nets['G'])
     via(36.650, 104.350, rgb_nets['G'])
     track(36.650, 104.350, 35.200, 104.350, rgb_nets['G'], layer=pcbnew.F_Cu)
-    track(35.200, 104.350, 31.020, 104.350, rgb_nets['G'], layer=pcbnew.B_Cu)
-    # R20 Pad 1 (13.700, 114.350) routes under ring at Y=123.200, X=14.100 on B.Cu:
-    track(36.650, 123.200, 14.100, 123.200, rgb_nets['G'], layer=pcbnew.B_Cu)
-    track(14.100, 123.200, 14.100, 114.350, rgb_nets['G'], layer=pcbnew.B_Cu)
-    track(14.100, 114.350, 13.700, 114.350, rgb_nets['G'], layer=pcbnew.B_Cu)
+    track(35.200, 104.350, 31.620, 104.350, rgb_nets['G'], layer=pcbnew.B_Cu)
+    # R20 Pad 1 (14.300, 114.350) routes under ring at Y=123.200, X=14.550 on B.Cu:
+    track(36.650, 123.200, 14.550, 123.200, rgb_nets['G'], layer=pcbnew.B_Cu)
+    track(14.550, 123.200, 14.550, 114.350, rgb_nets['G'], layer=pcbnew.B_Cu)
+    track(14.550, 114.350, 14.300, 114.350, rgb_nets['G'], layer=pcbnew.B_Cu)
 
     # RGB_B -> X=37.275 on B.Cu:
     via(31.525, 8.200, rgb_nets['B'])
@@ -512,29 +527,32 @@ def run():
     track(36.275, 8.200, 37.275, 9.200, rgb_nets['B'], layer=pcbnew.F_Cu)
     track(37.275, 9.200, 37.275, 25.000, rgb_nets['B'], layer=pcbnew.F_Cu)
     track(37.275, 25.000, 37.275, 122.000, rgb_nets['B'], layer=pcbnew.B_Cu)
-    # R18 Pad 1 (31.020, 114.350) jumps over RGB_R/G on F.Cu:
+    # R18 Pad 1 (31.620, 114.350) jumps over RGB_R/G on F.Cu:
     via(35.000, 114.350, rgb_nets['B'])
     via(37.275, 114.350, rgb_nets['B'])
     track(37.275, 114.350, 35.000, 114.350, rgb_nets['B'], layer=pcbnew.F_Cu)
-    track(35.000, 114.350, 31.020, 114.350, rgb_nets['B'], layer=pcbnew.B_Cu)
-    # R21 Pad 1 (13.700, 104.350) jumps over RGB_G at Y=122.000 on F.Cu, then runs X=14.800 on B.Cu:
+    track(35.000, 114.350, 31.620, 114.350, rgb_nets['B'], layer=pcbnew.B_Cu)
+    # R21 Pad 1 (14.300, 104.350) jumps over RGB_G at Y=122.000 on F.Cu, then runs X=14.950 on B.Cu:
     via(37.275, 122.000, rgb_nets['B'])
     via(35.200, 122.000, rgb_nets['B'])
     track(37.275, 122.000, 35.200, 122.000, rgb_nets['B'], layer=pcbnew.F_Cu)
-    track(35.200, 122.000, 14.800, 122.000, rgb_nets['B'], layer=pcbnew.B_Cu)
-    track(14.800, 122.000, 14.800, 104.350, rgb_nets['B'], layer=pcbnew.B_Cu)
-    track(14.800, 104.350, 13.700, 104.350, rgb_nets['B'], layer=pcbnew.B_Cu)
+    track(35.200, 122.000, 14.950, 122.000, rgb_nets['B'], layer=pcbnew.B_Cu)
+    track(14.950, 122.000, 14.950, 104.350, rgb_nets['B'], layer=pcbnew.B_Cu)
+    track(14.950, 104.350, 14.300, 104.350, rgb_nets['B'], layer=pcbnew.B_Cu)
 
-    # 2e. D11..D16 direct Cathode (Pad 1) to R16..R21 (Pad 2) + Anode (Pad 2) to +3V3 via F.Cu:
+    # 2e. D11..D16 direct Cathode (Pad 1, dx+1.60) to R16..R21 (Pad 2, dx+2.89) + Anode (Pad 2, dx-1.60) to +3V3 via F.Cu:
     via(36.330, 3.400, pwr)
     track(36.330, 3.400, 26.000, 3.400, pwr, layer=pcbnew.F_Cu)
-    track(26.000, 3.400, 26.000, 119.350, pwr, layer=pcbnew.F_Cu)
+    track(26.000, 3.400, 26.000, 121.350, pwr, layer=pcbnew.F_Cu)
     for idx, (d_num, r_num, ch, dx, dy) in enumerate(rgb_ring_specs):
-        track(dx + 0.938, dy, dx + 2.290, dy, rgb_mid_nets[idx], layer=pcbnew.B_Cu)
-        vx = dx - 1.900
+        track(dx + 1.600, dy, dx + 2.890, dy, rgb_mid_nets[idx], layer=pcbnew.B_Cu)
+        vx = dx - 2.650
         via(vx, dy, pwr)
-        track(vx, dy, dx - 0.938, dy, pwr, layer=pcbnew.B_Cu)
-        track(vx, dy, 26.000, dy, pwr, layer=pcbnew.F_Cu)
+        track(vx, dy, dx - 1.600, dy, pwr, layer=pcbnew.B_Cu)
+        # Detour F.Cu +3V3 away from NPTH hole & M7 encoder hole (-2.00 for north half, +2.00 for south half)
+        y_det = dy - 2.000 if dy < 109.350 else dy + 2.000
+        track(vx, dy, vx, y_det, pwr, layer=pcbnew.F_Cu)
+        track(vx, y_det, 26.000, y_det, pwr, layer=pcbnew.F_Cu)
 
     # 3. Concentric Non-Crossing Control & Power Routing:
     r13_p1 = [p for p in r13.Pads() if p.GetPosition().x/1e6 > 4.000][0]
@@ -600,12 +618,16 @@ def run():
     track(37.280, 4.200, 37.280, 18.863, gnd)
     track(37.280, 18.863, 36.075, 18.863, gnd)
 
+    # D1..D10 Anode (Pad 2 at X = 19.050 - 1.600 = 17.450) bus connected to +3V3 (active-low U1 sink)
     for k in range(9):
         wy_a = 20.000 + 8.000 * k
         wy_b = 20.000 + 8.000 * (k + 1)
-        track(18.113, wy_a, 18.113, wy_b, gnd)
+        track(17.450, wy_a, 17.450, wy_b, pwr)
 
-    track(13.800, 68.650, 18.113, 68.650, gnd)
+    via(16.400, 18.000, pwr)
+    track(17.450, 20.000, 16.400, 20.000, pwr, layer=pcbnew.B_Cu)
+    track(16.400, 20.000, 16.400, 18.000, pwr, layer=pcbnew.B_Cu)
+    track(16.400, 18.000, 26.000, 18.000, pwr, layer=pcbnew.F_Cu)
 
     # Ensure all dial scale graphics are on F.Silkscreen, NOT F.Cu or F.Mask:
     for fp in board.Footprints():
@@ -641,11 +663,22 @@ def run():
     add_bsilk_text("1", 37.35, 20.30)
     add_bsilk_dot(11.20, 63.57, 0.45)
     add_bsilk_text("1", 11.20, 62.00)
-    # D1..D10 & D11..D16 Cathode (Pin 1, right pad at x + 0.938) markers
+    # D1..D10 & D11..D16 Cathode (Pin 1, right pad at x + 1.55) markers
     for i in range(10):
-        add_bsilk_dot(19.050 + 0.94, 20.000 + 8.000 * i - 1.15, 0.25)
+        add_bsilk_dot(19.050 + 1.55, 20.000 + 8.000 * i - 1.35, 0.25)
     for _, _, _, dx, dy in rgb_ring_specs:
-        add_bsilk_dot(dx + 0.94, dy - 1.15, 0.25)
+        add_bsilk_dot(dx + 1.55, dy - 1.35, 0.25)
+
+    # Add F.Mask optical porthole windows (Ø3.6 mm) over D11..D16 so light shines through translucent FR4
+    for _, _, _, dx, dy in rgb_ring_specs:
+        win = pcbnew.PCB_SHAPE(board)
+        win.SetShape(pcbnew.SHAPE_T_CIRCLE)
+        win.SetFilled(True)
+        win.SetCenter(pcbnew.VECTOR2I(mm(dx), mm(dy)))
+        win.SetRadius(mm(1.80))
+        win.SetLayer(pcbnew.F_Mask)
+        win.SetWidth(mm(0.05))
+        board.Add(win)
 
     # Step 4: Copper Zones
     W, H = 38.10, 133.35
