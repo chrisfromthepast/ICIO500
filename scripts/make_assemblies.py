@@ -9,149 +9,62 @@ All models live under kicad/3d_models/ and are referenced with portable ${KIPRJM
 Does NOT modify in-production kicad/icio500.kicad_pcb, kicad/encoder_board.kicad_pcb, or fabrication/in_production/.
 """
 
-import math
 import os
 import re
 import shutil
 import subprocess
+import sys
 import tempfile
 import uuid as uuid_mod
 import pcbnew
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from generate_sendcutsend_faceplates import (
+    H_FP,
+    HOLES_MOUNT_PCB,
+    SKIRT_PORTS_PCB,
+    VU_SLOTS_PCB,
+    W_FP,
+    add_circle_cutout,
+    add_engrave_graphics_to_board,
+    add_horizontal_slot_edges,
+    add_rounded_rect_edges,
+    mm,
+)
+
 KICAD_CLI = r"C:\Program Files\KiCad\10.0\bin\kicad-cli.exe"
-
-W_FP = 38.10
-H_FP = 133.35
-
-HOLES_MOUNT_PCB = [
-    ("MH1",      19.050,   3.960, 3.200),
-    ("MH2",      19.050, 129.390, 3.200),
-    ("MH_TOP_L",  5.050,  24.000, 2.700),
-    ("MH_TOP_R", 33.050,  24.000, 2.700),
-    ("ENC",      19.050, 109.350, 7.200),
-]
-
-SKIRT_PORTS_PCB = [
-    ("D11", 19.050,  99.350, 2.400),
-    ("D12", 27.710, 104.350, 2.400),
-    ("D13", 27.710, 114.350, 2.400),
-    ("D14", 19.050, 119.350, 2.400),
-    ("D15", 10.390, 114.350, 2.400),
-    ("D16", 10.390, 104.350, 2.400),
-]
-
-VU_SLOTS_PCB = [(f"D{i + 1}", 19.050, 20.000 + 8.000 * i, 7.200, 2.400) for i in range(10)]
 DIFFUSER_RECT = (8.000, 16.500, 30.100, 122.000, 0.500)
 
 
-def mm(val):
-    return int(round(val * 1e6))
+def _format_vrml_material(props):
+    return (
+        "material Material {\n"
+        f"   ambientIntensity {props['ambientIntensity']}\n"
+        f"   diffuseColor {props['diffuseColor']}\n"
+        f"   emissiveColor {props.get('emissiveColor', '0 0 0')}\n"
+        f"   shininess {props['shininess']}\n"
+        f"   specularColor {props['specularColor']}\n"
+        f"   transparency {props['transparency']}\n"
+        "}"
+    )
 
 
-def add_rounded_rect_edges(board, x0, y0, x1, y1, r):
-    """Add closed Edge.Cuts segments & corner arcs (clockwise in +Y-down PCB coords)."""
-    if r <= 1e-6:
-        pts = [(x0, y0), (x1, y0), (x1, y1), (x0, y1)]
-        for i in range(4):
-            p1, p2 = pts[i], pts[(i + 1) % 4]
-            seg = pcbnew.PCB_SHAPE(board)
-            seg.SetShape(pcbnew.SHAPE_T_SEGMENT)
-            seg.SetStart(pcbnew.VECTOR2I(mm(p1[0]), mm(p1[1])))
-            seg.SetEnd(pcbnew.VECTOR2I(mm(p2[0]), mm(p2[1])))
-            seg.SetLayer(pcbnew.Edge_Cuts)
-            seg.SetWidth(mm(0.10))
-            board.Add(seg)
-        return
-
-    straight_edges = [
-        ((x0 + r, y0),     (x1 - r, y0)),
-        ((x1,     y0 + r), (x1,     y1 - r)),
-        ((x1 - r, y1),     (x0 + r, y1)),
-        ((x0,     y1 - r), (x0,     y0 + r)),
-    ]
-    for sp, ep in straight_edges:
-        seg = pcbnew.PCB_SHAPE(board)
-        seg.SetShape(pcbnew.SHAPE_T_SEGMENT)
-        seg.SetStart(pcbnew.VECTOR2I(mm(sp[0]), mm(sp[1])))
-        seg.SetEnd(pcbnew.VECTOR2I(mm(ep[0]), mm(ep[1])))
-        seg.SetLayer(pcbnew.Edge_Cuts)
-        seg.SetWidth(mm(0.10))
-        board.Add(seg)
-
-    corners = [
-        ((x1 - r, y0 + r), (x1 - r, y0),     (x1,     y0 + r)),
-        ((x1 - r, y1 - r), (x1,     y1 - r), (x1 - r, y1)),
-        ((x0 + r, y1 - r), (x0 + r, y1),     (x0,     y1 - r)),
-        ((x0 + r, y0 + r), (x0,     y0 + r), (x0 + r, y0)),
-    ]
-    k = math.sqrt(0.5)
-    for (cx, cy), sp, ep in corners:
-        mx = cx + k * ((sp[0] - cx) + (ep[0] - cx))
-        my = cy + k * ((sp[1] - cy) + (ep[1] - cy))
-        arc = pcbnew.PCB_SHAPE(board)
-        arc.SetShape(pcbnew.SHAPE_T_ARC)
-        arc.SetArcGeometry(
-            pcbnew.VECTOR2I(mm(sp[0]), mm(sp[1])),
-            pcbnew.VECTOR2I(mm(mx), mm(my)),
-            pcbnew.VECTOR2I(mm(ep[0]), mm(ep[1])),
-        )
-        arc.SetLayer(pcbnew.Edge_Cuts)
-        arc.SetWidth(mm(0.10))
-        board.Add(arc)
-
-
-def add_circle_cutout(board, cx, cy, diam):
-    circ = pcbnew.PCB_SHAPE(board)
-    circ.SetShape(pcbnew.SHAPE_T_CIRCLE)
-    circ.SetFilled(False)
-    circ.SetCenter(pcbnew.VECTOR2I(mm(cx), mm(cy)))
-    circ.SetRadius(mm(diam / 2.0))
-    circ.SetLayer(pcbnew.Edge_Cuts)
-    circ.SetWidth(mm(0.10))
-    board.Add(circ)
-
-
-def add_horizontal_slot_edges(board, cx, cy, width, height):
-    """Draw closed stadium/pill slot using 2 horizontal lines and 2 exact 180-deg arcs."""
-    r = height / 2.0
-    half_straight = (width - height) / 2.0
-    x_l = cx - half_straight
-    x_r = cx + half_straight
-
-    for (x1, y1), (x2, y2) in [
-        ((x_l, cy - r), (x_r, cy - r)),
-        ((x_r, cy + r), (x_l, cy + r)),
-    ]:
-        seg = pcbnew.PCB_SHAPE(board)
-        seg.SetShape(pcbnew.SHAPE_T_SEGMENT)
-        seg.SetStart(pcbnew.VECTOR2I(mm(x1), mm(y1)))
-        seg.SetEnd(pcbnew.VECTOR2I(mm(x2), mm(y2)))
-        seg.SetLayer(pcbnew.Edge_Cuts)
-        seg.SetWidth(mm(0.10))
-        board.Add(seg)
-
-    for sp, mp, ep in [
-        ((x_r, cy - r), (x_r + r, cy), (x_r, cy + r)),
-        ((x_l, cy + r), (x_l - r, cy), (x_l, cy - r)),
-    ]:
-        arc = pcbnew.PCB_SHAPE(board)
-        arc.SetShape(pcbnew.SHAPE_T_ARC)
-        arc.SetArcGeometry(
-            pcbnew.VECTOR2I(mm(sp[0]), mm(sp[1])),
-            pcbnew.VECTOR2I(mm(mp[0]), mm(mp[1])),
-            pcbnew.VECTOR2I(mm(ep[0]), mm(ep[1])),
-        )
-        arc.SetLayer(pcbnew.Edge_Cuts)
-        arc.SetWidth(mm(0.10))
-        board.Add(arc)
-
-
-def export_panel_vrml(out_wrl, thickness_mm, material_props, rects, circles, slots=None):
+def export_panel_vrml(
+    out_wrl,
+    thickness_mm,
+    material_props,
+    rects,
+    circles,
+    slots=None,
+    engrave_clip_holes=None,
+    engrave_material_props=None,
+):
     """
-    Build a temporary KiCad board with the exact front-panel Edge.Cuts, export it to VRML
-    (tenths of inch), strip extra F.Mask/B.Mask skin shapes so only the solid body (SHAPE_1 + SHAPE_2)
-    remains, rescale Z to exact target thickness_mm, and apply the material properties.
-    Returns (z_min_mm, z_max_mm).
+    Build a temporary KiCad board with the exact front-panel Edge.Cuts (plus optional
+    F.Silkscreen laser-engraving art), export it to VRML (tenths of inch), drop
+    F.Mask/B.Mask skin shapes (TXFM_3/TXFM_4), rescale solid body TXFM_2 to exact
+    target thickness_mm, place front engraving TXFM_5 proud by +0.025 mm, and patch
+    materials. Returns body (z_min_mm, z_max_mm).
     """
     with tempfile.TemporaryDirectory() as td:
         b = pcbnew.BOARD()
@@ -163,6 +76,8 @@ def export_panel_vrml(out_wrl, thickness_mm, material_props, rects, circles, slo
             add_circle_cutout(b, cx, cy, diam)
         for scx, scy, sw, sh in (slots or []):
             add_horizontal_slot_edges(b, scx, scy, sw, sh)
+        if engrave_clip_holes is not None:
+            add_engrave_graphics_to_board(b, clip_holes=engrave_clip_holes)
 
         tmp_pcb = os.path.join(td, "panel.kicad_pcb")
         tmp_wrl = os.path.join(td, "panel.wrl")
@@ -175,54 +90,58 @@ def export_panel_vrml(out_wrl, thickness_mm, material_props, rects, circles, slo
         with open(tmp_wrl, "r", encoding="utf-8") as f:
             wt = f.read()
 
-    # Keep only TXFM_1 -> TXFM_2 -> (SHAPE_1 + SHAPE_2) and discard F.Mask/B.Mask overlays (TXFM_3+)
-    cut_idx = wt.find("DEF TXFM_3 Transform {")
-    if cut_idx != -1:
-        wt = wt[:cut_idx].rstrip() + "\n] }\n"
+    parts = re.split(r"(?=DEF TXFM_\d+)", wt)
+    header, txfm1, txfm2 = parts[0], parts[1], parts[2]
+    txfm5 = parts[5] if len(parts) > 5 else None
 
-    # Measure current Z half-extent inside Coordinate point blocks (tenths of inch) and rescale to exact thickness
+    # Measure TXFM_2 body Z half-extent (tenths of inch) and rescale to exact thickness
     raw_zs = []
-    for m in re.finditer(r'point\s*\[([^\]]+)\]', wt, re.DOTALL):
-        for _, _, z_s in re.findall(r'([-+0-9.eE]+)\s+([-+0-9.eE]+)\s+([-+0-9.eE]+)', m.group(1)):
+    for m in re.finditer(r"point\s*\[([^\]]+)\]", txfm2, re.DOTALL):
+        for _, _, z_s in re.findall(r"([-+0-9.eE]+)\s+([-+0-9.eE]+)\s+([-+0-9.eE]+)", m.group(1)):
             raw_zs.append(float(z_s))
     cur_half_z = max(abs(min(raw_zs)), abs(max(raw_zs)))
     target_half_z_tenths = (thickness_mm / 2.0) / 2.54
     z_scale = target_half_z_tenths / cur_half_z
 
-    def _rescale_point_block(match):
+    def _rescale_body_points(match):
         body = match.group(1)
         def _repl_triple(tm):
             x_s, y_s, z_s = tm.group(1), tm.group(2), tm.group(3)
-            new_z = float(z_s) * z_scale
-            return f"{x_s} {y_s} {new_z:.8f}"
+            return f"{x_s} {y_s} {float(z_s) * z_scale:.8f}"
         scaled = re.sub(r'([-+0-9.eE]+)\s+([-+0-9.eE]+)\s+([-+0-9.eE]+)', _repl_triple, body)
         return f"point [{scaled}]"
 
-    wt = re.sub(r'point\s*\[([^\]]+)\]', _rescale_point_block, wt, flags=re.DOTALL)
+    txfm2 = re.sub(r"point\s*\[([^\]]+)\]", _rescale_body_points, txfm2, flags=re.DOTALL)
+    txfm2 = re.sub(r"material Material\s*\{[^}]+\}", _format_vrml_material(material_props), txfm2)
 
-    # Patch Material block
-    mat_block = (
-        "material Material {\n"
-        f"   ambientIntensity {material_props['ambientIntensity']}\n"
-        f"   diffuseColor {material_props['diffuseColor']}\n"
-        f"   emissiveColor {material_props.get('emissiveColor', '0 0 0')}\n"
-        f"   shininess {material_props['shininess']}\n"
-        f"   specularColor {material_props['specularColor']}\n"
-        f"   transparency {material_props['transparency']}\n"
-        "}"
-    )
-    wt = re.sub(r'material Material\s*\{[^}]+\}', mat_block, wt)
-
-    with open(out_wrl, "w", encoding="utf-8", newline="\n") as f:
-        f.write(wt)
-
-    # Verify exact final Z bounds (mm)
+    # Verify exact body Z bounds (mm) from TXFM_2 only
     final_zs = []
-    for m in re.finditer(r'point\s*\[([^\]]+)\]', wt, re.DOTALL):
-        for _, _, z_s in re.findall(r'([-+0-9.eE]+)\s+([-+0-9.eE]+)\s+([-+0-9.eE]+)', m.group(1)):
+    for m in re.finditer(r"point\s*\[([^\]]+)\]", txfm2, re.DOTALL):
+        for _, _, z_s in re.findall(r"([-+0-9.eE]+)\s+([-+0-9.eE]+)\s+([-+0-9.eE]+)", m.group(1)):
             final_zs.append(float(z_s) * 2.54)
     z_min_mm, z_max_mm = min(final_zs), max(final_zs)
-    print(f"Generated {out_wrl} ({os.path.getsize(out_wrl):,} B) Z=[{z_min_mm:.4f}..{z_max_mm:.4f}] mm")
+
+    if engrave_clip_holes is not None:
+        assert txfm5 is not None and txfm5.startswith("DEF TXFM_5"), "Expected TXFM_5 front silkscreen block in VRML"
+        eng_z_tenths = (thickness_mm / 2.0 + 0.025) / 2.54
+
+        def _set_engrave_z(match):
+            body = match.group(1)
+            def _repl_triple(tm):
+                return f"{tm.group(1)} {tm.group(2)} {eng_z_tenths:.8f}"
+            scaled = re.sub(r'([-+0-9.eE]+)\s+([-+0-9.eE]+)\s+([-+0-9.eE]+)', _repl_triple, body)
+            return f"point [{scaled}]"
+
+        txfm5 = re.sub(r"point\s*\[([^\]]+)\]", _set_engrave_z, txfm5, flags=re.DOTALL)
+        txfm5 = re.sub(r"material Material\s*\{[^}]+\}", _format_vrml_material(engrave_material_props), txfm5)
+        wt_out = header + txfm1 + txfm2 + txfm5
+    else:
+        wt_out = (header + txfm1 + txfm2).rstrip() + "\n] }\n"
+
+    with open(out_wrl, "w", encoding="utf-8", newline="\n") as f:
+        f.write(wt_out)
+
+    print(f"Generated {out_wrl} ({os.path.getsize(out_wrl):,} B) body Z=[{z_min_mm:.4f}..{z_max_mm:.4f}] mm")
     return z_min_mm, z_max_mm
 
 
@@ -354,6 +273,14 @@ def run():
         rects=[(0.0, 0.0, W_FP, H_FP, 0.50)],
         circles=[(cx, cy, d) for _, cx, cy, d in HOLES_MOUNT_PCB + SKIRT_PORTS_PCB],
         slots=[(cx, cy, sw, sh) for _, cx, cy, sw, sh in VU_SLOTS_PCB],
+        engrave_clip_holes=HOLES_MOUNT_PCB + SKIRT_PORTS_PCB,
+        engrave_material_props={
+            "ambientIntensity": "0.15",
+            "diffuseColor": "0.08 0.04 0.02",
+            "specularColor": "0.04 0.03 0.02",
+            "shininess": "0.05",
+            "transparency": "0",
+        },
     )
 
     z_diff_min, z_diff_max = export_panel_vrml(
@@ -382,6 +309,14 @@ def run():
         },
         rects=[(0.0, 0.0, W_FP, H_FP, 0.50)],
         circles=[(cx, cy, d) for _, cx, cy, d in HOLES_MOUNT_PCB],
+        engrave_clip_holes=HOLES_MOUNT_PCB,
+        engrave_material_props={
+            "ambientIntensity": "0.55",
+            "diffuseColor": "0.84 0.86 0.88",
+            "specularColor": "0.30 0.30 0.30",
+            "shininess": "0.25",
+            "transparency": "0.12",
+        },
     )
 
     # 3. Compute exact KiCad 3D GUI/Render offsets at DUMMY (54.175, 102.85) under rotate (0, 90, 0)

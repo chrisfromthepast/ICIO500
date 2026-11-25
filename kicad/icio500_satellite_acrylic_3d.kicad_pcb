@@ -27375,7 +27375,7 @@
 
 	(footprint "DUMMY"
 		(layer "F.Cu")
-		(uuid "44c3b0b1-b1e9-412f-9f8f-51ff2d0e197e")
+		(uuid "393a5f00-de52-4984-8766-727eeabe0e40")
 		(at 54.175 102.85)
 		(attr exclude_from_pos_files exclude_from_bom)
 		(model "${KIPRJMOD}/3d_models/encoder_board.step"
