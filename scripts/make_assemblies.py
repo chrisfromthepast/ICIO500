@@ -246,8 +246,8 @@ def run():
         f.write(sat_step_patched)
     print(f"Patched Matte Black soldermask in {sat_step}")
 
-    knob_src = os.path.join("fabrication", "in_production", "jlc3dp_knob", "icio500_capstan_knob.step")
-    knob_dst = os.path.join(models_dir, "icio500_capstan_knob.step")
+    knob_src = os.path.join("fabrication", "satellite_faceplate", "jlc3dp_knob_v2", "icio500_capstan_v2_knob.step")
+    knob_dst = os.path.join(models_dir, "icio500_capstan_v2_knob.step")
     shutil.copyfile(knob_src, knob_dst)
 
     # 2. Clean superseded VRML models and export Satin Walnut slots + Diffuser Film + Smoked Acrylic
@@ -331,11 +331,11 @@ def run():
 
     ox_wood = x_diff_front + z_wood_min
     x_wood_front = ox_wood - z_wood_max
-    ox_knob_wood = x_wood_front - 1.000
+    ox_knob_wood = x_wood_front - 1.500
 
     ox_acr = x_sat_front + z_acr_min
     x_acr_front = ox_acr - z_acr_max
-    ox_knob_acr = x_acr_front - 1.000
+    ox_knob_acr = x_acr_front - 1.850
 
     print(f"Satellite F.Cu X_local = {x_sat_front:.4f} mm")
     print(f"Diffuser     ox={ox_diff:.4f}, oy={oy_diff:.4f}, front X_local={x_diff_front:.4f}")
@@ -350,14 +350,14 @@ def run():
         sat_model,
         ("${KIPRJMOD}/3d_models/faceplate_diffuser_film.wrl", (ox_diff, oy_diff, 10.310), (0, 90, 0)),
         ("${KIPRJMOD}/3d_models/faceplate_wood_walnut_slots.wrl", (ox_wood, 0.000, 10.310), (0, 90, 0)),
-        ("${KIPRJMOD}/3d_models/icio500_capstan_knob.step", (ox_knob_wood, -42.675, 10.310), (0, 90, 0)),
+        ("${KIPRJMOD}/3d_models/icio500_capstan_v2_knob.step", (ox_knob_wood, -42.675, 10.310), (0, 90, 0)),
     ]
 
     acrylic_models = [
         enc_model,
         sat_model,
         ("${KIPRJMOD}/3d_models/faceplate_acrylic_smoked.wrl", (ox_acr, 0.000, 10.310), (0, 90, 0)),
-        ("${KIPRJMOD}/3d_models/icio500_capstan_knob.step", (ox_knob_acr, -42.675, 10.310), (0, 90, 0)),
+        ("${KIPRJMOD}/3d_models/icio500_capstan_v2_knob.step", (ox_knob_acr, -42.675, 10.310), (0, 90, 0)),
     ]
 
     src_carrier = "kicad/icio500.kicad_pcb"

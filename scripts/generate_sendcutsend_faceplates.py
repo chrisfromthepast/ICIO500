@@ -6,9 +6,10 @@ Outputs inside fabrication/satellite_faceplate/sendcutsend_panels/:
   1. icio500_faceplate_wood_0.125in_slots.{dxf,step}               (0.125" / 3.175 mm Wood cut-only)
   2. icio500_faceplate_wood_0.125in_slots_engraved.{dxf,svg}       (0.125" Wood w/ Ponoko CUT + ENGRAVE artwork)
   3. icio500_diffuser_gasket.{dxf,step}                            (0.150 mm Self-aligning rear diffuser gasket)
-  4. icio500_faceplate_acrylic_0.118in_smoked.{dxf,step}           (0.118" / 3.000 mm Smoked Acrylic cut-only)
-  5. icio500_faceplate_acrylic_0.118in_smoked_engraved.{dxf,svg}   (0.118" Smoked Acrylic w/ Ponoko CUT + ENGRAVE artwork)
-  6. faceplate_stackup_preview.png                                 (+ copy to artifacts dir if present)
+  4. icio500_diffuser_cutting_template_1to1.pdf                    (1:1 US Letter printable Lee 216 cutting guide)
+  5. icio500_faceplate_acrylic_0.118in_smoked.{dxf,step}           (0.118" / 3.000 mm Smoked Acrylic cut-only)
+  6. icio500_faceplate_acrylic_0.118in_smoked_engraved.{dxf,svg}   (0.118" Smoked Acrylic w/ Ponoko CUT + ENGRAVE artwork)
+  7. faceplate_stackup_preview.png                                 (+ copy to artifacts dir if present)
 
 CAD coordinate convention:
   - Standards-compliant AC1018 1:1 millimeter DXF ($INSUNITS = 4) exported via KiCad 10
@@ -840,8 +841,8 @@ def render_preview(out_dir):
                 outline_c = "#F59E0B" if "TOP" in ref else "#0F172A"
                 draw.ellipse([tx(cx)-r, ty(cy)-r, tx(cx)+r, ty(cy)+r], fill="#FFFFFF", outline=outline_c, width=3)
 
-            # Knob outer silhouette reference
-            kr = 9.50 * SCALE
+            # Knob outer silhouette reference (Wide-Skirt Capstan v2 Ø25.2 mm conceals D11..D16)
+            kr = 12.60 * SCALE
             draw.ellipse([tx(19.05)-kr, ty(109.35)-kr, tx(19.05)+kr, ty(109.35)+kr], outline="#94A3B8", width=2)
 
         elif mode == "sat":
@@ -930,7 +931,7 @@ def render_preview(out_dir):
         "1. Zero changes to in-production Carrier (icio500) & Encoder (encoder_board) — BR1/BR2, J1<->U6, PEC11R mate 1:1.",
         "2. Satellite PCB (35.10 x 113.35 mm, 0.8 mm 2L FR4) stays inset >=1.5 mm L/R & 10 mm Top/Bot (invisible from rack).",
         "3. Standard full NPTH 1.92x1.68mm LED slots eliminate JLCPCB blind-slot fee cleanly across all D1..D16.",
-        "4. Existing 3D-printed Capstan Knob fits with zero change to shaft; add ~1.8-2.0 mm M7 nut/shaft spacer behind knob.",
+        "4. Wide-Skirt Capstan v2 Knob (Ø25.2 mm hood hides D11..D16 LED ports) w/ zero bore shim (1.5 mm halo gap).",
         "5. CAD/DXFs: Cut-only DXF/STEP + Ponoko Cut(#0000FF)/Engrave(#FF0000) DXF & SVG with v1.0 scale + geometric reticle.",
     ]
     by_txt = 1020
@@ -950,9 +951,267 @@ def render_preview(out_dir):
     print(f"Saved preview PNG: {out_png} ({os.path.getsize(out_png)} B)")
 
 
+def generate_diffuser_cutting_template_pdf(out_dir):
+    """
+    Generate an exact 1:1 millimeter US Letter printable PDF cutting guide for
+    hand-cutting Lee 216 / Rosco #116 rear diffuser gaskets (4 up on 1 sheet)
+    with a 100.0 mm calibration ruler and bench cutting instructions.
+    """
+    os.makedirs(out_dir, exist_ok=True)
+    pdf_path = os.path.join(out_dir, "icio500_diffuser_cutting_template_1to1.pdf")
+
+    MM_TO_PT = 72.0 / 25.4
+    PAGE_W_MM, PAGE_H_MM = 215.90, 279.40
+    PAGE_W_PT, PAGE_H_PT = PAGE_W_MM * MM_TO_PT, PAGE_H_MM * MM_TO_PT
+    K_BEZ = 0.5522847498
+
+    def pt(val_mm):
+        return val_mm * MM_TO_PT
+
+    def pdf_esc(s):
+        return s.replace("\\", "\\\\").replace("(", "\\(").replace(")", "\\)")
+
+    ops = []
+
+    def add_line(x1_mm, y1_mm, x2_mm, y2_mm):
+        ops.append(f"{pt(x1_mm):.4f} {pt(y1_mm):.4f} m {pt(x2_mm):.4f} {pt(y2_mm):.4f} l S")
+
+    def add_rect(x_mm, y_mm, w_mm, h_mm, mode="S"):
+        ops.append(f"{pt(x_mm):.4f} {pt(y_mm):.4f} {pt(w_mm):.4f} {pt(h_mm):.4f} re {mode}")
+
+    def add_rounded_rect_path(x0_mm, y0_mm, w_mm, h_mm, r_mm, mode="S"):
+        x1_mm = x0_mm + w_mm
+        y1_mm = y0_mm + h_mm
+        kr = r_mm * K_BEZ
+        segs = [
+            f"{pt(x0_mm + r_mm):.4f} {pt(y0_mm):.4f} m",
+            f"{pt(x1_mm - r_mm):.4f} {pt(y0_mm):.4f} l",
+            f"{pt(x1_mm - r_mm + kr):.4f} {pt(y0_mm):.4f} {pt(x1_mm):.4f} {pt(y0_mm + r_mm - kr):.4f} {pt(x1_mm):.4f} {pt(y0_mm + r_mm):.4f} c",
+            f"{pt(x1_mm):.4f} {pt(y1_mm - r_mm):.4f} l",
+            f"{pt(x1_mm):.4f} {pt(y1_mm - r_mm + kr):.4f} {pt(x1_mm - r_mm + kr):.4f} {pt(y1_mm):.4f} {pt(x1_mm - r_mm):.4f} {pt(y1_mm):.4f} c",
+            f"{pt(x0_mm + r_mm):.4f} {pt(y1_mm):.4f} l",
+            f"{pt(x0_mm + r_mm - kr):.4f} {pt(y1_mm):.4f} {pt(x0_mm):.4f} {pt(y1_mm - r_mm + kr):.4f} {pt(x0_mm):.4f} {pt(y1_mm - r_mm):.4f} c",
+            f"{pt(x0_mm):.4f} {pt(y0_mm + r_mm):.4f} l",
+            f"{pt(x0_mm):.4f} {pt(y0_mm + r_mm - kr):.4f} {pt(x0_mm + r_mm - kr):.4f} {pt(y0_mm):.4f} {pt(x0_mm + r_mm):.4f} {pt(y0_mm):.4f} c",
+            f"h {mode}",
+        ]
+        ops.extend(segs)
+
+    def add_circle(cx_mm, cy_mm, diam_mm, mode="S"):
+        r = diam_mm / 2.0
+        kr = r * K_BEZ
+        segs = [
+            f"{pt(cx_mm + r):.4f} {pt(cy_mm):.4f} m",
+            f"{pt(cx_mm + r):.4f} {pt(cy_mm + kr):.4f} {pt(cx_mm + kr):.4f} {pt(cy_mm + r):.4f} {pt(cx_mm):.4f} {pt(cy_mm + r):.4f} c",
+            f"{pt(cx_mm - kr):.4f} {pt(cy_mm + r):.4f} {pt(cx_mm - r):.4f} {pt(cy_mm + kr):.4f} {pt(cx_mm - r):.4f} {pt(cy_mm):.4f} c",
+            f"{pt(cx_mm - r):.4f} {pt(cy_mm - kr):.4f} {pt(cx_mm - kr):.4f} {pt(cy_mm - r):.4f} {pt(cx_mm):.4f} {pt(cy_mm - r):.4f} c",
+            f"{pt(cx_mm + kr):.4f} {pt(cy_mm - r):.4f} {pt(cx_mm + r):.4f} {pt(cy_mm - kr):.4f} {pt(cx_mm + r):.4f} {pt(cy_mm):.4f} c",
+            f"h {mode}",
+        ]
+        ops.extend(segs)
+
+    def add_text(x_mm, y_mm, text, font="F1", size_pt=9.0, rot90=False):
+        if rot90:
+            ops.append(
+                f"BT /{font} {size_pt:.2f} Tf 0 1 -1 0 {pt(x_mm):.4f} {pt(y_mm):.4f} Tm ({pdf_esc(text)}) Tj ET"
+            )
+        else:
+            ops.append(
+                f"BT /{font} {size_pt:.2f} Tf 1 0 0 1 {pt(x_mm):.4f} {pt(y_mm):.4f} Tm ({pdf_esc(text)}) Tj ET"
+            )
+
+    # 1. Header & Scale Warning
+    ops.append("0.06 0.09 0.16 rg")
+    add_text(16.0, 263.5, "ICIO500 - 1:1 DIFFUSER FILM CUTTING TEMPLATE (LEE 216 / ROSCO #116)", font="F2", size_pt=12.5)
+    ops.append("0.75 0.10 0.10 rg")
+    add_text(16.0, 258.0, 'Print at 100% / "Actual Size" (NO "Fit to Page"). Verify the 100.0 mm ruler bar before cutting.', font="F2", size_pt=9.2)
+    ops.append("0.78 0.80 0.84 RG 0.60 w")
+    add_line(16.0, 254.5, 199.9, 254.5)
+
+    # 2. Exact 100.0 mm Calibration Ruler + 4.00 in Reference Tick
+    rx0, ry0 = 20.0, 239.0
+    ops.append("0.08 0.10 0.14 RG 0.75 w")
+    add_line(rx0, ry0, rx0 + 100.0, ry0)
+    ops.append("0.08 0.10 0.14 rg")
+    for mm_tick in range(0, 105, 5):
+        tx = rx0 + mm_tick
+        if mm_tick % 10 == 0:
+            ops.append("0.08 0.10 0.14 RG 0.70 w")
+            add_line(tx, ry0, tx, ry0 + 4.5)
+            lbl = "100 mm" if mm_tick == 100 else f"{mm_tick}"
+            off_x = -3.8 if mm_tick == 100 else (-1.8 if mm_tick >= 10 else -0.8)
+            add_text(tx + off_x, ry0 + 6.0, lbl, font="F1", size_pt=7.5)
+        else:
+            ops.append("0.30 0.32 0.36 RG 0.45 w")
+            add_line(tx, ry0, tx, ry0 + 2.8)
+
+    # 4.00 in (101.60 mm) downward check ticks
+    in4_x = rx0 + 101.60
+    ops.append("0.15 0.35 0.70 RG 0.55 w [2 1.5] 0 d")
+    add_line(rx0 + 100.0, ry0, in4_x, ry0)
+    ops.append("[] 0 d 0.15 0.35 0.70 RG 0.70 w")
+    add_line(rx0, ry0 - 3.5, rx0, ry0)
+    add_line(in4_x, ry0 - 3.5, in4_x, ry0)
+    ops.append("0.15 0.35 0.70 rg")
+    add_text(rx0 - 2.0, ry0 - 6.8, '0.00"', font="F1", size_pt=7.2)
+    add_text(in4_x - 18.0, ry0 - 6.8, '4.00 in (101.60 mm)', font="F1", size_pt=7.2)
+    ops.append("0.08 0.10 0.14 rg")
+    add_text(139.0, 241.5, "CALIBRATION RULER", font="F2", size_pt=8.5)
+    ops.append("0.30 0.34 0.40 rg")
+    add_text(139.0, 236.8, "Must measure exact 100.0 mm", font="F1", size_pt=8.0)
+    add_text(139.0, 232.6, "(3-15/16 in + 1/16 in = 4.00 in)", font="F1", size_pt=7.6)
+
+    # 3. Four Side-by-Side 1:1 Gasket Cutting Guides (34.10 x 107.50 mm)
+    gx_min_pcb, gy_min_pcb, gx_max_pcb, gy_max_pcb, g_rad = GASKET_RECT_PCB
+    g_w = gx_max_pcb - gx_min_pcb
+    g_h = gy_max_pcb - gy_min_pcb
+    template_x0s = (24.95, 68.95, 112.95, 156.95)
+    gy0 = 104.0
+
+    for idx, tx0 in enumerate(template_x0s, start=1):
+        # Title tag above template
+        ops.append("0.15 0.18 0.24 rg")
+        add_text(tx0 + g_w / 2.0 - 2.5, gy0 + g_h + 6.2, f"#{idx}", font="F2", size_pt=8.5)
+
+        # Straightedge corner crop marks outside rounded rectangle (1.0 mm gap, 3.5 mm H / 4.5 mm V)
+        ops.append("0.30 0.33 0.38 RG 0.35 w [] 0 d")
+        for cx_c, dx_dir in ((tx0, -1.0), (tx0 + g_w, 1.0)):
+            for cy_c, dy_dir in ((gy0, -1.0), (gy0 + g_h, 1.0)):
+                add_line(cx_c + dx_dir * 1.0, cy_c, cx_c + dx_dir * 4.5, cy_c)
+                add_line(cx_c, cy_c + dy_dir * 1.0, cx_c, cy_c + dy_dir * 5.5)
+
+        # Light grey non-cut reference outlines for 10 VU slots + 6 skirt LED ports
+        ops.append("0.72 0.72 0.72 RG 0.30 w [2 2] 0 d")
+        for _, sx_pcb, sy_pcb, sw, sh in VU_SLOTS_PCB:
+            sx = tx0 + (sx_pcb - gx_min_pcb) - sw / 2.0
+            sy = gy0 + (gy_max_pcb - sy_pcb) - sh / 2.0
+            add_rounded_rect_path(sx, sy, sw, sh, sh / 2.0, mode="S")
+        for _, kx_pcb, ky_pcb, kdiam in SKIRT_PORTS_PCB:
+            kx = tx0 + (kx_pcb - gx_min_pcb)
+            ky = gy0 + (gy_max_pcb - ky_pcb)
+            add_circle(kx, ky, kdiam, mode="S")
+
+        # Subtle TOP & non-cut reference notes
+        ops.append("0.55 0.55 0.55 rg")
+        add_text(tx0 + g_w / 2.0 - 3.3, gy0 + g_h - 3.0, "TOP", font="F2", size_pt=6.5)
+        add_text(tx0 + g_w / 2.0 - 11.2, gy0 + 26.2, "DO NOT CUT GREY", font="F1", size_pt=5.4)
+
+        # Solid black outer rounded-rectangle cut outline (34.10 x 107.50 mm, R1.00)
+        ops.append("0.05 0.05 0.05 RG 0.45 w [] 0 d")
+        add_rounded_rect_path(tx0, gy0, g_w, g_h, g_rad, mode="S")
+
+        # Solid crimson-red cut hole circles + centering crosshairs
+        for _, hx_pcb, hy_pcb, hdiam in GASKET_HOLES_PCB:
+            hx = tx0 + (hx_pcb - gx_min_pcb)
+            hy = gy0 + (gy_max_pcb - hy_pcb)
+            ops.append("0.75 0.10 0.10 RG 0.50 w [] 0 d")
+            add_circle(hx, hy, hdiam, mode="S")
+            ch = 5.2 if hdiam > 5.0 else 2.4
+            ops.append("0.75 0.10 0.10 RG 0.25 w")
+            add_line(hx - ch, hy, hx + ch, hy)
+            add_line(hx, hy - ch, hx, hy + ch)
+
+    # Dimension callouts around Template #1
+    t1_x0 = template_x0s[0]
+    ops.append("0.20 0.25 0.32 RG 0.35 w [] 0 d")
+    # Vertical height bar (107.50 mm) left of Template #1
+    dim_x = t1_x0 - 8.5
+    add_line(dim_x, gy0, dim_x, gy0 + g_h)
+    add_line(dim_x - 1.5, gy0, t1_x0 - 5.0, gy0)
+    add_line(dim_x - 1.5, gy0 + g_h, t1_x0 - 5.0, gy0 + g_h)
+    ops.append("0.15 0.18 0.24 rg")
+    add_text(dim_x - 1.6, gy0 + g_h / 2.0 - 7.5, "107.50 mm", font="F2", size_pt=7.5, rot90=True)
+
+    # Horizontal width bar (34.10 mm) below Template #1
+    dim_y = gy0 - 7.5
+    ops.append("0.20 0.25 0.32 RG 0.35 w")
+    add_line(t1_x0, dim_y, t1_x0 + g_w, dim_y)
+    add_line(t1_x0, gy0 - 6.0, t1_x0, dim_y - 1.5)
+    add_line(t1_x0 + g_w, gy0 - 6.0, t1_x0 + g_w, dim_y - 1.5)
+    ops.append("0.15 0.18 0.24 rg")
+    add_text(t1_x0 + g_w / 2.0 - 6.8, dim_y - 3.6, "34.10 mm", font="F2", size_pt=7.5)
+
+    # Compact legend strip to the right of the width callout (Y = 93..99 mm)
+    ops.append("0.05 0.05 0.05 RG 0.55 w [] 0 d")
+    add_line(72.0, 96.5, 78.0, 96.5)
+    ops.append("0.15 0.18 0.24 rg")
+    add_text(79.5, 95.6, "Black = Cut outer (R1.0 corners)", font="F1", size_pt=7.4)
+
+    ops.append("0.75 0.10 0.10 RG 0.55 w")
+    add_circle(124.5, 96.5, 2.5, mode="S")
+    ops.append("0.75 0.10 0.10 rg")
+    add_text(127.0, 95.6, "Red = Holes: 2x Ø2.70 mm (M2.5) + 1x Ø7.40 mm (M7)", font="F1", size_pt=7.4)
+
+    ops.append("0.72 0.72 0.72 RG 0.45 w [2 2] 0 d")
+    add_line(72.0, 91.5, 78.0, 91.5)
+    ops.append("0.42 0.45 0.50 rg")
+    add_text(79.5, 90.6, "Grey dashed = PCB LED / Slot alignment ref ONLY (leave solid film across LEDs!)", font="F1", size_pt=7.4)
+
+    # 4. Bench Cutting Instructions Box (bottom X=16.0..199.9, Y=18.0..84.0)
+    ops.append("[] 0 d 0.94 0.95 0.97 rg")
+    add_rect(16.0, 76.0, 183.9, 8.0, mode="f")
+    ops.append("0.75 0.78 0.83 RG 0.60 w")
+    add_rect(16.0, 18.0, 183.9, 66.0, mode="S")
+    add_line(16.0, 76.0, 199.9, 76.0)
+    ops.append("0.06 0.09 0.16 rg")
+    add_text(20.0, 78.7, "BENCH CUTTING & INSTALLATION GUIDE (LEE 216 / ROSCO #116 DIFFUSION GEL)", font="F2", size_pt=9.2)
+
+    guide_lines = [
+        ("1. Verify Scale First:", 'Measure the 100.0 mm ruler bar (and 4.00 in check tick) with calipers or a steel rule before cutting.'),
+        ("2. Tape Film Over Guide:", "Cut a rough piece of Lee 216 (~0.13 mm) or Rosco #116 and tape its outer waste margin over one guide."),
+        ("3. Slice Straight Edges:", "Use a metal straightedge + sharp hobby knife along the black lines and corner crop marks; nip R1.0 corners."),
+        ("4. Punch 3 Align Holes:", "Punch or ream the 3 red holes (2x Ø2.70 mm M2.5 at top, 1x Ø7.40 mm M7 at bottom) on the crosshairs."),
+        ("5. Stack 1 or 2 Layers:", "Drop onto the M2.5 screws and M7 bushing between the 0.8 mm Satellite PCB and Wood faceplate (no glue!)."),
+    ]
+    y_step = 67.0
+    for bold_prefix, body_txt in guide_lines:
+        ops.append("0.06 0.09 0.16 rg")
+        add_text(20.0, y_step, bold_prefix, font="F2", size_pt=8.2)
+        ops.append("0.20 0.24 0.30 rg")
+        add_text(55.5, y_step, body_txt, font="F1", size_pt=8.2)
+        y_step -= 10.6
+
+    stream_data = ("\n".join(ops) + "\n").encode("latin-1")
+
+    objects = [
+        b"1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n",
+        b"2 0 obj\n<< /Type /Pages /Kids [3 0 R] /Count 1 >>\nendobj\n",
+        (
+            f"3 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 {PAGE_W_PT:.3f} {PAGE_H_PT:.3f}] "
+            f"/Resources << /Font << /F1 4 0 R /F2 5 0 R >> >> /Contents 6 0 R >>\nendobj\n"
+        ).encode("latin-1"),
+        b"4 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>\nendobj\n",
+        b"5 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>\nendobj\n",
+        f"6 0 obj\n<< /Length {len(stream_data)} >>\nstream\n".encode("latin-1") + stream_data + b"endstream\nendobj\n",
+    ]
+
+    pdf_parts = [b"%PDF-1.4\n%\xe2\xe3\xcf\xd3\n"]
+    offsets = [0]
+    cur_len = len(pdf_parts[0])
+    for obj_bytes in objects:
+        offsets.append(cur_len)
+        pdf_parts.append(obj_bytes)
+        cur_len += len(obj_bytes)
+
+    xref_pos = cur_len
+    xref_lines = [f"xref\n0 {len(objects) + 1}\n0000000000 65535 f \n".encode("latin-1")]
+    for off in offsets[1:]:
+        xref_lines.append(f"{off:010d} 00000 n \n".encode("latin-1"))
+    trailer = (
+        f"trailer\n<< /Size {len(objects) + 1} /Root 1 0 R >>\nstartxref\n{xref_pos}\n%%EOF\n"
+    ).encode("latin-1")
+
+    with open(pdf_path, "wb") as f:
+        for part in pdf_parts + xref_lines + [trailer]:
+            f.write(part)
+    print(f"Saved 1:1 cutting template PDF: {pdf_path} ({os.path.getsize(pdf_path):,} B)")
+    return pdf_path
+
+
 def run():
     out_dir = "fabrication/satellite_faceplate/sendcutsend_panels"
     generate_dxfs(out_dir)
+    generate_diffuser_cutting_template_pdf(out_dir)
     render_preview(out_dir)
 
 

@@ -56,10 +56,11 @@ def run():
                 continue
         elif args.only != "all" and tag != args.only:
             continue
-        cmd = f'"{KICAD_CLI}" pcb render {flags} -w 1800 -h 1200 -o "{out_path}" "{pcb}"'
+        tmp_out = out_path + ".raw.png"
+        cmd = f'"{KICAD_CLI}" pcb render {flags} -w 1800 -h 1200 -o "{tmp_out}" "{pcb}"'
         print(f"Rendering {out_path} ...")
         subprocess.run(cmd, shell=True, check=True)
-        with Image.open(out_path) as im:
+        with Image.open(tmp_out) as im:
             if transpose_op is not None:
                 im = im.transpose(transpose_op)
             bbox = im.getbbox()
@@ -81,6 +82,7 @@ def run():
             else:
                 bg.paste(im_crop)
             bg.save(out_path, optimize=True)
+        os.remove(tmp_out)
         if out_path in ARTIFACT_COPIES and os.path.isdir(ART_DIR):
             art_dst = os.path.join(ART_DIR, os.path.basename(out_path))
             with Image.open(out_path) as im_art:

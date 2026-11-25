@@ -27375,7 +27375,7 @@
 
 	(footprint "DUMMY"
 		(layer "F.Cu")
-		(uuid "aaa2f5a1-1b8d-4813-905a-1ba35dacb74a")
+		(uuid "eb82998d-6ceb-4b4f-a493-f9a8576e10d8")
 		(at 54.175 102.85)
 		(attr exclude_from_pos_files exclude_from_bom)
 		(model "${KIPRJMOD}/3d_models/encoder_board.step"
@@ -27398,8 +27398,8 @@
 			(scale (xyz 1 1 1))
 			(rotate (xyz 0 90 0))
 		)
-		(model "${KIPRJMOD}/3d_models/icio500_capstan_knob.step"
-			(offset (xyz -4.3600 -42.6750 10.3100))
+		(model "${KIPRJMOD}/3d_models/icio500_capstan_v2_knob.step"
+			(offset (xyz -4.8600 -42.6750 10.3100))
 			(scale (xyz 1 1 1))
 			(rotate (xyz 0 90 0))
 		)
