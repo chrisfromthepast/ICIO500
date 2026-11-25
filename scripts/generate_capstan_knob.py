@@ -4,8 +4,8 @@ Geometric Ship's Wheel design matching the active faceplate reticle (EncoderGrap
 Optimized & toleranced for JLC3DP / JLCPCB MJF PA12 Nylon (Dyed Black).
 
 Outputs:
-  - build/jlcpcb/knob/icio500_capstan_knob.stl  (Watertight binary STL for MJF printing)
-  - build/jlcpcb/knob/icio500_capstan_knob.step (ISO-10303-21 AP214 STEP with MANIFOLD_SOLID_BREP)
+  - fabrication/in_production/jlc3dp_knob/icio500_capstan_knob.stl  (Watertight binary STL for MJF printing)
+  - fabrication/in_production/jlc3dp_knob/icio500_capstan_knob.step (ISO-10303-21 AP214 STEP with MANIFOLD_SOLID_BREP)
 """
 
 import math
@@ -744,8 +744,8 @@ def main():
     vertices, faces, face_tags = build_knob_mesh()
     verify_manifold_and_stats(vertices, faces)
 
-    stl_path = os.path.normpath("build/jlcpcb/knob/icio500_capstan_knob.stl")
-    step_jlc_path = os.path.normpath("build/jlcpcb/knob/icio500_capstan_knob.step")
+    stl_path = os.path.normpath("fabrication/in_production/jlc3dp_knob/icio500_capstan_knob.stl")
+    step_jlc_path = os.path.normpath("fabrication/in_production/jlc3dp_knob/icio500_capstan_knob.step")
 
     write_binary_stl(stl_path, vertices, faces)
     write_step_ap214(step_jlc_path, vertices, faces, face_tags)

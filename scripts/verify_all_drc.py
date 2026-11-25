@@ -5,9 +5,9 @@ import os
 KICAD_CLI = r"C:\Program Files\KiCad\10.0\bin\kicad-cli.exe"
 
 boards = [
-    ("Carrier Card (icio500.kicad_pcb)", "build/icio500/icio500.kicad_pcb", "drc_carrier_card_final_verify.json"),
-    ("Faceplate (faceplate_front.kicad_pcb)", "build/icio500/faceplate_front.kicad_pcb", "drc_faceplate_front_final_verify.json"),
-    ("Encoder Daughtercard (encoder_board.kicad_pcb)", "build/icio500/encoder_board.kicad_pcb", "drc_encoder_board_final_verify.json")
+    ("Carrier Card (icio500.kicad_pcb)", "kicad/icio500.kicad_pcb", "drc_carrier_card_final_verify.json"),
+    ("Satellite PCB (faceplate_satellite.kicad_pcb)", "kicad/faceplate_satellite.kicad_pcb", "drc_faceplate_satellite_final_verify.json"),
+    ("Encoder Daughtercard (encoder_board.kicad_pcb)", "kicad/encoder_board.kicad_pcb", "drc_encoder_board_final_verify.json")
 ]
 
 print("==================================================")

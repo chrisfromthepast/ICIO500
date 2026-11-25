@@ -1,7 +1,4 @@
-# For PCBs designed using KiCad: http://www.kicad-pcb.org/
-# Format documentation: http://kicad-pcb.org/help/file-formats/
-
-# Temporary files
+# KiCad temporary, lock, cache, and UI-state files
 *.000
 *.bak
 *.bck
@@ -9,57 +6,36 @@
 *.sch-bak
 *~
 _autosave-*
-*.tmp
+*-backups/
+~*.lck
+fp-info-cache
+*.kicad_prl
+*.net
 *-save.pro
 *-save.kicad_pcb
-fp-info-cache
-
-*.openjds21
-# Netlist files (exported from Eeschema)
-*.net
-
-# Autorouter files (exported from Pcbnew)
 *.dsn
 *.ses
 
-# Exported BOM files
-*.xml
-*.csv
+# Raw unpacked Gerber/Drill artifacts (keep zipped archives in fabrication/ tracked)
+fabrication/**/*.gbr
+fabrication/**/*.drl
+fabrication/**/*.gbrjob
 
-# Atopile build artifacts
-build/*
-!build/icio500/
-build/icio500/*
-!build/icio500/*.kicad_pcb
-!build/icio500/*.kicad_sch
-!build/icio500/*.step
-!build/jlcpcb/
-!build/jlcpcb/**
-.ato/
-
-# Python virtual environment
+# Python, virtual environments, caches, logs, scratch, and verification reports
 .venv/
 venv/
 env/
 __pycache__/
 *.pyc
-
-# Large files and archives
-*.jar
-*.zip
-!build/jlcpcb/*.zip
-!build/jlcpcb/**/*.zip
-
-# Raw unpacked gerber files (keep build/jlcpcb clean: zip archives only)
-build/jlcpcb/*/*.gbr
-build/jlcpcb/*/*.drl
-build/jlcpcb/*/*.gbrjob
-
-# Logs and text output
 *.log
+*.tmp
+scratch/
+drc*.json
+drc*.rpt
+*_erc.rpt
 logs/
-drc*.txt
 error.txt
 
-scratch/
-*.json
+# Legacy Atopile build cache
+.ato/
+build/
