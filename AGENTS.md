@@ -3,7 +3,7 @@
 These rules apply unconditionally across the entire repository for all agents and tools.
 
 ## 1. Never Author IC Pinouts or Footprints from Memory
-- **NEVER** type IC pin assignments (`pin 1..N`), symbol definitions, or footprint pads from memory or web-search summaries into `.ato`, Python, or `.kicad_sym`.
+- **NEVER** type IC pin assignments (`pin 1..N`), symbol definitions, or footprint pads from memory or web-search summaries into Python or `.kicad_sym`.
 - Every IC symbol and footprint MUST come from KiCad's vetted built-in libraries, SnapEDA/UltraLibrarian, or LCSC/EasyEDA, **OR** be cross-checked pin-for-pin (`1..N`) directly from the manufacturer's official datasheet PDF saved locally under `docs/datasheets/`.
 
 ## 2. Schematic-First Workflow Only

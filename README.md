@@ -17,12 +17,13 @@ Transformerless line-in and line-out prototyping platform for the **API VPR-500*
 
 | Folder | Contents |
 | :--- | :--- |
-| [`kicad/`](kicad/) | Active KiCad PCBs, schematics, project files, symbols (`icio500.kicad_sym`), local footprint libraries (`Cards.pretty/`, `custom.pretty/`), `3d_models/`, 3D assemblies, and `archived_v1/`. |
-| [`fabrication/`](fabrication/) | Ready-to-upload manufacturing packages separated into `in_production/` (locked), `satellite_faceplate/` (active), and `archived_v1_blind_slot/`. |
+| [`kicad/`](kicad/) | Active KiCad PCBs, schematics (`october_surprise.kicad_sch` + `october_surprise.kicad_pcb`), local footprint libraries (`Cards.pretty/`, `custom.pretty/`), `spice_models/`, `3d_models/`, and 3D assemblies. |
+| [`fabrication/`](fabrication/) | Ready-to-upload manufacturing packages separated into `in_production/` (locked) and `satellite_faceplate/` (active). |
 | [`firmware/`](firmware/) | Daisy Seed C++ DSP projects (`roomove/`, `cloudseed/`, `daisyverb/`, `covol/`, `funbox_reverbs/`) and shared pinout header `common/icio500_hw.h`. |
-| [`scripts/`](scripts/) | Python CAD, KiCad PCB/3D assembly, DRC, and fab-export scripts (`archive/` holds historical one-off carrier/v1 scripts). |
+| [`scripts/`](scripts/) | Python CAD, KiCad schematic/PCB builder, in-KiCad `ngspice` verification, BOM export, DRC, and fab-export scripts. |
 | [`renders/`](renders/) | Verified high-resolution KiCad 3D renders of the modular satellite assemblies and rear PCB layout. |
-| [`docs/`](docs/) | API VPR-500 mechanical spec (`api_vpr_500_spec.pdf`), schematics PDF (`icio500_schematic.pdf`), legacy `ICIO 3.sch`, guides, and `legacy_atopile/` sources (`ato.yaml`, `elec/`). |
+| [`docs/`](docs/) | API VPR-500 mechanical spec (`api_vpr_500_spec.pdf`), raw manufacturer PDFs (`datasheets/`), `october_surprise_schematic.pdf`, draft BOM, and `ngspice` verification plots. |
+| [`archive/`](archive/) | Archived Rev-1 carrier reference (`archive/rev1_bad_carrier/`), preserved strictly as mechanical salvage reference. |
 
 ---
 
@@ -30,12 +31,11 @@ Transformerless line-in and line-out prototyping platform for the **API VPR-500*
 
 | Subsystem | Design Files | Manufacturing Package | Status |
 | :--- | :--- | :--- | :--- |
-| **VPR-500 Carrier PCB** | `kicad/icio500.kicad_pcb`, `kicad/icio500.kicad_sch` | [`fabrication/in_production/jlcpcb_carrier/`](fabrication/in_production/jlcpcb_carrier/) | **IN PRODUCTION (Locked)** |
+| **VPR-500 Carrier PCB (`October Surprise` Rev 2)** | `kicad/october_surprise.kicad_sch`, `kicad/october_surprise.kicad_pcb` | *(Pre-routing — Subcircuit #1 `POWER` verified)* | **IN DESIGN (Schematic-First + In-KiCad `ngspice`)** |
 | **Encoder Daughtercard** | `kicad/encoder_board.kicad_pcb` | [`fabrication/in_production/jlcpcb_encoder/`](fabrication/in_production/jlcpcb_encoder/) | **IN PRODUCTION (Locked)** |
-| **Capstan Vernier Knob** | [`scripts/generate_capstan_knob.py`](scripts/generate_capstan_knob.py) | [`fabrication/in_production/jlc3dp_knob/`](fabrication/in_production/jlc3dp_knob/) | **IN PRODUCTION (Locked)** |
+| **Capstan Vernier Knob** | [`scripts/generate_capstan_v2_knob.py`](scripts/generate_capstan_v2_knob.py) | [`fabrication/in_production/jlc3dp_knob_v2/`](fabrication/in_production/jlc3dp_knob_v2/) | **IN PRODUCTION (Locked)** |
 | **0.8 mm Satellite Active PCB** | `kicad/faceplate_satellite.kicad_pcb`, `kicad/faceplate_logic.kicad_sch` | [`fabrication/satellite_faceplate/jlcpcb_satellite_pcb/`](fabrication/satellite_faceplate/jlcpcb_satellite_pcb/) | **ACTIVE (0.8 mm 2L FR4, Matte Black)** |
 | **Swappable Front Panels** | [`scripts/generate_sendcutsend_faceplates.py`](scripts/generate_sendcutsend_faceplates.py) | [`fabrication/satellite_faceplate/sendcutsend_panels/`](fabrication/satellite_faceplate/sendcutsend_panels/) | **ACTIVE (SendCutSend/Ponoko DXFs + STEP + Preview)** |
-| **v1.0 Blind-Slot Faceplate** | [`kicad/archived_v1/faceplate_front.kicad_pcb`](kicad/archived_v1/faceplate_front.kicad_pcb) | [`fabrication/archived_v1_blind_slot/`](fabrication/archived_v1_blind_slot/) | **ARCHIVED (`v1.0-jlc-blind-slot-faceplate`)** |
 
 ---
 

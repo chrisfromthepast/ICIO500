@@ -360,7 +360,7 @@ def run():
         ("${KIPRJMOD}/3d_models/icio500_capstan_v2_knob.step", (ox_knob_acr, -42.675, 10.310), (0, 90, 0)),
     ]
 
-    src_carrier = "kicad/icio500.kicad_pcb"
+    src_carrier = "kicad/october_surprise.kicad_pcb" if os.path.exists("kicad/october_surprise.kicad_pcb") else "archive/rev1_bad_carrier/kicad_rev1/icio500.kicad_pcb"
     write_assembly_pcb(src_carrier, "kicad/icio500_satellite_wood_3d.kicad_pcb", build_dummy_footprint(wood_models))
     write_assembly_pcb(src_carrier, "kicad/icio500_satellite_acrylic_3d.kicad_pcb", build_dummy_footprint(acrylic_models))
 

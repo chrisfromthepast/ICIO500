@@ -1,0 +1,47 @@
+* Discrete Diode & Regulator SPICE Models for ICIO500 October Surprise
+* 1N4148W small-signal fast switching diode (1=A, 2=K in SPICE D primitive -> Sim.Pins "1=2 2=1" for KiCad Pin1=K Pin2=A)
+.model D1N4148 D(Is=2.52n Rs=0.568 N=1.752 Bv=100 Ibv=100u Cjo=4p Vj=0.6 M=0.4 Tt=6n)
+
+* Vishay BAV21W high-voltage switching diode (Doc 86372: VR=200V, VRRM=250V, VF<=1.25V@200mA, CD=0.5pF..1.5pF, trr=50ns)
+.model DBAV21W D(Is=5n Rs=1.2 N=1.9 Bv=250 Ibv=100u Cjo=1.5p Vj=0.7 M=0.5 Tt=50n)
+
+* SS14 1A 40V Schottky rectifier (1=A, 2=K -> Sim.Pins "1=2 2=1")
+.model DSS14 D(Is=3.8u Rs=0.06 N=1.06 Bv=40 Ibv=500u Cjo=110p Vj=0.45 M=0.5)
+
+* Traco Power TSR 1-2450 5.0V Step-Down Regulator (Behavioral DC/Transient Model)
+* Pins: 1=Vin, 2=GND, 3=Vout (matches KiCad Converter_DCDC:TSR_1-2450 Pin 1=Vin, 2=GND, 3=Vout)
+.SUBCKT TSR1_2450 VIN GND VOUT
+R_in VIN GND 10k
+B_reg v_ideal GND V = 5.0 * (0.5 + 0.5*tanh((V(VIN,GND) - 6.0)*5.0))
+R_out v_ideal VOUT 0.05
+.ENDS TSR1_2450
+
+* Murata/JLC GZ2012D601TF Ferrite Bead (600 Ohm @ 100MHz, 300mOhm DCR, 500mA)
+.SUBCKT FB_600R_100M 1 2
+R_dcr 1 n1 0.30
+L_hf n1 2 1.2u
+R_loss n1 2 600
+.ENDS FB_600R_100M
+
+* Sunlord SWPA4020S220MT Shielded Power Inductor (22uH, 455mOhm DCR, 1.05A)
+.SUBCKT L_SWPA_22U 1 2
+R_dcr 1 n1 0.455
+L_main n1 2 22u
+R_cp n1 2 50k
+.ENDS L_SWPA_22U
+
+* ANR4018T100M Shielded Power Inductor (10uH, 215mOhm DCR, 1.2A)
+.SUBCKT L_ANR_10U 1 2
+R_dcr 1 n1 0.215
+L_main n1 2 10u
+R_cp n1 2 50k
+.ENDS L_ANR_10U
+
+* Vishay SMBJ18CA Bidirectional TVS (Vrwm=18V, Vbr=20.0..22.1V @ 1mA, Vc=29.2V @ 20.5A)
+.model D_TVS18 D(Is=1p Rs=0.20 N=1.5 Bv=20.7 Ibv=1m Cjo=900p Vj=0.7 M=0.5)
+.SUBCKT TVS_SMBJ18CA 1 2
+D_p n_mid 1 D_TVS18
+D_n n_mid 2 D_TVS18
+R_p n_mid 1 100Meg
+R_n n_mid 2 100Meg
+.ENDS TVS_SMBJ18CA

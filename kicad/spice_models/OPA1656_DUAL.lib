@@ -1,0 +1,9 @@
+* SOIC-8 Dual Wrapper around Texas Instruments Official OPA1656 Macro-model (SBOS901B/C)
+* Pin numbers 1..8 match OPA1656.PDF (SBOS901C Figure 5-3, Page 3) 1-to-1:
+*   1 = OUT A, 2 = -IN A, 3 = +IN A, 4 = V-, 5 = +IN B, 6 = -IN B, 7 = OUT B, 8 = V+
+.include "OPA1656.LIB"
+
+.SUBCKT OPA1656_DUAL 1 2 3 4 5 6 7 8
+X_CH_A 3 2 8 4 1 OPA1656
+X_CH_B 5 6 8 4 7 OPA1656
+.ENDS OPA1656_DUAL

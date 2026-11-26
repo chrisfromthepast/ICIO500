@@ -36,6 +36,4 @@ drc*.rpt
 logs/
 error.txt
 
-# Legacy Atopile build cache
-.ato/
 build/
