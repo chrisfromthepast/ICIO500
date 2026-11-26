@@ -7,6 +7,9 @@
 
 This document records every defect, BOM/package caveat, and bring-up check found in an exhaustive audit of the locked Rev-1 JLCPCB fabrication pack ([carrier_bom.csv](carrier_bom.csv), [carrier_cpl.csv](carrier_cpl.csv), [carrier_gerbers.zip](carrier_gerbers.zip)), [icio500.kicad_pcb](../../../kicad/icio500.kicad_pcb), and [icio500.kicad_sch](../../../kicad/icio500.kicad_sch). None of the fabrication files in this folder have been altered.
 
+- **Visual Workbench Rework Sheet:** [carrier_rev1_rework_visual_guide.png](carrier_rev1_rework_visual_guide.png) *(also embedded in [Section 5](#5-rev-1-workbench-rework--dead-bug-wiring-guide))*
+- **Forensic Post-Mortem Essay:** [POSTMORTEM_HOW_THIS_HAPPENED.md](POSTMORTEM_HOW_THIS_HAPPENED.md) *(git-history timeline & root causes)*
+
 ---
 
 ## 1. Critical / Board-Destroying Defects (Must Fix Before Power-Up)
@@ -172,17 +175,72 @@ Tracing the assembled resistor values from [carrier_bom.csv](carrier_bom.csv) an
 
 ---
 
-## 5. Bench Bring-Up Checklist (Testing Existing Rev-1 Boards Safely)
+## 5. Rev-1 Workbench Rework & Dead-Bug Wiring Guide
 
-If JLCPCB ships the Rev-1 carrier boards unpopulated at `U2`/`U4`, you can still safely bring up power, Daisy Seed, firmware, encoder, OLED, and faceplate LEDs by following this order:
+![ICIO500 Carrier Rev-1 Workbench Rework & Dead-Bug Visual Guide](carrier_rev1_rework_visual_guide.png)
 
-1. **Leave `U2` and `U4` empty.** Do not solder THAT chips onto the Rev-1 `U2`/`U4` pads.
-2. **Fix `C3` and `C27` before any power:** Desolder `C3` and `C27`, rotate each **180°**, and resolder so the `+` chamfered end connects to `GND` and the `-` end connects to `v_minus` (`-16 V`). *(Optionally remove `C21`/`C22` if not needed while `U4` is unpopulated.)*
-3. **Visually inspect assembled parts:** Confirm diode cathode bars (`D1`–`D10`), `C1`/`C25`/`C26` `+` ends, `U3` Pin 1 dot, and `U1` Pin 1 orientation.
-4. **Remove `D11` (`BAT54S`)** before feeding bipolar audio into `U5.16`.
-5. **First power-up on a current-limited bench PSU (`±16 V`, `150 mA` limit)** — never plug straight into a 500-series rack first:
-   - Check `v_plus` (`≈ +15.6 V` after `D1`), `v_minus` (`≈ -15.6 V` after `D2`), `daisy_5v_power` (`+5.0 V` at `U1.3`), and `+3.3V` (`U5.38` with Daisy Seed seated).
-6. **Digital/UI bring-up works natively on Rev-1:** Flash firmware using **`D15` for `ENC_A`** (`d14` net), `D16` for `ENC_B`, `D17` for `ENC_SW`, and `I2C1` (`D11`/`D12`) for the satellite faceplate OLED + `IS31FL3216A` LEDs. *(Analog audio I/O on Rev-1 would require ugly dead-bug breakout adapters for `U2`/`U4` + removing `D11`; cleaner to fix `U2`/`U4`/`C3`/`C27`/`D11`/`C12`/`C13`/`3V3` in a Rev-2 carrier spin.)*
+All physical orientations below assume the carrier PCB is **face-up (`F.Cu`) and upright**: faceplate mounting ears on the **left** (`MH1` at top, `MH2` at bottom), 500-series edge fingers on the **right** (`J1 Pin 1 Chassis` at top, `J1 Pin 15 +48V` at bottom).
+
+### 5.1 Pre-Power Fixes (Required Even for Digital/Firmware Bring-Up)
+
+1. **Rotate `C3` and `C27` (`220 µF / 25 V`) 180°:** Desolder both cans and resolder rotated 180° so the black cathode stripe (`-`) sits on the **left** (`v_minus`, `-16 V`) and the chamfered base (`+`) sits on the **right** (`gnd`, `0 V`), ignoring the backwards PCB `+` mark on those two footprints.
+   - **DO NOT flip `C1` (`+16 V`), `C25` (`+5 V`), or `C26` (`+16 V`)** — those three sit on positive rails and are already polarized correctly.
+2. **Desolder and remove `D11` (`BAT54S`):** Leave its 3-pad `SOT-23` footprint empty (`between C15 and R11`) so `D11.1` doesn't hard-clip negative audio below `-0.3 V`.
+3. **Inspect all JLC-assembled parts** before power (`D1`–`D10` cathode bars, `C1`/`C25`/`C26` `+` ends, `U1` Pin 1, `U3` Pin 1 dot).
+4. **Bench signal caveat:** Because `C12`/`C13` are rated **`10 V`** and `U3A` has `-6.85 dB` gain, keep bench audio under ~`+8 dBu` and **never** turn on `+48 V` phantom power on a Rev-1 board.
+
+### 5.2 `U2` (`THAT1200S08-U`) — Partial Pin-Lift (Only 3 Wires)
+
+`U2` is rotated **180°** on the carrier PCB, so **Pin 1 is at the BOTTOM-RIGHT**:
+- Right pad column (bottom → top): `Pad 1 (gnd)`, `Pad 2 (in_minus)`, `Pad 3 (in_plus)`, `Pad 4 (v_minus)`.
+- Left pad column (top → bottom): `Pad 5 (sm)`, `Pad 6 (cm)`, `Pad 7 (audio_out)`, `Pad 8 (v_plus)`.
+
+**Steps:**
+1. Cover the inner 2/3 of PCB **Pads 6, 7, 8** with Kapton tape (leaving the outer copper tips exposed for wire attachment). Leave Pads **1–5** bare.
+2. Gently bend chip **Pins 6, 7, 8** upward `~15°`. Place the chip **right-side up** (legs down, Pin 1 dot at **bottom-right**) and solder **Pins 1–5 flat** onto Pads **1–5**.
+3. Run 3 short `30 AWG` Kynar jumper wires:
+
+| `THAT1200` Pin (Right-Side Up) | Function | Wire Target on Rev-1 `U2` | Net |
+| :---: | :--- | :--- | :--- |
+| **1–5** | `Ref`, `In-`, `In+`, `Vee`, `CM In` | **Pads 1–5 (solder flat)** | `gnd`, `in_minus`, `in_plus`, `v_minus`, `sm` |
+| **6** *(lifted)* | `Vout` | **Pad 7** (left, 3rd down) | `audio_out` (to `R3.1`) |
+| **7** *(lifted)* | `Vcc` (`+16 V`) | **Pad 8** (bottom-left) | `v_plus` (`+16 V`) |
+| **8** *(lifted)* | `CM Out` | **Pad 6** (left, 2nd down) | `cm` (to `C14.1`) |
+
+### 5.3 `U4` (`THAT1646S08-U` or DIP-8 `1646P08-U`) — Belly-Up Dead-Bug (All 8 Wires)
+
+`U4` is at **0°** on the carrier PCB, so **Pad 1 is at the TOP-LEFT**:
+- Left pad column (top → bottom): `Pad 1 (out_plus_4dbu)`, `Pad 2 (v_minus)`, `Pad 3 (out_minus)`, `Pad 4 (gnd)`.
+- Right pad column (top → bottom): `Pad 8 (sense_plus)`, `Pad 7 (sense_minus)`, `Pad 6 (v_plus)`, `Pad 5 (audio_out_to_1646)`.
+
+Mount the chip **upside-down (belly-up, legs pointing up)** on two layers of Kapton tape centered over `U4` with the **Pin 1 notch at the TOP** *(flipping a chip onto its back with the notch at the top mirrors Pin 1 from top-left to **TOP-RIGHT**)*. This keeps `Pin 8 → Pad 1`, `Pin 2 → Pad 7`, and `Pin 4 → Pad 5` directly adjacent with zero wire crossings. *(A through-hole DIP-8 `THAT1646P08-U` uses this exact same 8-pin pinout and is easier to source and hand-wire than an EOL SOIC-8.)*
+
+| `THAT1646` Pin | Belly-Up Position (Notch TOP) | Function | → Rev-1 `U4` PCB Pad | Net & Notes |
+| :---: | :--- | :--- | :--- | :--- |
+| **1** | **Top-Right** *(Pin 1 dot)* | `Out-` | **Pad 3** (left, 3rd down) | `out_minus` (to `J1.4` & `C22.1`) |
+| **2** | **Right, 2nd down** | `Sns-` | **Pad 7** (right, 2nd down) | `sense_minus` (to `C22.2`) — **adjacent** |
+| **3** | **Right, 3rd down** | `Gnd` | **Pad 4** (bottom-left) | `gnd` |
+| **4** | **Bottom-Right** | `In` | **Pad 5** (bottom-right) | `audio_out_to_1646` (from `U3.7`) — **adjacent** |
+| **5** | **Bottom-Left** | `Vee` (`-16 V`) | **Pad 2** (left, 2nd down) | `v_minus` (`-16 V`) — same side |
+| **6** | **Left, 3rd down** | `Vcc` (`+16 V`) | **Pad 6** (right, 3rd down) | `v_plus` (`+16 V`) |
+| **7** | **Left, 2nd down** | `Sns+` | **Pad 8** (top-right) | `sense_plus` (to `C21.2`) |
+| **8** | **Top-Left** | `Out+` | **Pad 1** (top-left) | `out_plus_4dbu` (to `J1.2` & `C21.1`) — **adjacent** |
+
+### 5.4 Pre-Power Multimeter Smoke Check & Bench Bring-Up
+
+Run every continuity check below **before applying any voltage**, then power on for the first time from a **current-limited bench PSU (`±16 V`, `150 mA` limit)** — never plug straight into a 500-series rack first:
+
+| Multimeter Probe Points | Expected Reading | Purpose |
+| :--- | :--- | :--- |
+| `v_plus` (`D1` anode) ↔ `gnd` | High Z / cap charge (> `1 kΩ`) | No `+16 V` short |
+| `v_minus` (`D2` cathode) ↔ `gnd` | High Z / cap charge (> `1 kΩ`) | No `-16 V` short (`C3`/`C27` fixed) |
+| `U2` Pin 7 (`Vcc`) ↔ `v_plus` | `0 Ω` (beep) | Confirms lifted Pin 7 reaches `+16 V` |
+| `U2` Pin 8 (`CM Out`) ↔ `v_plus` | **OPEN** (no beep) | Confirms Kapton insulates Pad 8 under Pin 8 |
+| `U4` Pin 6 (`Vcc`) ↔ `v_plus` | `0 Ω` (beep) | Confirms `U4` positive supply |
+| `U4` Pin 5 (`Vee`) ↔ `v_minus` | `0 Ω` (beep) | Confirms `U4` negative supply |
+| `U4` Pin 2 (`Sns-`) ↔ `v_minus` | **OPEN** (no beep) | Confirms `Sns-` isn't touching PCB Pad 2 (`-16 V`) |
+
+Once rails verify (`v_plus ≈ +15.6 V`, `v_minus ≈ -15.6 V`, `U1.3 = +5.0 V`, `U5.38 = +3.3 V`), digital/UI firmware brings up cleanly using **`D15` (`A0`) for `ENC_A`** (`d14` net), `D16` for `ENC_B`, `D17` for `ENC_SW`, and `I2C1` (`D11`/`D12`) for the faceplate OLED + `IS31FL3216A` LEDs (remembering firmware compensation if using Rev-1 analog path: `+6.0 dB` boost and `180°` phase inversion).
 
 ---
 
